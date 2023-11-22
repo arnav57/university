@@ -909,6 +909,46 @@ f'\left(c\right)=\lim_{z\rightarrow c}\frac{f\left(z\right)-f\left(z_{0}\right)}
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+Another useful thing to know about analyticity of functions is that 
+\series bold
+\color brown
+if we can express a complex-function as a rational function
+\series default
+\color inherit
+ (numerator and denominator are polynomials) we can say that 
+\series bold
+\color brown
+the function is analytic
+\series default
+\color inherit
+ wherever the denominator is not equal to zero.
+ This is shown below.
+ The only requrement here is that 
+\begin_inset Formula $N$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+ are polynomials.
+ 
+\emph on
+Recall: 
+\emph default
+the limits of complex-polynomials exist everywhere, so they are analytic
+ everywhere, thus the 
+\begin_inset Formula 
+\[
+\text{if }f\left(z\right)=\frac{N\left(z\right)}{D\left(z\right)},\text{ then }f\text{ is analytic wherever }D\left(z\right)\neq0
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -917,7 +957,7 @@ Cauchy-Riemann Equations
 
 \begin_layout Standard
 We now turn to the question of systematically deciding when some complex
- fuinction is differentiable.
+ function is differentiable.
  If the complex derivative exists at some point 
 \begin_inset Formula $z$
 \end_inset
@@ -1611,8 +1651,129 @@ complex integrals
 .
  We can start to define the complex integral similarly to how we would a
  real integral.
+ This leads to the general definition of a complex integral in Equation
+ 4.1
 \begin_inset Formula 
 \[
+\int_{C}f\left(z\right)\,dz=\lim_{\Delta z\rightarrow0}\sum f\left(z\right)\Delta z
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\int_{C}f\left(z\right)\,dz=\lim_{\Delta x,\ \Delta y\rightarrow0}\sum\left(u+jv\right)\left(\Delta x+j\Delta y\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\int_{C}f\left(z\right)\,dz=\lim_{\Delta x,\ \Delta y\rightarrow0}\sum\left(u\Delta x-v\Delta y\right)+j\left(v\Delta x+u\Delta y\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\int_{C}f\left(z\right)\,dz=\int_{C}u\,dx-v\,dy+j\int_{C}v\,dx+u\,dy
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Evaluation of a Complex Integral
+\end_layout
+
+\begin_layout Standard
+Evaluate the integral below, given that the curve 
+\begin_inset Formula $C$
+\end_inset
+
+ can be parametrized as 
+\begin_inset Formula $x=3t$
+\end_inset
+
+, 
+\begin_inset Formula $y=t^{2}$
+\end_inset
+
+, for 
+\begin_inset Formula $t\in\left[-1,4\right]$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+\int_{C}\bar{z}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To begin lets write 
+\begin_inset Formula $z\left(t\right)=x\left(t\right)+jy\left(t\right)$
+\end_inset
+
+.
+ Lets also find 
+\begin_inset Formula $z'\left(t\right)$
+\end_inset
+
+.
+ This means that the integrand (complex conjugate) has its middle sign flipped.
+ Note that we are also finding 
+\begin_inset Formula $dz$
+\end_inset
+
+ and not 
+\begin_inset Formula $d\bar{z}$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+z\left(t\right)=3t+jt^{2}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{dz}{dt}=3+j2t
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\bar{z}\left(t\right)=3t-jt^{2}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can now entirely parametrize the integral.
+ We get the following computable line integral upon doing so.
+ At this point the question is basically done, we evalute the integral and
+ simplify the result into its real and complex parts.
+\begin_inset Formula 
+\[
+\int_{-1}^{4}\left(3t-jt^{2}\right)\left(3+j2t\right)\,dt=196+65j
 \]
 
 \end_inset

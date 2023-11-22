@@ -909,6 +909,55 @@ f'\left(c\right)=\lim_{z\rightarrow c}\frac{f\left(z\right)-f\left(z_{0}\right)}
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Another useful thing to know about analyticity of functions is that 
+\series bold
+\color brown
+if we can express a complex-function as a rational function
+\series default
+\color inherit
+ (numerator and denominator are polynomials) we can say that 
+\series bold
+\color brown
+the function is analytic
+\series default
+\color inherit
+ wherever the denominator is not equal to zero.
+ This is shown below.
+ The only requrement here is that 
+\begin_inset Formula $N$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+ are polynomials.
+\emph on
+
+\begin_inset Newline newline
+\end_inset
+
+Recall: 
+\emph default
+This is the case because the limits of complex-polynomials exist everywhere,
+ so they are differentiable and analytic everywhere, thus the rational function
+ is only non-analytic wherever the fraction is undefined (denominator is
+ 0).
+\begin_inset Formula 
+\[
+\text{if }f\left(z\right)=\frac{N\left(z\right)}{D\left(z\right)},\text{ then }f\text{ is analytic wherever }D\left(z\right)\neq0
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -917,7 +966,7 @@ Cauchy-Riemann Equations
 
 \begin_layout Standard
 We now turn to the question of systematically deciding when some complex
- fuinction is differentiable.
+ function is differentiable.
  If the complex derivative exists at some point 
 \begin_inset Formula $z$
 \end_inset
@@ -1680,8 +1729,7 @@ Evaluate the integral below, given that the curve
 \begin_inset Newline newline
 \end_inset
 
-.
- To begin lets write 
+To begin lets write 
 \begin_inset Formula $z\left(t\right)=x\left(t\right)+jy\left(t\right)$
 \end_inset
 
