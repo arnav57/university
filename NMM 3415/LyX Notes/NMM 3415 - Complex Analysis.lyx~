@@ -683,12 +683,12 @@ mapping between planes
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename C:/Users/arnav/Documents/LyX/Documents/NMM 3415/pasted1.png
+	filename images/pasted1.png
 
 \end_inset
 
@@ -1786,6 +1786,69 @@ We can now entirely parametrize the integral.
 
 \end_layout
 
+\begin_layout Section
+Fundamental Theorem of Complex Contour Integrals
+\end_layout
+
+\begin_layout Standard
+Just like in multivariate calculus, we can show (and come up with) a formulation
+ that proves the independence of path for a complex line integral.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Suppose 
+\begin_inset Formula $f$
+\end_inset
+
+ is continuous (analytic) in 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ If there exists a function, 
+\begin_inset Formula $F$
+\end_inset
+
+ such that it is antiderivative of 
+\begin_inset Formula $f$
+\end_inset
+
+ in 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Then for any contour 
+\begin_inset Formula $C$
+\end_inset
+
+ in 
+\begin_inset Formula $D$
+\end_inset
+
+ with an initial point 
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ and terminating point 
+\begin_inset Formula $z_{1}$
+\end_inset
+
+ we can write:
+\begin_inset Formula 
+\[
+\int_{C}f\left(z\right)\,dz=F\left(z_{1}\right)-F\left(z_{0}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Cauchy-Goursat Theorem
 \end_layout
@@ -1824,6 +1887,614 @@ The theorem in question tells us that if we are taking the closed contour
 
 .
  
+\begin_inset Formula 
+\[
+\text{if }f\text{ is analytic within }C\ ...\ \oint_{C}f\left(z\right)\,dz=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+Note: 
+\emph default
+When evaluating complex-integrals, another theorem for analyticity that
+ is very useful was briefly covered in Section 2.3.
+ The theorem tells us that if a complex-function can be expressed as a ratio
+ between polynomials in 
+\begin_inset Formula $z$
+\end_inset
+
+.
+ Then the function is differentiable and analytic everywhere except where
+ the denominator is equal to 0.
+\end_layout
+
+\begin_layout Section
+Deforming Contours
+\end_layout
+
+\begin_layout Standard
+Suppose the function we are trying to take the contour integral of is analytic
+ everywhere, except for a point within the closed contour.
+ The simple process of 
+\series bold
+\color brown
+deformation of contours
+\series default
+\color inherit
+ helps us avoid having to actually take the line integral here.
+ Consider the orange region in Figure 5.1 which represents the regions of
+ analyticity.
+ What would we do if we were trying to find the contour integral of 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+?
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Consider the fact that we can connect the two contours in (a) by going through
+ points A and B, and that by doing this, we only encircle a region where
+ the function is fully analytic, thus the entire thing would equal to 0.
+ We would then arrive at the following formulation.
+ Given that the line integrals from A to B and B to A cancel out, we are
+ left with Equation 5.1.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pasted2.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Deforming a contour for a Doubly-Connected Domain
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\oint_{C}+\int_{AB}-\oint_{C_{1}}+\int_{BA}=0
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\oint_{C}f\left(z\right)\,dz=\oint_{C_{1}}f\left(z\right)\,dz
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can do this for any number of smaller closed contours 
+\begin_inset Formula $C_{n}$
+\end_inset
+
+ within a larger (encompassing) contour 
+\begin_inset Formula $C$
+\end_inset
+
+.
+ We can repeat the process above for 
+\series bold
+\color brown
+multiply connected domains
+\series default
+\color inherit
+ and come to Equation 5.2.
+ Figure 5.2 shows the process for a triply-connected-domain where 
+\begin_inset Formula $n=2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pasted3.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Deforming a contour for a Triply-Connected Domain
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\oint_{C}f\left(z\right)\,dz=\sum_{n}\oint_{C_{n}}f\left(z\right)\,dz
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Applying Deformation of Contours
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pasted4.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evaluate 
+\begin_inset Formula $\oint_{C}\left(z-j\right)^{-1}\,dz$
+\end_inset
+
+ where 
+\begin_inset Formula $C$
+\end_inset
+
+ is the outer contour
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Using deformation of contours (our function 
+\begin_inset Formula $z^{2}$
+\end_inset
+
+ is a polynomial and is analytic everywhere) we can conclude that the complicate
+d contour integral around 
+\begin_inset Formula $C$
+\end_inset
+
+ is equal to the simpler contour integral around the circle 
+\begin_inset Formula $\left|z-j\right|=1$
+\end_inset
+
+, which we can parametrize as 
+\begin_inset Formula $x=\cos t$
+\end_inset
+
+, 
+\begin_inset Formula $y=1+\sin t$
+\end_inset
+
+, for 
+\begin_inset Formula $t\in\left[0,2\pi\right]$
+\end_inset
+
+.
+ Now we can write our defintion of 
+\begin_inset Formula $z$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z=x+jy=\cos t+j\left(1+\sin t\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z=\cos t+j\sin t+j=j+e^{\jmath t}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z-j=e^{jt}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{dz}{dt}=je^{jt}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Now we can do our integral, which gives us the following result
+\begin_inset Formula 
+\[
+\oint_{C}\frac{dz}{z-j}=\int_{0}^{2\pi}\frac{je^{jt}}{e^{jt}}\,dt=2\pi j
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Cauchy-Integrals
+\end_layout
+
+\begin_layout Section
+A Useful Theorem
+\end_layout
+
+\begin_layout Standard
+The integral we come across at the end of section 5.3 can be generalized
+ using deformation of contours.
+ Suppose we had to evalute the following integral instead...
+\begin_inset Formula 
+\[
+\oint_{C}\frac{1}{\left(z-z_{0}\right)^{n}}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Lets pick a simpler contour 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ with radius 1 such that the point 
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ is an interior point to this integral, for simplicity lets simply center
+ the contour 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ at 
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ such that it is guaranteed to be an interior point.
+ Via deformation of contours, we can say that the below integral is equal
+ to our original one.
+\begin_inset Formula 
+\[
+\oint_{C_{1}}\frac{1}{\left(z-z_{0}\right)^{n}}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Now lets parametrize our complex with 
+\begin_inset Formula $x=\text{Re}z_{0}+\cos t$
+\end_inset
+
+, 
+\begin_inset Formula $y=\text{Im}z_{0}+\sin t$
+\end_inset
+
+, for 
+\begin_inset Formula $t\in\left[0,2\pi\right]$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+z=x+jy=\left(\text{Re}z_{0}+j\text{Im}z_{0}\right)+\left(\cos t+j\sin t\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z=z_{0}+e^{jt}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z-z_{0}=e^{jt}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left(z-z_{0}\right)^{n}=e^{njt}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{dz}{dt}=je^{jt}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Our integral now becomes
+\begin_inset Formula 
+\[
+j\int_{0}^{2\pi}\frac{e^{jt}}{e^{njt}}\,dt
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+j\int_{0}^{2\pi}\exp\left(\left(1-n\right)jt\right)\,dt=\left.\frac{\exp\left(\left(1-n\right)jt\right)}{1-n}\right|_{0}^{2\pi}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Which evaluates to the following.
+ The numerator is a complex exponential with an argument that is always
+ a multiple of 
+\begin_inset Formula $2\pi j$
+\end_inset
+
+, which means it is a phasor of magnitude 1, and angle always on the x-axis
+ (always just a 1).
+ This is the case for all values except for 
+\begin_inset Formula $n=1$
+\end_inset
+
+, where the output is undefined.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We also must somehow evaluate the expression as 
+\begin_inset Formula $n=1$
+\end_inset
+
+ (which should equal 1), which I have no clue how to do properly here.
+ Regardless, 
+\series bold
+\color brown
+this is as close as possible to showing that the theorem below holds true
+\series default
+\color inherit
+.
+\begin_inset Formula 
+\[
+\frac{\exp\left(\left(1-n\right)2\pi j\right)-1}{1-n}=\begin{cases}
+0, & n\in\mathbb{Z}\neq1\\
+1, & n\in\mathbb{Z}=1
+\end{cases}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We did all this work to show that the following is true, considering the
+ earlier expression is 
+\series bold
+\color brown
+the result of our very first integral
+\series default
+\color inherit
+, we can say that:
+\begin_inset Formula 
+\begin{equation}
+\oint_{C}\frac{1}{\left(z-z_{0}\right)^{n}}\,dz=\begin{cases}
+0, & n\in\mathbb{Z}\neq1\\
+1, & n\in\mathbb{Z}=1
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Cauchy's Integral Formula
+\end_layout
+
+\begin_layout Standard
+Suppose we have some analytic 
+\begin_inset Formula $f$
+\end_inset
+
+ over some simply-connected domain 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $C$
+\end_inset
+
+ be a simple-closed-contour lyinf entirely within 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Then if 
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ is any point within 
+\begin_inset Formula $C$
+\end_inset
+
+, we can say the following.
+\begin_inset Formula 
+\begin{equation}
+f\left(z_{0}\right)=\frac{1}{2\pi j}\oint_{c}\frac{f\left(z\right)}{z-z_{0}}\,dz
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This can be easily shown by adding and subtracting 
+\begin_inset Formula $f\left(z_{0}\right)$
+\end_inset
+
+ in the numerator.
+\begin_inset Formula 
+\[
+\oint_{c}\frac{f\left(z\right)}{z-z_{0}}\,dz=\oint_{c}\frac{f\left(z\right)+f\left(z_{0}\right)-f\left(z_{0}\right)}{z-z_{0}}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\oint_{c}\frac{f\left(z\right)}{z-z_{0}}\,dz=\oint_{c}\frac{f\left(z_{0}\right)}{z-z_{0}}\,dz+\oint_{c}\frac{f\left(z\right)-f\left(z_{0}\right)}{z-z_{0}}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\oint_{c}\frac{f\left(z\right)}{z-z_{0}}\,dz=f\left(z_{0}\right)\oint_{c}\frac{1}{z-z_{0}}\,dz+\oint_{c}\frac{f\left(z\right)-f\left(z_{0}\right)}{z-z_{0}}\,dz
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We have shown in equation 6.1 that the first term is equal to 
+\begin_inset Formula $2\pi j$
+\end_inset
+
+, and through some fancy pure math stuff the second term cancels out.
+ Leaving the following equivalent expression
+\begin_inset Formula 
+\[
+\oint_{c}\frac{f\left(z\right)}{z-z_{0}}\,dz=2\pi jf\left(z_{0}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This formula is useful, because we can avoid doing the integral completely
+ if we recognize an 
+\begin_inset Formula $f\left(z\right)$
+\end_inset
+
+ from an integral in the form of equation 6.2
 \end_layout
 
 \end_body
