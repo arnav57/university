@@ -1,0 +1,3099 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass report
+\begin_preamble
+\usepackage{tgpagella}
+\usepackage[papersize={640 pt,480 pt}, top = 15mm, left= 15mm, right=15mm]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\definecolor{brown}{HTML}{6623E2}
+\titleformat*{\section}{\Large\textit}
+\end_preamble
+\use_default_options true
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+Control Systems
+\end_layout
+
+\begin_layout Author
+Arnav Goyal
+\end_layout
+
+\begin_layout Date
+
+\emph on
+Control Systems - Comprehensive Note 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Introduction to Control Theory
+\end_layout
+
+\begin_layout Chapter
+Control Engineering
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\color brown
+Control Engineering 
+\series default
+\color inherit
+is a very vast subfield of engineering and spans practically any system-level
+ topic.
+ In this introductory course (note series) we will talk about the basics
+ of control theory, control systems, and how to design them.
+ 
+\emph on
+
+\begin_inset Newline newline
+\end_inset
+
+Note: 
+\emph default
+The images from this document until chapter 11 have been 
+\series bold
+\color brown
+removed due to formatting preferences
+\series default
+\color inherit
+.
+ The documents have been merged from multiple files into a comprehensive
+ note.
+ Please see the indivudual renders for the images.
+\end_layout
+
+\begin_layout Section
+Control Systems
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+\color brown
+Control System 
+\series default
+\color inherit
+is a system consisting of subsystems and processes assembled for the purposes
+ of obtaining some 
+\emph on
+desired output
+\emph default
+ (with desired 
+\emph on
+specifications
+\emph default
+), all given some 
+\emph on
+specified input
+\emph default
+.
+ This is a very confusing and high level definition, but it will make sense
+ as we do more and more work on this topic.
+ For now, a quick example of a control system would be a rotary potentiometer
+ controlling the height of a platform.
+ How far we turn our potentiometer is our 
+\emph on
+specified input
+\emph default
+, for which we want to encode the height of our platform (our 
+\emph on
+desired output
+\emph default
+) But upon turning the knob, how will the platform respond? slowly? quickly?
+ accelerate fast? accelerate slow? These are the 
+\emph on
+specifcations
+\emph default
+ for our control systems, and we would design it to our liking.
+\end_layout
+
+\begin_layout Section
+Open-loop & Closed-loop
+\end_layout
+
+\begin_layout Standard
+A control system can fall under two categories, 
+\series bold
+\color brown
+open-loop
+\series default
+\color inherit
+ and 
+\series bold
+\color brown
+closed-loop
+\series default
+\color inherit
+.
+ The only difference between these types of system is the presence of something
+ called 
+\series bold
+\color brown
+feedback
+\series default
+\color inherit
+, which is a pathway that connects a node further down the line, to one
+ earlier in the line - called a feedback loop.
+ Open-loop systems have no feedback loops, while closed-loop systems contain
+ at least one feedback loop.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+An example of each is given below:
+\end_layout
+
+\begin_layout Itemize
+Toaster oven (open-loop) - how much you turn the time knob determines how
+ long it toasts for.
+\end_layout
+
+\begin_layout Itemize
+Cruise control (closed-loop) - checks current speed and compares it to desired
+ speed adjusting in the correct direction.
+\end_layout
+
+\begin_layout Chapter
+The Frequency Domain
+\end_layout
+
+\begin_layout Standard
+The first step in every control design case is to use the laws of physics
+ and engineering to generate a 
+\series bold
+\color brown
+differential equation
+\series default
+\color inherit
+ that describes the relationship between inputs and outputs of a system.
+ We often find working with differential equations unwieldy and unintuitive,
+ thus we convert them into algebraic equations via the 
+\series bold
+\color brown
+laplace transform
+\series default
+\color inherit
+.
+ This chapter will be primarly creating a model for the following rotational
+ mechanical system, modelling how the output angle 
+\begin_inset Formula $\theta\left(t\right)$
+\end_inset
+
+ changes with respect to a changing torque 
+\begin_inset Formula $\tau\left(t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Basic Kinematics
+\end_layout
+
+\begin_layout Standard
+Our system is shown above in Figure 2.1, it consists of a torsional (rotational)
+ spring with constant 
+\begin_inset Formula $K$
+\end_inset
+
+, a mass with inertia 
+\begin_inset Formula $J$
+\end_inset
+
+, and a rotational viscous damping of some constant 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ We can start to generate the differential equation by writing newton's
+ second law for rotational kinematics.
+\begin_inset Formula 
+\[
+\sum\tau=I\ddot{\theta}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The complete list of torques on the system are:
+\end_layout
+
+\begin_layout Itemize
+Input Torque - 
+\begin_inset Formula $+\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Torsional spring - 
+\begin_inset Formula $-K\theta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Viscous Damping - 
+\begin_inset Formula $-D\dot{\theta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means we can write newton's second law for this system as follows,
+ which generates a (generally non-homogenous) second order linear ordinary
+ differential equation in equation 2.1.
+\begin_inset Formula 
+\[
+\tau\left(t\right)-K\theta-D\dot{\theta}=J\ddot{\theta}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\tau\left(t\right)=J\ddot{\theta}+D\dot{\theta}+K\theta
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Transfer Function
+\end_layout
+
+\begin_layout Standard
+In order to better understand and interpret what is actually happening in
+ equation 2.1, we take the laplace transform of it to convert it into an
+ algebraic equation in the frequency domain.
+ This lets us understand how the inputs are mapped to outputs via something
+ called the
+\series bold
+\color brown
+ transfer function
+\series default
+\color inherit
+, which is defined as the ratio between output and input, 
+\begin_inset Formula $T\left(s\right)$
+\end_inset
+
+below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\text{output}}{\text{input}}=T\left(s\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Upon taking the laplace transform of equation 2.1 (neglecting intial conditions),
+ we arrive at the following transfer function for our general rotational-mechani
+cal system in the complex-frequency domain, shown in equation 2.2.
+\begin_inset Formula 
+\begin{equation}
+\frac{\theta\left(s\right)}{\tau\left(s\right)}=\frac{1}{Js^{2}+Ds+K}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Suppose we were interested in a different output though, consider obtaining
+ the output for 
+\begin_inset Formula $\omega\left(s\right)$
+\end_inset
+
+ the angular velocity of the motor.
+ We can easily find this from Equation 2.2 by considering the relationship
+ between omega and theta in the time domain.
+\begin_inset Formula 
+\[
+\dot{\theta}\left(t\right)=\omega\left(t\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We know that differentiating in the time-domain is the same as multiplying
+ by 
+\begin_inset Formula $s$
+\end_inset
+
+ in the frequency domain, thus we can write this relationship in the s-domain
+ and generate an expression for omega in terms of theta.
+\begin_inset Formula 
+\[
+s\theta\left(s\right)=\omega\left(s\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta\left(s\right)=\frac{1}{s}\omega\left(s\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can plug this into equation 2.2 to get our desired transfer function for
+ omega in terms of tau in Equation 2.3.
+\begin_inset Formula 
+\begin{equation}
+\frac{\omega\left(s\right)}{\tau\left(s\right)}=\frac{s}{Js^{2}+Ds+K}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+The Electric Motor
+\end_layout
+
+\begin_layout Standard
+After modelling a general rotiation-mechanical system in chapter 2, we will
+ be modelling an electromechanical system - the electric (induction) motor.
+ We will being by modeling the electrical circuit, and then combining that
+ with our model from chapter 2 to get the model of an electric motor.
+\end_layout
+
+\begin_layout Section
+The Electric Motor
+\end_layout
+
+\begin_layout Standard
+Consider the circuit in Figure 3.1, It is an extremely basic model electric
+ motor circuit model.
+ consisting of a circuit, and a rotational mechanical system from the motor's
+ rotating head.
+ Before we start modeling, we will need some background information about
+ motors.
+ It is common to model off some background information in the real world
+ as well.
+ Here are some interesting relations describing the angular velocity and
+ torque of a motor, given a machine constant and the motor voltage and current.
+\begin_inset Formula 
+\[
+\omega_{m}=K_{m}v_{b}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\tau_{m}=K_{m}i_{a}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Model
+\end_layout
+
+\begin_layout Standard
+Let's start by writing KVL for the circuit.
+\begin_inset Formula 
+\[
+v_{a}-v_{b}=R_{a}i_{a}+L_{a}\frac{di_{a}}{dt}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Taking laplace of both sides and generating the transfer function gives
+\begin_inset Formula 
+\[
+\frac{i_{a}}{v_{a}-v_{b}}=\frac{1}{R+sL}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+From the provided formulae in section 3.1, we can write 
+\begin_inset Formula 
+\[
+i_{a}=\frac{1}{K_{m}}\tau_{m}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+And substitue this into our circuit's transfer function to obtain a transfer
+ function for motor torque, with respect to voltage difference.
+\begin_inset Formula 
+\[
+\frac{\tau_{m}}{v_{a}-v_{b}}=\frac{K_{m}}{R+sL}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can then use the transfer function for a rotational-mechanical system
+ we derived earlier in chapter 2, to relate torque to an output velocity.
+ 
+\emph on
+Note: 
+\emph default
+In this system there is no spring, thus 
+\begin_inset Formula $K=0$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+\frac{\omega_{m}\left(s\right)}{v_{a}-v_{b}}=\frac{K_{m}}{R+sL}\cdot\frac{1}{Js+D}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This is the complete model of an electric motor.
+ We can introduce some simplification like ignoring the 
+\begin_inset Formula $sL$
+\end_inset
+
+ term as inductance values (
+\begin_inset Formula $L$
+\end_inset
+
+) are generally extremely small.
+ Doing some algebra and ultimately we get something of the form, where 
+\begin_inset Formula $K$
+\end_inset
+
+ and 
+\begin_inset Formula $a$
+\end_inset
+
+ are calculable through the systems unique parameters (resistance, inertia,
+ damping, etc.).
+\begin_inset Formula 
+\[
+\frac{\omega_{m}\left(s\right)}{v_{a}-v_{b}}=\frac{K}{s\left(s+a\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Time Domain Response
+\end_layout
+
+\begin_layout Standard
+Now that we have learned how to obtain the characteristics of a system,
+ and model it in the 
+\begin_inset Formula $s$
+\end_inset
+
+-domain.
+ We should begin our study on important characteristics of a system: transient
+ response and steady-state errors.
+ In this note we look at the time domain response (transient response) of
+ first and second order systems.
+\end_layout
+
+\begin_layout Section
+Characteristics of Systems
+\end_layout
+
+\begin_layout Standard
+Systems (in the context of control systems), refer to the transfer function.
+ Systems in general can be written in terms of their numerator and denominator
+ polynomials.
+ The order of a system refers to the number of poles it posesses (degree
+ of the 
+\begin_inset Formula $D$
+\end_inset
+
+ function)
+\begin_inset Formula 
+\[
+G\left(s\right)=\frac{b_{m}s^{m}+b_{m-1}s^{m-1}+\dots+b_{0}}{a_{n}s^{n}+a_{n-1}s^{n-1}+\dots+a_{0}}=\frac{N\left(s\right)}{D\left(s\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can also formally define the zeroes and poles of a system.
+ Zeroes are values that make the function equal to 0, where poles are values
+ where the function goes to plus or minus infinity.
+ Formally, we can write the following definitions.
+\begin_inset Newline newline
+\end_inset
+
+The system 
+\begin_inset Formula $f$
+\end_inset
+
+ has a 
+\series bold
+\color brown
+zero
+\series default
+\color inherit
+ at 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ if:
+\begin_inset Formula 
+\[
+f\left(x\right)|_{x=x_{0}}=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The system 
+\begin_inset Formula $f$
+\end_inset
+
+ has a pole at 
+\begin_inset Formula $x_{p}$
+\end_inset
+
+ if :
+\begin_inset Formula 
+\[
+f\left(x\right)|_{x=x_{p}}=\pm\infty
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+For our system 
+\begin_inset Formula $G\left(s\right)$
+\end_inset
+
+, This means that the roots of 
+\begin_inset Formula $N$
+\end_inset
+
+ determines its zeroes, and that the roots of 
+\begin_inset Formula $D$
+\end_inset
+
+ determines its poles.
+\end_layout
+
+\begin_layout Section
+Responses of a System
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+step response
+\series default
+\color inherit
+ of a system can be determined by applying a step input to the transfer
+ function, and determining the output in the time-domain.
+ For first order systems, this will generate two terms called the 
+\series bold
+\color brown
+forced response
+\series default
+\color inherit
+, and the 
+\series bold
+\color brown
+natural response
+\series default
+\color inherit
+.
+ We can also find various other response of a system, for example the impulse
+ response, and the ramp response.
+\end_layout
+
+\begin_layout Chapter
+System Representation
+\end_layout
+
+\begin_layout Standard
+Previously we studied transfer functions of control systems and how we relate
+ the input and the ouput.
+ We can now represent this graphically through the use of block diagrams.
+\begin_inset Formula 
+\[
+C\left(s\right)=G\left(s\right)\cdot R\left(s\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Cascade Form
+\end_layout
+
+\begin_layout Standard
+When multiple blocks are 
+\series bold
+\color brown
+connected in
+\series default
+\color inherit
+ 
+\series bold
+\color brown
+cascade form
+\series default
+\color inherit
+, it is quite obvious to see that their total transfer function is a product
+ of each transfer function.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+G_{\text{eq}}\left(s\right)=\prod_{i}G_{i}\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Parallel Form
+\end_layout
+
+\begin_layout Standard
+When multiple block's outputs are 
+\series bold
+\color brown
+connected in parallel
+\series default
+\color inherit
+ and joined through a summing junction, The equivalent transfer function
+ is the sum of the transfer functions connected in parallel.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+G_{\text{eq}}\left(s\right)=\sum_{i}\pm G_{i}\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Feedback Form
+\end_layout
+
+\begin_layout Standard
+Here is the basic layout for something in 
+\series bold
+\color brown
+feedback form
+\series default
+\color inherit
+.
+ It has an equivalent transfer equal to the one showed on the diagram.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+G_{\text{eq}}\left(s\right)=\frac{G\left(s\right)}{1\pm G\left(s\right)\cdot H\left(s\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Signal Flow Graphs
+\end_layout
+
+\begin_layout Standard
+We can write block diagrams in a different way through 
+\series bold
+\color brown
+signal flow graphs
+\series default
+\color inherit
+ which are nodes connected through gains.
+ 
+\end_layout
+
+\begin_layout Chapter
+Mason's Rules
+\end_layout
+
+\begin_layout Standard
+Often we can derive the transfer functions for simple systems algebraically,
+ or through equations 1.1, 1.2, and 1.3 derived in Chapter 1.
+ However, this might not always be feasible.
+ For extremely complicated systems we follow 
+\series bold
+\color brown
+Mason's Rules
+\series default
+\color inherit
+, which help us get right to the transfer function for the input of a system
+ and any output we desire.
+ Consider the diagram below.
+ Throughout this chapter we will be using mason's rules to derive the transfer
+ function for the signal flow diagram in Figure 2.1
+\end_layout
+
+\begin_layout Section
+Mason's Rule
+\end_layout
+
+\begin_layout Standard
+Mason's rule states that the transfer function 
+\begin_inset Formula $G\left(s\right)$
+\end_inset
+
+ between the specified input on the diagram 
+\begin_inset Formula $R\left(s\right)$
+\end_inset
+
+, and some output point we choose 
+\begin_inset Formula $C\left(s\right)$
+\end_inset
+
+.
+ Can be found through the following equation.
+\begin_inset Formula 
+\[
+G\left(s\right)=\frac{\sum_{k}T_{k}\Delta_{k}}{\Delta}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+where:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k$
+\end_inset
+
+= number of forward paths
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T_{k}$
+\end_inset
+
+ = the 
+\begin_inset Formula $k$
+\end_inset
+
+'th forward path gain
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Delta$
+\end_inset
+
+ = 1 - 
+\backslash
+sum loop gains + 
+\backslash
+sum nontouching loop gains taken two at a time - 
+\backslash
+sum nontouching loop gains taken 3 at a time ...
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Delta_{k}$
+\end_inset
+
+ = loop gains after removing the 
+\begin_inset Formula $k$
+\end_inset
+
+'th forward path
+\end_layout
+
+\begin_layout Standard
+This makes no sense, so lets define these terms, and then derive the transfer
+ function in Figure 2.1
+\end_layout
+
+\begin_layout Section
+Definitions
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\color brown
+Loop gain
+\series default
+\color inherit
+ - The product of branch gains found by traversing a path that starts at
+ a node and ends at the same node, without passing through any other node
+ more than once, all while following the direction of signal flow.
+ We can think of this as 
+\emph on
+mesh 
+\emph default
+gains.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\color brown
+Forward path gain
+\series default
+\color inherit
+ - The product of gains found by traversing a path from the input node to
+ the output node of the signal-flow graph in the direction of signal flow.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\color brown
+Nontouching loops
+\series default
+\color inherit
+ - Loops that do nore have any nodes in common.
+\end_layout
+
+\begin_layout Section
+Example
+\end_layout
+
+\begin_layout Standard
+Lets start by determining the number of 
+\series bold
+\color brown
+forward paths
+\series default
+\color inherit
+, in this case there is only one thus 
+\begin_inset Formula $k=1$
+\end_inset
+
+.
+ It's corresponding 
+\series bold
+\color brown
+forward path gain
+\series default
+\color inherit
+ is 
+\begin_inset Formula 
+\[
+G_{1}G_{2}G_{3}G_{4}G_{5}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Next we should find the 
+\series bold
+\color brown
+loop gains
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $G_{2}H_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $G_{4}H_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $G_{7}H_{4}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $G_{2}G_{3}G_{4}G_{5}G_{6}G_{7}G_{8}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{LG}=(1)+(2)+(3)+(4)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next lets take the nontouching loops two at a time.
+ We can take loops 1 and 2, 1 and 3, and then 2 and 3.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(G_{2}H_{1}\right)\left(G_{4}H_{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(G_{2}H_{1}\right)\left(G_{7}H_{4}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(G_{4}H_{2}\right)\left(G_{7}H_{4}\right)$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{LG-2}=(1)(2)+(1)(3)+(2)(3)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next we take nontouching loops three at a time.
+ We can take loops 1 2 and 3 here.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(G_{2}H_{1}\right)\left(G_{4}H_{2}\right)\left(G_{7}H_{4}\right)$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{LG-3}=(1)(2)(3)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are only three nontouching loops, thus every other term in 
+\begin_inset Formula $\Delta$
+\end_inset
+
+ will be zero.
+\begin_inset Formula 
+\[
+\Delta=1-\left(\text{LG}\right)+\left(\text{LG-2}\right)-\left(\text{LG-3}\right)
+\]
+
+\end_inset
+
+Now we can find 
+\begin_inset Formula $\Delta_{k}$
+\end_inset
+
+, in this case 
+\begin_inset Formula $\Delta_{1}$
+\end_inset
+
+by removing forward path 1, and then taking the delta of the remaining graph.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Delta_{1}=1-G_{7}H_{4}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Thus we can write the whole transfer function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+G\left(s\right)=\frac{T_{1}\Delta_{1}}{\Delta}=\frac{\left(G_{1}G_{2}G_{3}G_{4}G_{5}\right)\left(1-G_{7}H_{4}\right)}{1-\left(\text{LG}\right)+\left(\text{LG-2}\right)-\left(\text{LG-3}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Design of Control Systems
+\end_layout
+
+\begin_layout Chapter
+First Order Systems
+\end_layout
+
+\begin_layout Section
+Characteristic Form
+\end_layout
+
+\begin_layout Standard
+The general form of a 
+\series bold
+\color brown
+first order system
+\series default
+\color inherit
+ is given by:
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{A}{s+a}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Step Response
+\end_layout
+
+\begin_layout Standard
+We can easily find the step response of a general first order system.
+ Consider an output 
+\begin_inset Formula $R$
+\end_inset
+
+, and some input 
+\begin_inset Formula $C$
+\end_inset
+
+.
+ To find the step response, we set 
+\begin_inset Formula $C\left(s\right)=s^{-1}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{A}{s+a}C\left(s\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{A}{s\left(s+a\right)}=\frac{k_{1}}{s}+\frac{k_{2}}{s+a}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+k_{2}e^{-at}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can easily solve for coefficients 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $k_{2}$
+\end_inset
+
+to obtain the following step response
+\begin_inset Formula 
+\[
+r\left(t\right)=\frac{A}{a}-\frac{A}{a}e^{-at}=\frac{A}{a}\left(1-e^{-at}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Time Constant, 
+\begin_inset Formula $\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The
+\series bold
+\color brown
+ time constant (
+\begin_inset Formula $\tau$
+\end_inset
+
+)
+\series default
+\color inherit
+ is a value of 
+\begin_inset Formula $t$
+\end_inset
+
+ that will provide a 1 into the argument of the exponential terms.
+ The only exponential term present here is 
+\begin_inset Formula $\exp\left(-at\right)$
+\end_inset
+
+.
+ Thus setting values of 
+\begin_inset Formula $t$
+\end_inset
+
+ equal to the reciprocal of 
+\begin_inset Formula $a$
+\end_inset
+
+ will always generate 1 for the argument.
+ The time constant is helpful because it helps us evaluate the step response
+ of a first order system, as the output will rise to 63% of the final value
+ within one time-constant, and 95% of the final value at 3 time-constants.
+\begin_inset Formula 
+\[
+\tau=\frac{1}{a}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Initial Speed
+\end_layout
+
+\begin_layout Standard
+The
+\series bold
+\color brown
+ initial speed
+\series default
+\color inherit
+ of a first order system's step response can be derived by differentiating
+ the expression, and evaluating it at 
+\begin_inset Formula $t=0$
+\end_inset
+
+.
+ We can see that the intial slope (speed) is equal to the number 
+\begin_inset Formula $A$
+\end_inset
+
+ in the numerator of the transfer function.
+ A system is said to be faster than another system if it has an intial speed
+ greater than that of the other.
+\begin_inset Formula 
+\[
+\frac{d}{dt}\left[\frac{A}{a}\left(1-e^{-at}\right)\right]|_{t=0}=\frac{A}{a}\left[a\right]=A
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Rise Time, 
+\begin_inset Formula $T_{r}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+rise time (
+\begin_inset Formula $T_{r}$
+\end_inset
+
+)
+\series default
+\color inherit
+ of a system is defined as the time it takes for the system to go from 10%
+ to 90% of its final value.
+ We can easily find this for the general first order system.
+\begin_inset Formula 
+\[
+T_{r}=t_{90}-t_{10}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+It is trivial to determine 
+\begin_inset Formula $t_{90}$
+\end_inset
+
+ and 
+\begin_inset Formula $t_{10}$
+\end_inset
+
+ analytically.
+\begin_inset Formula 
+\[
+t_{90}=-\frac{\ln\left(0.1\right)}{a}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+t_{10}=-\frac{\ln\left(0.9\right)}{a}
+\]
+
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+Thus we can write it in terms of the value 
+\begin_inset Formula $a$
+\end_inset
+
+, or the time constant 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+T_{r}=\frac{1}{a}\left(\ln\left(0.9\right)-\ln\left(0.1\right)\right)=\frac{2.2}{a}=2.2\tau
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Settling Time, 
+\begin_inset Formula $T_{s}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The settling time (
+\begin_inset Formula $T_{s}$
+\end_inset
+
+) of a system is defined as the time it takes for the system to reach, and
+ stay within 2% of its final value.
+ In general this is also trivial to determine analytically.
+ We can write it in terms of the value 
+\begin_inset Formula $a$
+\end_inset
+
+, or the time-constant 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+aT_{s}=-\ln\left(0.02\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+T_{s}=\frac{3.91}{a}=3.91\tau
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Graph Methods
+\end_layout
+
+\begin_layout Standard
+We can determine (approximate) the transfer function from a plot of the
+ step response for a first-order system.
+ Here are the steps to do so.
+\end_layout
+
+\begin_layout Enumerate
+Determine the final value.
+ 
+\emph on
+Note
+\emph default
+: it is equal to 
+\begin_inset Formula $A/a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Determine the time constant by finding the time where the response reaches
+ 63% of the final value.
+ 
+\emph on
+Note:
+\emph default
+ it is equal to 
+\begin_inset Formula $1/a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Now we can determine 
+\begin_inset Formula $A$
+\end_inset
+
+, because we have determined 
+\begin_inset Formula $a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+Second Order Systems
+\end_layout
+
+\begin_layout Standard
+In this chapter we are going to study the time response of a
+\series bold
+\color brown
+ second order system
+\series default
+\color inherit
+.
+ Unlike first order systems, a second ordersystem can exhibit a wide range
+ of responses.
+ Developing an understanding of first and second order systems are quite
+ important within control engineering, as we can often represent higher
+ order systems as consituents containing first order and second order terms.
+\end_layout
+
+\begin_layout Section
+Characteristic Form
+\end_layout
+
+\begin_layout Standard
+A general second order system is represented as the following, and note
+ that it represents a second order linear differential equation.
+ Some of the variables in this equation are a bit strange at first, but
+ lets define them and what they mean.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+The Damping Factor 
+\begin_inset Formula $\zeta$
+\end_inset
+
+
+\series default
+\color inherit
+ - Determines the 
+\series bold
+\color brown
+damping regime
+\series default
+\color inherit
+ of a system - if it is underdamped, critically damped, or overdamped.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+The Natural Frequency 
+\begin_inset Formula $\omega_{0}$
+\end_inset
+
+
+\series default
+\color inherit
+ - Determines the 
+\series bold
+\color brown
+undamped oscillation frequency
+\series default
+\color inherit
+ of the system
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{K}{s^{2}+2\zeta\omega_{0}s+\omega_{0}^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Damping Regimes
+\end_layout
+
+\begin_layout Standard
+In order to get a better understanding of the system we will have to solve
+ the denominator to find the system poles.
+ Via the quadratic formula we can write the following solutions for the
+ poles
+\begin_inset Formula 
+\begin{equation}
+s_{1,2}=-\zeta\omega_{0}\pm\omega_{0}\sqrt{\zeta^{2}-1}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Now it is quite obvious as to why we consider the variable 
+\begin_inset Formula $\zeta$
+\end_inset
+
+, as the one that determines the behaviours of the system.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Repeated, real roots - 
+\begin_inset Formula $\zeta=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Distinct, real roots - 
+\begin_inset Formula $\zeta>1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Distinct, complex roots - 
+\begin_inset Formula $\zeta<1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In case 1, we call the system 
+\series bold
+\color brown
+crtitically damped
+\series default
+\color inherit
+.
+ In case 2 we call the system 
+\series bold
+\color brown
+overdamped
+\series default
+\color inherit
+.
+ In case 3, we call the system 
+\series bold
+\color brown
+underdamped
+\series default
+\color inherit
+.
+ This is because the value of 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ determines the number of poles, and the type of each pole that we have.
+ There is also the case where 
+\begin_inset Formula $\zeta=0$
+\end_inset
+
+ which is referred to as 
+\series bold
+\color brown
+undamped
+\series default
+\color inherit
+, however this still produces distinct complex roots, thus we deem it a
+ 
+\emph on
+special case
+\emph default
+ and stick it under case 3.
+\end_layout
+
+\begin_layout Section
+Undamped Systems
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+\color brown
+undamped system arises when 
+\begin_inset Formula $\zeta=0$
+\end_inset
+
+,
+\series default
+\color inherit
+ and this results in a marginally unstable system that oscillates indefintely.
+ Lets take a look at the step response for a general undamped system below.
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+\omega_{0}^{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The output 
+\begin_inset Formula $R$
+\end_inset
+
+ for some applied step response is shown below.
+ We can also write partial fraction decomposition for this expression.
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+\omega_{0}^{2}}\cdot\frac{1}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{k_{1}}{s}+\frac{k_{2}}{s-j\omega_{0}}+\frac{k_{3}}{s+j\omega_{0}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can then take the inverse laplace of this expression and get the response
+ in the time domain.
+ Note that the 
+\series bold
+\color brown
+natural frequency 
+\begin_inset Formula $\omega_{0}$
+\end_inset
+
+
+\series default
+\color inherit
+ appears in the argument of the sinuosoidal terms, and that these are everpresen
+t for all 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ This means that the output oscillates forever, even after reaching the
+ final constant value.
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+k_{2}\exp\left(j\omega_{0}t\right)+k_{3}\exp\left(-j\omega_{0}t\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+\left(k_{2}+k_{3}\right)\cos\left(\omega_{0}t\right)+\left(k_{2}-k_{3}\right)\sin\left(\omega_{0}t\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Underdamped Systems
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+\color brown
+underdamped system arises when 
+\begin_inset Formula $\zeta<1$
+\end_inset
+
+,
+\series default
+\color inherit
+ this results in a time-domain response with damped oscillations.
+ Lets take a look at the general underdamped system below.
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\zeta\omega_{0}s+\omega_{0}^{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can find poles of the denominator through the quadratic formula (equation
+ 3.1).
+ Lets also remember that we are treating it as 
+\begin_inset Formula $\zeta<1$
+\end_inset
+
+ thus lets factor out a 
+\begin_inset Formula $j$
+\end_inset
+
+ as we expect to get complex roots.
+ Let's also rewrite this complex thing into its real and complex parts 
+\begin_inset Formula $\sigma_{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $\omega_{d}$
+\end_inset
+
+ respectively.
+ Here 
+\begin_inset Formula $\sigma_{d}$
+\end_inset
+
+ represents the exponential damping of the oscillations and 
+\begin_inset Formula $\omega_{d}$
+\end_inset
+
+ represents the frequency of the damped oscillations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s_{1,2}=-\zeta\omega_{0}\pm j\sqrt{1-\zeta^{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+s_{1,2}=\sigma_{d}\pm j\omega_{d}
+\]
+
+\end_inset
+
+The output 
+\begin_inset Formula $R$
+\end_inset
+
+ for some applied step response is shown below.
+ We can also write partial fraction decomposition for this expression.
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\zeta\omega_{0}s+\omega_{0}^{2}}\cdot\frac{1}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{k_{1}}{s}+\frac{k_{2}}{s-\sigma_{d}-j\omega_{d}}+\frac{k_{3}}{s-\sigma_{d}+j\omega_{d}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can now take inverse laplace to get the following (disgusting expression)
+ which we will have to simplify further.
+ 
+\emph on
+Note:
+\emph default
+ 
+\begin_inset Formula $\sigma_{d}$
+\end_inset
+
+ is a negative number, hence these oscillations will eventually die out
+ as 
+\begin_inset Formula $t\rightarrow\infty$
+\end_inset
+
+.
+ We can also rewrite the final line in terms of a single sinusoid, which
+ is omitted from this note, but can easily be done through basic phasor
+ addition.
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+k_{2}\exp\left(\left(\sigma_{d}+j\omega_{d}\right)t\right)+k_{3}k_{2}\exp\left(\left(\sigma_{d}-j\omega_{d}\right)t\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+\exp\left(\sigma_{d}t\right)\left(k_{2}\exp\left(j\omega_{d}t\right)+k_{3}\exp\left(-j\omega_{d}t\right)\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+\exp\left(\sigma_{d}t\right)\left[\left(k_{2}+k_{3}\right)\cos\left(\omega_{d}t\right)+\left(k_{3}-k_{2}\right)\sin\left(\omega_{d}t\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Critically Damped
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+\color brown
+critically damped system arises when 
+\begin_inset Formula $\zeta=1$
+\end_inset
+
+
+\series default
+\color inherit
+, This results in the 
+\series bold
+\color brown
+fastest possible response (without any overshoot)
+\series default
+\color inherit
+ that a second order system can possibly give.
+ Let's take a look at the critically damped system below
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\omega_{0}s+\omega_{0}^{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The output 
+\begin_inset Formula $R$
+\end_inset
+
+ for some applied step response is shown below, we can also easily factor
+ this as follows to form the partial fraction decomposition.
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\omega_{0}s+\omega_{0}^{2}}\cdot\frac{1}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{k_{1}}{s}+\frac{k_{2}}{s+\omega_{0}}+\frac{k_{3}}{\left(s+\omega_{0}\right)^{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Taking inverse laplace give the following time domain response
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+k_{2}\exp\left(-\omega_{0}t\right)+k_{3}t\exp\left(-\omega_{0}t\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Overdamped Systems
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+\color brown
+overdamped system arises when 
+\begin_inset Formula $\zeta<1$
+\end_inset
+
+,
+\series default
+\color inherit
+ this results in a time-domain response with two time constants.
+ Lets take a look at the general overdamped system below.
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\zeta\omega_{0}s+\omega_{0}^{2}}
+\]
+
+\end_inset
+
+The output 
+\begin_inset Formula $R$
+\end_inset
+
+ for some applied step response is shown below.
+ We can find poles of the denominator through the quadratic formula (equation
+ 3.1) which will both be distinct real numbers here, which I will denote
+ 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{\omega_{0}^{2}}{s^{2}+2\zeta\omega_{0}s+\omega_{0}^{2}}\cdot\frac{1}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R\left(s\right)=\frac{k_{1}}{s}+\frac{k_{2}}{s-s_{1}}+\frac{k_{3}}{s-s_{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can then take inverse laplace to get the following time domain expression
+ with two time constants (double exponential)
+\begin_inset Formula 
+\[
+r\left(t\right)=k_{1}+k_{2}\exp\left(-s_{1}t\right)+k_{3}\exp\left(-s_{2}t\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Performance Specifications
+\end_layout
+
+\begin_layout Standard
+We need some way to measure how good our second order systems are doing,
+ thus we can introduce some new concepts in addition to the 
+\series bold
+\color brown
+rise time 
+\begin_inset Formula $T_{r}$
+\end_inset
+
+
+\series default
+\color inherit
+ and the 
+\series bold
+\color brown
+settling time 
+\begin_inset Formula $T_{s}$
+\end_inset
+
+
+\series default
+\color inherit
+ that we defined earlier.
+ 
+\end_layout
+
+\begin_layout Itemize
+Peak Time 
+\begin_inset Formula $T_{p}$
+\end_inset
+
+ - The time required for the response to reach its peak, can be obtained
+ as the time where the first derivative becomes zero.
+\end_layout
+
+\begin_layout Itemize
+Percent Overshoot - Defined as the amount the system overshoots at the peak
+ time, when compared to the final value.
+\end_layout
+
+\begin_layout Itemize
+Settling Time 
+\begin_inset Formula $T_{s}$
+\end_inset
+
+ - Once again, defined as the amount of time it takes for the response to
+ reach and stay within 2% of the final value.
+\end_layout
+
+\begin_layout Itemize
+Rise Time 
+\begin_inset Formula $T_{r}$
+\end_inset
+
+- The time it takes for the response to go from 10% to 90% of the final
+ value.
+ It is not possible to determine a general expression analytically for second
+ order systems
+\end_layout
+
+\begin_layout Chapter
+Stability
+\end_layout
+
+\begin_layout Standard
+As previously discussed, we can easily find the time-domain response of
+ a system through laplace transform methods.
+ In this note we will be learning about stability and the criteria for a
+ system to be stable.
+\end_layout
+
+\begin_layout Section
+Types of Stability
+\end_layout
+
+\begin_layout Standard
+Within control systems, there exist three kinds of stability.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color brown
+Stable
+\series default
+\color inherit
+ - A system is said to be stable if the natural response approaches zero
+ as time approaches infinity.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color brown
+Unstable
+\series default
+\color inherit
+ - A system is said to be unstable if the natural response grows without
+ bound as time approaches infinity
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color brown
+Marginally Stable
+\series default
+\color inherit
+ - A system is said to be marginally stable if the natural response neither
+ decays nor grows without bound, but remains constant or oscillates as time
+ approaches infinity.
+\end_layout
+
+\begin_layout Section
+Stability & Pole Location
+\end_layout
+
+\begin_layout Standard
+The first step to taking inverse laplace transforms is partial fraction
+ decomposition.
+ Recall that decomposition (s-domain) terms of the following form, always
+ result in exponential time-domain terms.
+ In order for a system to be stable, we require these exponential terms
+ to be decaying terms (i.e their argument must be negative).
+\begin_inset Formula 
+\[
+\frac{K}{s+z}\leftrightarrow K\exp\left(-zt\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+In the case that 
+\begin_inset Formula $a$
+\end_inset
+
+ is some complex value 
+\begin_inset Formula $z=a+bj$
+\end_inset
+
+, we get a decaying sinusoid term, we require that these decaying exponentials
+ also have negative arguments.
+\begin_inset Formula 
+\[
+\frac{K}{s+z}\leftrightarrow K\exp\left(-at\right)\cos\left(-bjt\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Both of these cases imply that 
+\series bold
+\color brown
+stability demands that ALL poles in the transfer function lie on the LHS
+ of the complex plane
+\series default
+\color inherit
+.
+ If all but one are on the LHS, the response will grow without bounds and
+ become unstable.
+ In all cases, this requires solving the denominator polynomial which isnt
+ always very simple to do.
+ Often times we wont even have to do this, the most basic criteria for stability
+ is that all terms in the denominator's polynomial standard frm have the
+ same sign, and that there are no missing terms.
+ Which, isnt very helpful.
+ For this reason we introduce something called the Routh-Hurwitz Criterion
+ in the next chapter.
+\end_layout
+
+\begin_layout Chapter
+Routh-Hurwitz Criterion
+\end_layout
+
+\begin_layout Standard
+In this chapter we will learn a method that yields stability information
+ without needing to solve the denominator polynomial.
+ Using this method we can tell 
+\emph on
+how many
+\emph default
+ poles lie on the LHS and RHS of the complex plane.
+ (Note: that we say how many, not where.
+ We cannot find their coordinates with this method).
+ This method involves constructing a 
+\series bold
+\color brown
+Routh Table
+\series default
+\color inherit
+, and then interpreting it.
+\end_layout
+
+\begin_layout Section
+Routh Tables
+\end_layout
+
+\begin_layout Standard
+Consider the following equivalent (closed-loop) transfer function, we will
+ learn how to construct a routh-table for it.
+ This routh table is used for the Routh-Hurwitz criterion.
+ Figure 2.1 holds the initial layout for a Routh-Table, where we start in
+ the row for the highest degree term and write every other term in the neighbour
+ing columns.
+\begin_inset Formula 
+\[
+G\left(s\right)=\frac{N\left(s\right)}{a_{4}s^{4}+a_{3}s^{3}+a_{2}s^{2}+a_{1}s+a_{0}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Completing the Routh-Table
+\end_layout
+
+\begin_layout Standard
+The Routh-Table is completed through the repeated application of determinants.
+ Recall the formula for the determinant of a 2x2 matrix
+\begin_inset Formula 
+\[
+\begin{vmatrix}a & b\\
+c & d
+\end{vmatrix}=ad-bc
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The Routh-Table uses the negative determinant, divided by the term in the
+ row above, and the leftmost column.
+ The completed routh-table looks like this.
+\end_layout
+
+\begin_layout Section*
+Interpreting the Routh-Table
+\end_layout
+
+\begin_layout Standard
+Now that we know how to make basic Routh-tables, we can look to learn how
+ to interpret them.
+ The way to interpret these tables is to look at the number of sign changes
+ in the first-column.
+ The number of sign changes in the first-column tell us the number of poles
+ on the RHS of the s-plane.
+ Knowing how many are on the RHS, we can use symmetry and the fundamental
+ theorem of algebra to deduce the number on the LHS (having a sign change
+ means the system is unstable).
+ We might sometimes run into special cases when generating this table though.
+\end_layout
+
+\begin_layout Section
+Routh-Table: Zero in the First Column
+\end_layout
+
+\begin_layout Standard
+When we encounter a zero in only the first column, we replace it with a
+ variable 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+, which represents a very small positive or negative number.
+ After we will get a table dependent on epsilon.
+ We see what happens as epsilon goes to 0+ and 0- and count the sign changes
+ for both cases.
+ In both cases they should be the same.
+\end_layout
+
+\begin_layout Section
+Routh-Table: Entire Row of Zeroes
+\end_layout
+
+\begin_layout Standard
+When we encounter this the following entries need to be handles differently.
+ In this case we go directly to the 
+\series bold
+\color brown
+row right above the row of zeros
+\series default
+\color inherit
+.
+ Using it to construct an 
+\series bold
+\color brown
+auxilliary polynomial
+\series default
+\color inherit
+, where the highest power of 
+\begin_inset Formula $s$
+\end_inset
+
+ in the polynomial is the same as the power of 
+\begin_inset Formula $s$
+\end_inset
+
+ in that row.
+ We then 
+\begin_inset Formula $d/ds$
+\end_inset
+
+ this polynomial, and use the new coefficients as the replacements for the
+ row of zeroes, continuining the table in the standard way.
+ The interpretation changes as well.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The row (and every row below) from which the auxilliary polynomial was construct
+ed now corresponds with the auxilliary polynomial.
+ This auxilliary polynomial is always an even polynomial and its roots will
+ always have rotational symmetry about the origin.
+ The rows above the ones for the aux polynomial are for the original function.
+ Overall we add up every sign change once again to get the number of poles
+ on the RHS of the complex plane.
+\end_layout
+
+\begin_layout Chapter
+Error
+\end_layout
+
+\begin_layout Standard
+Designing control systems depends primarily on three specifications all
+ of which we have covered in this part:
+\end_layout
+
+\begin_layout Enumerate
+Transient Response (First & Second Order Systems)
+\end_layout
+
+\begin_layout Enumerate
+Stability 
+\end_layout
+
+\begin_layout Enumerate
+Steady-State Errors (This Chapter)
+\end_layout
+
+\begin_layout Standard
+Which we will be finishing by the end of this note.
+\end_layout
+
+\begin_layout Section
+Formulating Error
+\end_layout
+
+\begin_layout Standard
+Consider a simple 
+\series bold
+\color brown
+unity-feedback
+\series default
+\color inherit
+ control system with an open-loop transfer function of 
+\begin_inset Formula $G\left(s\right)$
+\end_inset
+
+, and closed-loop transfer function of 
+\begin_inset Formula $T\left(s\right)$
+\end_inset
+
+.
+ This system is shown in Figure 1.1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{G\left(s\right)}{1+G\left(s\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The error 
+\begin_inset Formula $E\left(s\right)$
+\end_inset
+
+ in this control system would be the difference between the input 
+\begin_inset Formula $R\left(s\right)$
+\end_inset
+
+ and output 
+\begin_inset Formula $C\left(s\right)$
+\end_inset
+
+.
+ This gives us our first error formulation shown in Equation 1.1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E\left(s\right)=R\left(s\right)-C\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To generate our next error formulation, consider that 
+\begin_inset Formula $C\left(s\right)=R\left(s\right)T\left(s\right)$
+\end_inset
+
+.
+ The output is the input multiplied by the closed-loop transfer function.
+ We can substitute this into Equation 1.1 to get our second error formulation
+ in Equation 1.2
+\begin_inset Formula 
+\begin{equation}
+E\left(s\right)=R\left(s\right)\left[1-T\left(s\right)\right]
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To arrive at our third formulation for error, consider the fact that the
+ output is equal to the error times the open-loop transfer function, 
+\begin_inset Formula $C\left(s\right)=E\left(s\right)G\left(s\right)$
+\end_inset
+
+.
+ We can substitute this into Equation 1.1 to get our third formulation in
+ Equation 1.3
+\begin_inset Formula 
+\begin{equation}
+E\left(s\right)=\frac{R\left(s\right)}{1+G\left(s\right)}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+So far we have found three different formulations for error shown in Equations
+ 1.1, 1.2 and 1.3.
+ All of these formulations depend on the input 
+\begin_inset Formula $R\left(s\right)$
+\end_inset
+
+, but one depends on the output, another depends on the closed-loop transfer
+ function, and the last depends on the open-loop transfer function.
+ The error 
+\begin_inset Formula $E\left(s\right)$
+\end_inset
+
+ is equal to each of the formulations below.
+\begin_inset Formula 
+\[
+\begin{array}{ccccc}
+R\left(s\right)-C\left(s\right) & \  & R\left(s\right)\left[1-T\left(s\right)\right] & \  & \frac{R\left(s\right)}{1+G\left(s\right)}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Steady-State-Error
+\end_layout
+
+\begin_layout Standard
+Although we can calculate the error at any time 
+\begin_inset Formula $e\left(t\right)$
+\end_inset
+
+ through the inverse laplace transform of the 
+\begin_inset Formula $E\left(s\right)$
+\end_inset
+
+ function, we are more interested in the final value of the error, 
+\begin_inset Formula $e\left(\infty\right)$
+\end_inset
+
+.
+ We can easily find this out through final-value theorem.
+ Which is given in Equation 1.4.
+\begin_inset Formula 
+\begin{equation}
+f\left(\infty\right)=\lim_{s\rightarrow0}sF\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Static Error-Constants & Steady-State Error
+\end_layout
+
+\begin_layout Standard
+Consider a step input applied to a unity-gain feedback system.
+ If we apply this step input into Equation 1.3 we can get the following simplific
+ation.
+\begin_inset Formula 
+\[
+e_{\text{step}}\left(\infty\right)=\lim_{s\rightarrow0}\frac{s\left(1/s\right)}{1+G\left(s\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+e_{\text{step}}\left(\infty\right)=\frac{1}{1+\lim_{s\rightarrow0}G\left(s\right)}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+In order for the step response error at infinity to be equal to 0, we require
+ our denominator to go to zero.
+ This means that we require our limit (The DC-Gain of the open-loop transfer
+ function) to go to infinity.
+ If this condition is not met, we do not achieve a zero error at 
+\begin_inset Formula $t\rightarrow\infty$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+\text{DC Gain}=\lim_{s\rightarrow0}G\left(s\right)=\infty
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Although this limit is the DC-Gain, we define it as a value called the 
+\series bold
+\color brown
+position-error constant 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+
+\series default
+\color inherit
+.
+ In other words, we require our 
+\begin_inset Formula $K_{p}=\infty$
+\end_inset
+
+ for a 0 steady state error from a step response.
+\begin_inset Formula 
+\begin{equation}
+K_{p}=\lim_{s\rightarrow0}G\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can do the exact same process for a ramp input 
+\begin_inset Formula $\left(1/s^{2}\right)$
+\end_inset
+
+, and a parabolic input 
+\begin_inset Formula $\left(1/s^{3}\right)$
+\end_inset
+
+.
+ In order to define the 
+\series bold
+\color brown
+velocity-error constant 
+\begin_inset Formula $K_{v}$
+\end_inset
+
+
+\series default
+\color inherit
+ and the 
+\series bold
+\color brown
+acceleration-error constant 
+\begin_inset Formula $K_{a}$
+\end_inset
+
+
+\series default
+\color inherit
+ respectively.
+\begin_inset Formula 
+\begin{equation}
+K_{v}=\lim_{s\rightarrow0}sG\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+K_{a}=\lim_{s\rightarrow0}s^{2}G\left(s\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Satisfying the Error-Constant Conditions
+\end_layout
+
+\begin_layout Standard
+We can think of this as differentiating the open-loop transfer function
+ (as differentiating is equivalent to multiplying by 
+\begin_inset Formula $s$
+\end_inset
+
+).
+ Which helps us remember the order of the 
+\begin_inset Formula $s$
+\end_inset
+
+ term in front of the open-loop transfer function.
+ For their respective inputs each error constant needs to be equal to infinty
+ to give a zero steady state error.
+ If they are not equal to infinity, it means that the steady state error
+ approaches some nonzero ratio (see Equation 1.5)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To satisfy this constraint, our open-loop transfer function needs to be
+ of the form below.
+ Our denominator needs to go to infinity, thus 
+\series bold
+\color brown
+we require an 
+\begin_inset Formula $n$
+\end_inset
+
+'th order pole at the origin
+\series default
+\color inherit
+, such that the limit approaches infinity at 
+\begin_inset Formula $s=0$
+\end_inset
+
+.
+ The system is also said to be a 
+\series bold
+\color brown
+type-n system
+\series default
+\color inherit
+.
+\begin_inset Formula 
+\[
+G\left(s\right)=\frac{\left(s-z_{1}\right)\left(s-z_{2}\right)...\left(s-z_{n}\right)}{s^{n}\left(s-p_{1}\right)\left(s-p_{2}\right)...\left(s-p_{m}\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+For the position-error constant, we require that 
+\begin_inset Formula $n\geq1$
+\end_inset
+
+.
+ This means that we require at least a 1st order pole at the origin, and
+ consequently at least one integration must be present in the forward path.
+ For the velocity-error constant, we require that 
+\begin_inset Formula $n\geq2$
+\end_inset
+
+, as one of these will effectively be 
+\begin_inset Quotes eld
+\end_inset
+
+cancelled out
+\begin_inset Quotes erd
+\end_inset
+
+ by the 
+\begin_inset Formula $s$
+\end_inset
+
+ in Equation 1.7, this means at least a 2nd order pole at the origin, and
+ at least 2 integrations in the forward path.
+ Similarly, for the acceleration-error constant, we require that n
+\begin_inset Formula $\geq3$
+\end_inset
+
+, at least a 3rd order pole at the origin, and at least 3 integrations along
+ the forward path.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Lets consider what happens if we do not satisfy these conditions.
+ Consider a parabolic input with transform (
+\begin_inset Formula $1/s^{3}$
+\end_inset
+
+).
+ We require at least a 3rd order pole at the origin.
+ Lets examine what happens with a 1st order and 2nd order pole at the origin
+ instead.
+ Let's start by considering a 1st order pole at the origin.
+\begin_inset Formula 
+\[
+K_{a}=\lim_{s\rightarrow0}s^{2}\frac{\left(s-z_{1}\right)\left(s-z_{2}\right)...\left(s-z_{n}\right)}{s\left(s-p_{1}\right)\left(s-p_{2}\right)...\left(s-p_{m}\right)}=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+When we have the error-constant go to 0, this implies that the steady-state
+ error is infinite.
+\end_layout
+
+\begin_layout Chapter
+Root Locus Technique
+\end_layout
+
+\begin_layout Standard
+The root locus is a graphical method for sketching the set of locations
+ for the poles of a closed-loop system, given that one parameter changes.
+\end_layout
+
+\begin_layout Section
+Characteristic Equation
+\end_layout
+
+\begin_layout Standard
+Consider a closed loop transfer function 
+\begin_inset Formula $T\left(s\right)$
+\end_inset
+
+.
+ With open loop transfer function 
+\begin_inset Formula $KG\left(s\right)$
+\end_inset
+
+, and feedback transfer function of 
+\begin_inset Formula $H\left(s\right)$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{KG\left(s\right)}{1+KG\left(s\right)H\left(s\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The poles of our closed-loop system are determined by the denominator of
+ our transfer function and when it equals to 0, thus we define the denominator
+ as the 
+\series bold
+\color brown
+characteristic equation of the closed-loop system
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Section
+The Root Locus
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+root locus
+\series default
+\color inherit
+ is defined as the path of the roots of the characteristic equation (poles
+ of the closed-loop transfer function) traced out in the complex plane,
+ as one of the system parameters (usually denoted as 
+\begin_inset Formula $K$
+\end_inset
+
+) varies.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+One advantage of this approach is that we can obtain the location of closed-loop
+ poles, without explicitly calculating them.
+ Let's start our study by observing that a complex number 
+\begin_inset Formula $s$
+\end_inset
+
+ is a pole of the closed-loop system if and only if equation 12.1 is satisfied.
+ This equation follows from setting the characteristic equation equal to
+ zero.
+\begin_inset Formula 
+\begin{equation}
+KG\left(s\right)H\left(s\right)=-1
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can rewrite equation 12.1 to show that in order for 
+\begin_inset Formula $s$
+\end_inset
+
+ to be a pole of the system, both equations, 12.2 and 12.3 must be satisfied.
+\begin_inset Formula 
+\[
+\left|KG\left(s\right)H\left(s\right)\right|=1
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\angle KG\left(s\right)H\left(s\right)=180
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+An easy way to do this graphically is to consider some point 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ on the complex plane and test if it is a zero of the closed-loop transfer
+ function.
+ From Figure 12.1 below, we can caculate the phase and magnitude given some
+ point 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+.
+ Here the 
+\begin_inset Formula $L$
+\end_inset
+
+ values are the length of the ray from the point 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ to the pole/zero, and the 
+\begin_inset Formula $\theta$
+\end_inset
+
+ values are the angle measures as shown in Figure 12.1
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\left|KG\left(s\right)H\left(s\right)\right|=\frac{\prod L_{\text{zeroes}}}{\prod L_{\text{poles}}}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\angle KG\left(s\right)H\left(s\right)=\sum\theta_{\text{zeroes}}-\sum\theta_{\text{zeroes}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+3
+\begin_inset Graphics
+	filename images/pasted1.png
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Determining Pole Criterion
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
