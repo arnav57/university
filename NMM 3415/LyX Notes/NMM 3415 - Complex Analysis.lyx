@@ -2664,7 +2664,7 @@ Lets reformat our integral to make it look like the form of equation 6.3.
 Then by equation 6.3
 \begin_inset Formula 
 \[
-\oint_{c}\frac{f\left(z\right)}{\left(z-z_{0}\right)^{n}}\,dz=\frac{2\pi j}{n!}f''\left(z_{0}\right)
+\oint_{c}\frac{f\left(z\right)}{\left(z-z_{0}\right)^{n+1}}\,dz=\frac{2\pi j}{n!}f^{\left(n\right)}\left(z_{0}\right)
 \]
 
 \end_inset
