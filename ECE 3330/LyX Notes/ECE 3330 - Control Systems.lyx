@@ -1221,7 +1221,7 @@ G\left(s\right)=\frac{T_{1}\Delta_{1}}{\Delta}=\frac{\left(G_{1}G_{2}G_{3}G_{4}G
 \end_layout
 
 \begin_layout Part
-Design of Control Systems
+Design Specifications of Control Systems
 \end_layout
 
 \begin_layout Chapter
@@ -2892,8 +2892,12 @@ When we have the error-constant go to 0, this implies that the steady-state
  error is infinite.
 \end_layout
 
+\begin_layout Part
+Design of Controllers
+\end_layout
+
 \begin_layout Chapter
-Root Locus Technique
+Root Locus Techniques
 \end_layout
 
 \begin_layout Standard
@@ -2985,26 +2989,43 @@ KG\left(s\right)H\left(s\right)=-1
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-We can rewrite equation 12.1 to show that in order for 
+\begin_layout Section
+Pole Criterion of the Root Locus
+\end_layout
+
+\begin_layout Standard
+We can rewrite equation 12.1 to show that in order 
+\series bold
+\color brown
+for 
 \begin_inset Formula $s$
 \end_inset
 
- to be a pole of the system, both equations, 12.2 and 12.3 must be satisfied.
+ to be a pole
+\series default
+\color inherit
+ of the closed-loop system (thereby being present in the root locus), both
+ equations, 12.2 and 12.3 must be satisfied.
+ Then we can say that the root locus of a system is just the set of points
+ 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ that satisfy the two constraints from equations 12.2 and 12.3.
 \begin_inset Formula 
-\[
+\begin{equation}
 \left|KG\left(s\right)H\left(s\right)\right|=1
-\]
+\end{equation}
 
 \end_inset
 
 
 \begin_inset Formula 
-\[
+\begin{equation}
 \angle KG\left(s\right)H\left(s\right)=180
-\]
+\end{equation}
 
 \end_inset
 
@@ -3036,7 +3057,24 @@ An easy way to do this graphically is to consider some point
 \begin_inset Formula $\theta$
 \end_inset
 
- values are the angle measures as shown in Figure 12.1
+ values are the angle measures as shown in Figure 12.1.
+ Overall, to find the magnitude and phase of the transfer function at some
+ point, we can use Equations 12.4 and 12.5.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Due to the nature of the parameter 
+\begin_inset Formula $K$
+\end_inset
+
+ being a gain in this case, it is quite trivial to ensure that the magntiude
+ condition is met.
+ More strict is the phase condition, which should always be checked first
+ when working with simple controllers.
 \end_layout
 
 \begin_layout Standard
@@ -3093,6 +3131,1112 @@ Determining Pole Criterion
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Branches, Symmetry & Presence
+\end_layout
+
+\begin_layout Standard
+Since each closed-loop pole moves as the parameter 
+\begin_inset Formula $K$
+\end_inset
+
+ changes, it is quite obvious that the
+\series bold
+\color brown
+ number of separate branches 
+\series default
+\color inherit
+(separate paths) for a systems root locus,
+\series bold
+\color brown
+ is equal to the number of closed loop poles
+\series default
+\color inherit
+ in a system.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Furthermore, since complex poles always appear in conjugate pairs, we should
+ always have a root locus path that is 
+\series bold
+\color brown
+symmetric about the real-axis
+\series default
+\color inherit
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can also say that the root-locus is 
+\series bold
+\color brown
+present 
+\series default
+\color inherit
+(exists) 
+\series bold
+\color brown
+on the real axis
+\series default
+\color inherit
+ whenever there is an 
+\series bold
+\color brown
+odd-number of poles and zeroes to the right of of each point
+\series default
+\color inherit
+ 
+\series bold
+\color brown
+on the real axis
+\series default
+\color inherit
+.
+ To illustrate this concept, consider the fact that for a point to be a
+ pole, we require the phase angle of the transfer function to be equal to
+ 180 degrees, and that we require the magnitude of the transfer function
+ to be equal to 1.
+ Recall that the magnitude property is trivial to meet, however the phase
+ property will only be met when we have an odd-number of points to the right
+ of a certain point on the real axis.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To show why this is the case, consider the case when there is one pole/zero
+ to the right, and some number to the left.
+ We have one phase angle of 180 (from the pole on the right), and the poles/zero
+es on the left have a phase angle of 0.
+ This ensures that we meet the phase angle criterion.
+ Generalizing this fact, we can see that we have a phase angle of 
+\begin_inset Formula $180n$
+\end_inset
+
+, where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of points to the right of some 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ located on the real-axis.
+ Due to the periodic nature of angles, whenever 
+\begin_inset Formula $n$
+\end_inset
+
+ is an odd-number we have an angle equivalent to 
+\begin_inset Formula $180$
+\end_inset
+
+ (meeting the phase condition for a pole), and when 
+\begin_inset Formula $n$
+\end_inset
+
+ is even we do not.
+\end_layout
+
+\begin_layout Section
+Starting & Ending Points
+\end_layout
+
+\begin_layout Standard
+To determine the 
+\series bold
+\color brown
+starting and ending points
+\series default
+\color inherit
+ of any systems root locus, lets consider the closed-loop transfer function
+ more specifically by breaking up the functions 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+ into their numerators 
+\begin_inset Formula $N_{G}$
+\end_inset
+
+, and 
+\begin_inset Formula $N_{H}$
+\end_inset
+
+ and denominators 
+\begin_inset Formula $D_{G}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{H}$
+\end_inset
+
+.
+ This will give the closed loop transfer function below.
+\begin_inset Formula 
+\[
+T\left(s\right)=\frac{GH}{1+KGH}=\frac{N_{G}N_{H}}{D_{G}D_{H}+KN_{G}N_{H}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This will give a 
+\series bold
+\color brown
+characteristic equation
+\series default
+\color inherit
+ shown in equation 12.6
+\begin_inset Formula 
+\begin{equation}
+D_{G}D_{H}+KN_{G}N_{H}=0
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Lets consider the fact that the root-locus starts as 
+\begin_inset Formula $K=0$
+\end_inset
+
+, and ends when 
+\begin_inset Formula $K=\infty$
+\end_inset
+
+.
+ To see where this system starts and ends, we must take the limit of the
+ characteristic equation as 
+\begin_inset Formula $K$
+\end_inset
+
+ approaches 0 or 
+\begin_inset Formula $\infty$
+\end_inset
+
+.
+ When 
+\begin_inset Formula $K\rightarrow0$
+\end_inset
+
+.
+ We can see that 12.6 simplifies to...
+\begin_inset Formula 
+\[
+D_{G}D_{H}=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Which implies that the as we start the root-locus (as 
+\begin_inset Formula $K$
+\end_inset
+
+ approaches zero) the closed-loop poles are determined by the open-loop
+ poles of the feedback transfer functions 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+.
+ In other words, 
+\series bold
+\color brown
+the root-locus starts at the open-loop poles
+\series default
+\color inherit
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Let's now consider the case as 
+\begin_inset Formula $K\rightarrow\infty$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\lim_{K\rightarrow\infty}N_{G}N_{H}+\frac{1}{K}D_{G}D_{H}=0
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+N_{G}N_{H}=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This reduction of equation 12.6 implies that that as we end the root-locus
+ (as 
+\begin_inset Formula $K$
+\end_inset
+
+ approaches 
+\begin_inset Formula $\infty$
+\end_inset
+
+) the closed-loop poles are determined by the open-loop zeroes of the feedback
+ transfer functions 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+.
+ In other words, 
+\series bold
+\color brown
+the root-locus ends at open-loop zeroes
+\series default
+\color inherit
+.
+ Ultimately we have shown that as the root locus progresses from 0 to infinty,
+ the root-locus 
+\series bold
+\color brown
+starts at open-loop poles
+\series default
+\color inherit
+ and 
+\series bold
+\color brown
+ends at open-loop zeroes
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Section
+Zeroes & Infinite Zeroes
+\end_layout
+
+\begin_layout Standard
+Any function 
+\begin_inset Formula $F\left(s\right)$
+\end_inset
+
+ has zeroes at infinity, if the function approaches zero as the argument
+ 
+\begin_inset Formula $s$
+\end_inset
+
+ approaches 
+\emph on
+some
+\emph default
+ infinty.
+ When a function has a non-finite value that results in it being equal to
+ zero, it is said to have 
+\series bold
+\color brown
+infinite zeroes
+\series default
+\color inherit
+ (shocker!).
+ This also means, that including infinite zeroes as zeroes, every function
+ should have equal numbers of poles and zeroes.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Consider the function 
+\begin_inset Formula $F\left(s\right)=K\div\left(s\right)\left(s+1\right)\left(s+2\right)$
+\end_inset
+
+.
+ This function has three poles (-2, -1, 0) but (seemingly) no zeroes.
+ Technically, the function just has no 
+\series bold
+finite zeroes
+\series default
+, instead it possesses three 
+\series bold
+\color brown
+infinite zeroes
+\series default
+\color inherit
+.
+ This is the case due to the function 
+\begin_inset Formula $F\left(s\right)\approx K\div s^{3}$
+\end_inset
+
+ for very large 
+\begin_inset Formula $s$
+\end_inset
+
+ values.
+ each 
+\begin_inset Formula $s$
+\end_inset
+
+ in the denominator causes the function to be equal to zero as it approaches
+ 
+\emph on
+some 
+\emph default
+infinity.
+ But which infinity? The one along the real-axis? imaginary-axis? or some
+ random one?
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+All infinite zeroes are along 
+\series bold
+\color brown
+asymptotes
+\series default
+\color inherit
+ that intercept at some point 
+\series bold
+\color brown
+
+\begin_inset Formula $\sigma_{a}$
+\end_inset
+
+
+\series default
+\color inherit
+.
+ These 
+\series bold
+\color brown
+asymptotes are at varying angles 
+\begin_inset Formula $\theta_{k}$
+\end_inset
+
+ originating at
+\series default
+\color inherit
+ 
+\series bold
+\color brown
+
+\begin_inset Formula $\sigma_{a}$
+\end_inset
+
+
+\series default
+\color inherit
+.
+ It is quite easy to find 
+\begin_inset Formula $\sigma_{a}$
+\end_inset
+
+ and the angles 
+\begin_inset Formula $\theta_{k}$
+\end_inset
+
+ through 12.7 and 12.8
+\begin_inset Formula 
+\begin{equation}
+\sigma_{a}=\frac{\sum\text{finite poles}-\sum\text{finite zeroes}}{\text{\# of finite poles}-\text{\# of finite zeroes}}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\theta_{k}=\frac{\left(2k-1\right)180}{\text{\# of finite poles}-\text{\# of finite zeroes}},\text{ for }k\in\mathbb{Z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Breakaway & Break-in points
+\end_layout
+
+\begin_layout Standard
+A point on the real-axis is called a 
+\series bold
+\color brown
+breakaway
+\series default
+\color inherit
+ point if the root-locus departs from the real-axis at that point.
+ Similarly, if the root-locus arrives onto the real-axis at a certain point,
+ that point is called a 
+\series bold
+\color brown
+break-in point
+\series default
+\color inherit
+.
+ Upon breaking away from the real-axis, the tangents to the loci (paths)
+ are equally spaces over 360 degrees.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To find the breakaway points, we must realize that breakaways only exist
+ when we have two poles that move closer together as the gain 
+\begin_inset Formula $K$
+\end_inset
+
+ increases.
+ Thus the
+\series bold
+\color brown
+ breakaway point is the point of maximum-gain between two real-axis poles
+\series default
+\color inherit
+.
+ Similarly, as the poles move back onto the real-axis, we can reason that
+ the 
+\series bold
+\color brown
+break-in point is the point of minimum gain between the two real-axis poles
+\series default
+\color inherit
+.
+ With these things in mind, we can find the breakaway and break-in points
+ by first 
+\series bold
+\color brown
+solving for K
+\series default
+\color inherit
+ in equation 12.1 (as this equation determines the path of the root-locus),
+ we can also 
+\series bold
+\color brown
+omit the negative sign
+\series default
+\color inherit
+ as that changes nothing, this gives equation 12.9
+\begin_inset Formula 
+\begin{equation}
+K=\frac{1}{H\left(s\right)G\left(s\right)}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Because 
+\begin_inset Formula $s$
+\end_inset
+
+ is entirely-real on the real-axis, to find the points of maximum and minimum
+ gain (extrema) we can 
+\series bold
+\color brown
+simply 
+\begin_inset Formula $dK/ds$
+\end_inset
+
+ equation 12.9 and find its roots
+\series default
+\color inherit
+.
+ 
+\end_layout
+
+\begin_layout Section
+Imaginary Axis Crossings
+\end_layout
+
+\begin_layout Standard
+The points on the root-locus where the poles swap from being located on
+ the LHS to the RHS of the complex-plane are important as they 
+\series bold
+\color brown
+separate the stable part of the root-locus from the unstable-part
+\series default
+\color inherit
+.
+ To find this crossing point we just need to determine the value of 
+\begin_inset Formula $K$
+\end_inset
+
+ that provides marginal stability.
+ We can find this by creating a Routh-Table, and finding the value of 
+\begin_inset Formula $K$
+\end_inset
+
+ that results in a row of zeroes.
+ This 
+\series bold
+\color brown
+gives the value of 
+\begin_inset Formula $K$
+\end_inset
+
+ that lies within the stable region
+\series default
+\color inherit
+.
+ In order to find 
+\series bold
+\color brown
+the actual height of the 
+\begin_inset Formula $j\omega$
+\end_inset
+
+-crossings, you must refer to the even polynomial
+\series default
+\color inherit
+ (the row above the row of zeroes) 
+\series bold
+\color brown
+and
+\series default
+\color inherit
+ 
+\series bold
+\color brown
+solve that polynomial
+\series default
+\color inherit
+ to obtain values for the height of the 
+\begin_inset Formula $j\omega$
+\end_inset
+
+-crossings.
+\end_layout
+
+\begin_layout Section
+Angles of Departure & Arrival
+\end_layout
+
+\begin_layout Standard
+This sounds super confusing but once again, this is just a case of naming
+ simple things wierdly.
+ An 
+\series bold
+\color brown
+angle of departure
+\series default
+\color inherit
+ is the angle between a point 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ and a complex pole in Figure 12.1 
+\begin_inset Formula $\theta_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{2}$
+\end_inset
+
+ are angles of departure.
+ Similarly, an 
+\series bold
+\color brown
+angle of arrival
+\series default
+\color inherit
+ is the angle between a point 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ and a complex zero, in Figure 12.1 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+ is an angle of arrival.
+ We can calculate unknown angles of arrival and departure using the phase
+ angle condition of a pole, and that it needs to be equal to an angle equivalent
+ to 
+\begin_inset Formula $180$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset Formula $\theta_{1}$
+\end_inset
+
+ was unknown from Figure 12.1, we can solve for the angle of departure by
+ setting the entire sum of angles equal to an odd multiple of 180.
+ Then we can solve for the unknown.
+ We can do the same thing to solve for an angle of arrival, which will not
+ be shown here.
+\begin_inset Formula 
+\[
+\theta_{3}-\theta_{2}-\theta_{1}=\left(2k+1\right)180
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta_{1}=\theta_{3}-\theta_{2}-\left(2k+1\right)180
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Design of Control Systems
+\end_layout
+
+\begin_layout Chapter
+Compensators
+\end_layout
+
+\begin_layout Section
+Controllers & Compensators
+\end_layout
+
+\begin_layout Standard
+Overall, everything we have learned has prepared us to get to this point.
+ The primary way of designing a control system is concerned with the system
+ structure and the altering the design specifications (transient response,
+ stability, steady-state-error).
+ Altering these design specifications is done through the creation and implement
+ation of a 
+\series bold
+\color brown
+compensator
+\series default
+\color inherit
+ or 
+\series bold
+\color brown
+controller
+\series default
+\color inherit
+.
+ These two terms will be used interchangeably during the rest of this note.
+ Essentially,
+\series bold
+\color brown
+ designing a control system is synonymous with designing a controller
+\series default
+\color inherit
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+There are two basic forms of controllers used for control system design.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+Cascade Controllers
+\series default
+\color inherit
+ - Placed on the low-power end of the forward path in cascade (series) with
+ the plant.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+Feedback Controllers
+\series default
+\color inherit
+ - Placed in a feedback path in feedback (parallel) with the plant.
+\end_layout
+
+\begin_layout Section
+Approaches to Controller Design
+\end_layout
+
+\begin_layout Standard
+There are also two processes that we learned about in Part III that we can
+ use to design a controller.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+Root-Locus Approach
+\series default
+\color inherit
+ - Where we wish to reshape/alter the root-locus such that the roots will
+ lie in the desired positions on the 
+\begin_inset Formula $s$
+\end_inset
+
+-plane
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color brown
+Frequency-Response Approach
+\series default
+\color inherit
+ - Where we use compensation networks to alter and reshape the system characteri
+stics represented by Bode Plots
+\end_layout
+
+\begin_layout Standard
+Now we will learn about the different types of basic controllers in detail.
+\end_layout
+
+\begin_layout Chapter
+The Proportional-Integral Controller
+\end_layout
+
+\begin_layout Section
+Ideal Integrator
+\end_layout
+
+\begin_layout Standard
+If you havent realized already, we can 
+\series bold
+\color brown
+greatly improve
+\series default
+\color inherit
+ (or completely remove) 
+\series bold
+\color brown
+steady state error by adding an open-loop pole at the origin
+\series default
+\color inherit
+ of the complex plane.
+ For example, consider the position-error-constant (DC Gain) of a system
+ 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ from Equation 11.6 which tells us the steady state error in response to
+ a step-input.
+ We require this DC Gain to be infinite, which is why adding the pole at
+ the origin accomplishes this, eliminating any steady-state error to a step
+ input.
+ A ideal-integrator looks like this 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{K}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The addition of this open-loop pole at the origin 
+\series bold
+\color brown
+represents doing a time-domain integration
+\series default
+\color inherit
+ along the forward path.
+ 
+\series bold
+\color brown
+Adding this pole
+\series default
+\color inherit
+ 
+\series bold
+\color brown
+completely changes the response of the system
+\series default
+\color inherit
+ (and consequently the root-locus of the system).
+ This can be seen from the phase condition of the transfer function being
+ neglected in Figure below for the same point 
+\begin_inset Formula $A$
+\end_inset
+
+ on both diagrams.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/pasted2.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Proportional Controller (right) vs.
+ Ideal Proportional-Integrator Controller (left)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+An Additional Zero
+\end_layout
+
+\begin_layout Standard
+The next topic we are going to investigate is how we can improve steady-state
+ error without changing the response significantly.
+ From the figure above you might have realized that in order to meet the
+ phase condition of the transfer function, we can simply 
+\series bold
+\color brown
+add a zero
+\series default
+\color inherit
+ very close to the pole we added to the origin.
+ This additional zero would essentially cancel out the angle contribution
+ from the pole at the origin, which would ultimately change our response
+ very slightly.
+ An ideal integrator, with an additional zero at 
+\begin_inset Formula $-a$
+\end_inset
+
+ looks like this:
+\begin_inset Formula 
+\[
+\frac{K\left(s+a\right)}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+If we expand and rewrite this equation, we arrive at the following expression
+ for a 
+\series bold
+\color brown
+proportional intergal (PI) controller
+\series default
+\color inherit
+ with different constants 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $K_{2}$
+\end_inset
+
+.
+ This block is essentially a combination of a proportional controller 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ and an integral controller 
+\begin_inset Formula $K_{2}\div s$
+\end_inset
+
+.
+ We can also rewrite to look like the form above, to see that we have essentiall
+y added a zero at 
+\begin_inset Formula $-\frac{K_{2}}{K_{1}}$
+\end_inset
+
+ to the ideal integrator to cancel out its angle contribution.
+\begin_inset Formula 
+\[
+K_{1}+\frac{K_{2}}{s}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{K_{1}\left(s+\frac{K_{2}}{K_{1}}\right)}{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Realistic Integrator
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+primary drawback 
+\series default
+\color inherit
+of ideal integrators is that
+\series bold
+\color brown
+ you require an active network
+\series default
+\color inherit
+ (amplifiers and additional power sources) to implement them.
+ If we 
+\series bold
+\color brown
+only consider the use of passive networks
+\series default
+\color inherit
+ that do not require additional power sources (R, L, C), 
+\series bold
+\color brown
+we cannot obtain an ideal integrator
+\series default
+\color inherit
+.
+ Howvever, we can get 
+\series bold
+\color brown
+very close to an ideal integrator
+\series default
+\color inherit
+ by adding a pole and a zero very close to the origin of the complex plane.
+ A realistic integrator looks something like this
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+K\frac{s+z_{c}}{s+p_{c}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This approach doesnt increase the type of the system though...
+ So how does it work? Lets take a look at the 
+\begin_inset Formula $K_{v}$
+\end_inset
+
+ of a
+\series bold
+\color brown
+ type-1 system
+\series default
+\color inherit
+ and how they change after the addition of this controller.
+ Let's boldly assume that the uncontrolled 
+\begin_inset Formula $K_{v}$
+\end_inset
+
+ is equal to 1.
+\begin_inset Formula 
+\[
+K_{v,c}=K\frac{z_{c}}{p_{c}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+E_{ss,c,\text{ramp}}=\frac{1}{K_{v,c}}=\frac{p_{c}}{Kz_{c}}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This implies that as long as 
+\begin_inset Formula $z_{c}>>p_{c}$
+\end_inset
+
+ that we get a very good improvement in steady-state error.
+ This also implies that the ratio of the reduction in steady-state error
+ of uncontrolled system to the controlled system is the same as the ratio
+ of the controllers pole to the controllers zero.
+ In summary, the controllers zero and pole should both be as close as possible
+ to the origin (to accurately approximate an ideal integrator) while their
+ ratio 
+\begin_inset Formula $z_{c}\div p_{c}$
+\end_inset
+
+ is kept at a large value.
 \end_layout
 
 \end_body
