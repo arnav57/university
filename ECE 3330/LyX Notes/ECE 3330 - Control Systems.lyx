@@ -3938,7 +3938,7 @@ Now we will learn about the different types of basic controllers in detail.
 \end_layout
 
 \begin_layout Chapter
-The Proportional-Integral Controller
+Reducing Steady-State Error
 \end_layout
 
 \begin_layout Section
@@ -4050,7 +4050,7 @@ Proportional Controller (right) vs.
 \end_layout
 
 \begin_layout Section
-An Additional Zero
+Proportional Integral Controller
 \end_layout
 
 \begin_layout Standard
@@ -4133,7 +4133,7 @@ K_{1}+\frac{K_{2}}{s}
 \end_layout
 
 \begin_layout Section
-Realistic Integrator
+Lag Compensator
 \end_layout
 
 \begin_layout Standard
@@ -4170,7 +4170,7 @@ very close to an ideal integrator
 \series default
 \color inherit
  by adding a pole and a zero very close to the origin of the complex plane.
- A realistic integrator looks something like this
+ A passive integrator (lag compensator) looks something like this
 \begin_inset Newline newline
 \end_inset
 
