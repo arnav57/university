@@ -12,6 +12,7 @@
 \usepackage{xcolor}
 \definecolor{brown}{HTML}{6623E2}
 \titleformat*{\section}{\Large\textit}
+\titleformat*{\subsection}{\textit}
 \end_preamble
 \use_default_options true
 \begin_modules
