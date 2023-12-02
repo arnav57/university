@@ -3833,7 +3833,7 @@ Design of Control Systems
 \end_layout
 
 \begin_layout Chapter
-Compensators
+Designing Control Systems
 \end_layout
 
 \begin_layout Section
@@ -3934,49 +3934,171 @@ stics represented by Bode Plots
 \end_layout
 
 \begin_layout Standard
-Now we will learn about the different types of basic controllers in detail.
+Now we will learn about these in more detail!
 \end_layout
 
 \begin_layout Chapter
-Reducing Steady-State Error
-\end_layout
-
-\begin_layout Section
-Ideal Integrator
+Root-Locus Based Design
 \end_layout
 
 \begin_layout Standard
-If you havent realized already, we can 
+The objective of
 \series bold
 \color brown
-greatly improve
+ root-locus based controller design
 \series default
 \color inherit
- (or completely remove) 
+ is to use geometry to calculate parameters for controller based design.
+ In this chapter we will go through the motions of designing a controller,
+ and in the process we will learn about all the different types of controllers
+ such:, 
 \series bold
 \color brown
-steady state error by adding an open-loop pole at the origin
+phase-lead
 \series default
 \color inherit
- of the complex plane.
- For example, consider the position-error-constant (DC Gain) of a system
- 
-\begin_inset Formula $K_{p}$
-\end_inset
+,
+\series bold
+\color brown
+ phase-lag
+\series default
+\color inherit
+, 
+\series bold
+\color brown
+proportional-derivative
+\series default
+\color inherit
+, and 
+\series bold
+\color brown
+proportional-integral
+\series default
+\color inherit
+ controllers.
+\end_layout
 
- from Equation 11.6 which tells us the steady state error in response to
- a step-input.
- We require this DC Gain to be infinite, which is why adding the pole at
- the origin accomplishes this, eliminating any steady-state error to a step
- input.
- A ideal-integrator looks like this 
+\begin_layout Section
+Design Methodology
+\end_layout
+
+\begin_layout Standard
+Often when we start the design of a controller, we will have some specifications
+ that we would like to meet.
+ For example, reducing the settling time, reducing peak time, achieving
+ a certain %OS, etc.
+ We will then have to calculate the desired location of our systems 
+\series bold
+\color brown
+dominant poles
+\series default
+\color inherit
+.
+ 
 \begin_inset Newline newline
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+Dominant poles are the poles closest to the 
+\begin_inset Formula $j\omega$
+\end_inset
+
+-axis, they are considered dominant poles because they have the longest
+ transient responses.
+ In essence a third order system with one pole far off to the left side
+ of the imaginary axis can be approximated by a second order system.
+ This is what we mean by the concept of dominant poles.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+In order to calculate the desired location of our dominant poles, we must
+ recall that the pole location is closely tied to the peak time and settling
+ time of a system.
+ If a pole is located at 
+\begin_inset Formula $-\sigma_{d}\pm j\omega_{d}$
+\end_inset
+
+, we can say that....
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cos\theta=\zeta$
+\end_inset
+
+ (
+\begin_inset Formula $\theta$
+\end_inset
+
+ measured from the negative real-axis)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T_{s}=\frac{\pi}{\omega_{d}}=\frac{\pi}{\omega_{0}\sqrt{1-\zeta^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T_{p}=\frac{4}{\sigma_{d}}$
+\end_inset
+
+=
+\begin_inset Formula $\frac{4}{\zeta\omega_{0}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means that by comparing the old settling times (and pole components)
+ and desired specifications, we can obtain the location of our new poles.
+ Consequently, we can also obtain the location of our new poles through
+ finding the desired 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ and natural frequency 
+\begin_inset Formula $\omega_{0}$
+\end_inset
+
+ as they determine both components of the pole.
+ We will then decide how to move the poles to where we would like them to
+ be, we will also then consider things like steady-state-error correction
+ after moving the poles to where we would like them to be.
+\end_layout
+
+\begin_layout Section
+Design Problem
+\end_layout
+
+\begin_layout Subsection
+Problem-Setup
+\end_layout
+
+\begin_layout Standard
+Consider a unity-feedback control system with open-loop transfer function
+ 
+\begin_inset Formula $KG\left(s\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $G\left(s\right)$
+\end_inset
+
+ is defined below.
+ We have the end goal of 20% overshoot, dropping the peak time by 2/3, and
+ eliminating steady-state error.
 \begin_inset Formula 
 \[
-\frac{K}{s}
+G\left(s\right)=\frac{\left(s+8\right)}{\left(s+3\right)\left(s+6\right)\left(s+10\right)}
 \]
 
 \end_inset
@@ -3985,45 +4107,21 @@ steady state error by adding an open-loop pole at the origin
 \begin_inset Newline newline
 \end_inset
 
-The addition of this open-loop pole at the origin 
-\series bold
-\color brown
-represents doing a time-domain integration
-\series default
-\color inherit
- along the forward path.
+We will tackle this problem step-by-step, going through and meeting each
+ requirement one-by-one, designing an additional controller at each step.
+ Before we start, we should draw the root-locus for the system.
  
-\series bold
-\color brown
-Adding this pole
-\series default
-\color inherit
- 
-\series bold
-\color brown
-completely changes the response of the system
-\series default
-\color inherit
- (and consequently the root-locus of the system).
- This can be seen from the phase condition of the transfer function being
- neglected in Figure below for the same point 
-\begin_inset Formula $A$
-\end_inset
-
- on both diagrams.
+\emph on
+Note: 
+\emph default
+we can approximate this third order system as a second order one, by only
+ considering the two dominant poles at -3 and -6.
 \end_layout
 
 \begin_layout Standard
 \align center
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
 \begin_inset Graphics
-	filename images/pasted2.png
+	filename images/pasted3.png
 	scale 55
 
 \end_inset
@@ -4031,181 +4129,360 @@ status collapsed
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Proportional Controller (right) vs.
- Ideal Proportional-Integrator Controller (left)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Proportional Integral Controller
+\begin_layout Subsection
+Obtaining The Overshoot Requirement
 \end_layout
 
 \begin_layout Standard
-The next topic we are going to investigate is how we can improve steady-state
- error without changing the response significantly.
- From the figure above you might have realized that in order to meet the
- phase condition of the transfer function, we can simply 
+we know that for a system to be operating at a certain overshoot, it has
+ to be operating at a certain 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ value.
+ And operation at a certain zeta value corresponds with operating on a ray
+ stemming from the origin, with angle 
+\begin_inset Formula $\theta$
+\end_inset
+
+ measured from the negative-real axis.
+ goverened by the equation 
+\begin_inset Formula $\cos\theta=\zeta$
+\end_inset
+
+.
+ Thus to operate at the desired overshoot, we require a pole that is somewhere
+ on this line, the complex conjugate pole will be symmetric and will satisfy
+ it also.
+ Thus lets find our corresponding 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ values.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\zeta=\frac{-\ln\text{OS}}{\sqrt{\pi^{2}+\left(\ln\text{OS}\right)^{2}}}=0.456
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta=\arccos\zeta=62.8
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can plot the line, and see that our desired pole will intersect somewhere
+ along the asymptotes at 
+\begin_inset Formula $x=-5.5$
+\end_inset
+
+ giving this as the real part of our desired pole, considering that we know
+ the angle we can create a triangle and solve for the pole components as
+ follows,
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted4.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tan62.8=\frac{\omega_{d}}{5.5}\rightarrow\omega_{d}=10.73
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This gives a desired pole location of 
+\begin_inset Formula $s_{0}=-5.5+10.73j$
+\end_inset
+
+ to satisfy the overshoot requirement.
+ We can also find the required gain by solving for 
+\begin_inset Formula $K$
+\end_inset
+
+ such that we satisfy the gain property as shown below.
+ Doing the math, we obtain 
+\begin_inset Formula $K=125$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted5.png
+	scale 55
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+K\cdot\frac{l_{2}}{l_{1}l_{3}l_{4}}=1
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+K=\frac{l_{1}l_{3}l_{4}}{l_{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+So far we have shown that, we can obtain a percent overshoot of 20, by using
+ a gain of 125, which puts the poles at the desired location 
+\begin_inset Formula $s_{0}=-5.5\pm10.73j$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Peak Time Reduction
+\end_layout
+
+\begin_layout Standard
+We know that peak time 
+\begin_inset Formula $T_{p}$
+\end_inset
+
+ is closely related to the damped frequency 
+\begin_inset Formula $\omega_{d}$
+\end_inset
+
+ through the equation below.
+ In order to gain a 2/3 reduction in peak time, we should start by finding
+ the current peak time (subscript 
+\begin_inset Formula $c$
+\end_inset
+
+), we can use the damped frequency we just found (
+\begin_inset Formula $10.73$
+\end_inset
+
+) to find this.
+\begin_inset Formula 
+\[
+T_{p,c}=\frac{\pi}{\omega_{d,c}}=0.293
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+a 2/3 reduction implies that we would need a new peak time of 
+\begin_inset Formula $0.195$
+\end_inset
+
+, now we can calculate the new damped frequency we need (subscript 
+\begin_inset Formula $n$
+\end_inset
+
+) to achieve this reduction in peak-time.
+\begin_inset Formula 
+\[
+\omega_{d,n}=\frac{\pi}{0.195}=16.1
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+In order to continue meeting the overshoot requirements, we still have to
+ operate on the green line with angle 
+\begin_inset Formula $\theta$
+\end_inset
+
+, thus lets use another triangle and solve for the desired pole location.
+ Through simple trig, we get 
+\begin_inset Formula $\sigma_{d}=8.25$
+\end_inset
+
+.
+ Our desired pole location is now: 
+\begin_inset Formula $s_{0}=-8.25\pm16.1j$
+\end_inset
+
+ to satisfy both overshoot and peak time requirements.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted6.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This point is not present on the current root-locus of the system for any
+ value of 
+\begin_inset Formula $K$
+\end_inset
+
+, thus we will have to design a compensator to move the root-locus accordingly.
+ We can figure out what type we need by trying to satisfy the phase requirements
+, and seeing how far off we are from 180.
+ Let's also add an angle 
+\begin_inset Formula $\theta_{d}$
+\end_inset
+
+ to our phase property which represents the 
+\series bold
+\color brown
+desired compensator angular contribution
+\series default
+\color inherit
+.
+ Our compensator will have to provide this angle measure in order to satisfy
+ the phase property.
+ Solving for 
+\begin_inset Formula $\theta_{d}$
+\end_inset
+
+ tells us what type of compensator we need.
+ Solving this gives a positive 
+\begin_inset Formula $\theta_{d}$
+\end_inset
+
+ value.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted7.png
+	scale 55
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta_{2}+\theta_{d}-\theta_{1}-\theta_{3}-\theta_{4}=180
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta_{d}=180+\theta_{1}-\theta_{2}+\theta_{3}+\theta_{4}=19.03
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The 
+\begin_inset Formula $\theta_{d}$
+\end_inset
+
+ tells us if we need a 
+\series bold
+\color brown
+phase-lead compensator
+\series default
+\color inherit
+, or a 
+\series bold
+\color brown
+phase-lag compensator
+\series default
+\color inherit
+.
+ When it is positive, we require a positive angular contribution, thus we
+ require a phase-lead compensator (we need to 
 \series bold
 \color brown
 add a zero
 \series default
 \color inherit
- very close to the pole we added to the origin.
- This additional zero would essentially cancel out the angle contribution
- from the pole at the origin, which would ultimately change our response
- very slightly.
- An ideal integrator, with an additional zero at 
-\begin_inset Formula $-a$
-\end_inset
-
- looks like this:
-\begin_inset Formula 
-\[
-\frac{K\left(s+a\right)}{s}
-\]
-
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-If we expand and rewrite this equation, we arrive at the following expression
- for a 
+ somewhere).
+ Similarly, if it is negative, we require a negative angular contribution,
+ thus we require a 
 \series bold
 \color brown
-proportional intergal (PI) controller
+phase-lag compensator
 \series default
 \color inherit
- with different constants 
-\begin_inset Formula $K_{1}$
+ (we need to 
+\series bold
+\color brown
+add a pole
+\series default
+\color inherit
+ somewhere).
+ Here it is positive, so lets add a pole 
+\begin_inset Formula $z_{c}$
 \end_inset
 
- and 
-\begin_inset Formula $K_{2}$
+ and have it make an angle of 19.03 degrees, this forms another triangle
+ which lets us easily solve for 
+\begin_inset Formula $z_{c}$
 \end_inset
 
 .
- This block is essentially a combination of a proportional controller 
-\begin_inset Formula $K_{1}$
-\end_inset
-
- and an integral controller 
-\begin_inset Formula $K_{2}\div s$
-\end_inset
-
-.
- We can also rewrite to look like the form above, to see that we have essentiall
-y added a zero at 
-\begin_inset Formula $-\frac{K_{2}}{K_{1}}$
-\end_inset
-
- to the ideal integrator to cancel out its angle contribution.
-\begin_inset Formula 
-\[
-K_{1}+\frac{K_{2}}{s}
-\]
-
-\end_inset
-
-
-\begin_inset Formula 
-\[
-\frac{K_{1}\left(s+\frac{K_{2}}{K_{1}}\right)}{s}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Lag Compensator
 \end_layout
 
 \begin_layout Standard
-The 
-\series bold
-\color brown
-primary drawback 
-\series default
-\color inherit
-of ideal integrators is that
-\series bold
-\color brown
- you require an active network
-\series default
-\color inherit
- (amplifiers and additional power sources) to implement them.
- If we 
-\series bold
-\color brown
-only consider the use of passive networks
-\series default
-\color inherit
- that do not require additional power sources (R, L, C), 
-\series bold
-\color brown
-we cannot obtain an ideal integrator
-\series default
-\color inherit
-.
- Howvever, we can get 
-\series bold
-\color brown
-very close to an ideal integrator
-\series default
-\color inherit
- by adding a pole and a zero very close to the origin of the complex plane.
- A passive integrator (lag compensator) looks something like this
-\begin_inset Newline newline
+\align center
+\begin_inset Graphics
+	filename images/pasted8.png
+	scale 55
+
 \end_inset
 
 
 \begin_inset Formula 
 \[
-K\frac{s+z_{c}}{s+p_{c}}
-\]
-
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-This approach doesnt increase the type of the system though...
- So how does it work? Lets take a look at the 
-\begin_inset Formula $K_{v}$
-\end_inset
-
- of a
-\series bold
-\color brown
- type-1 system
-\series default
-\color inherit
- and how they change after the addition of this controller.
- Let's boldly assume that the uncontrolled 
-\begin_inset Formula $K_{v}$
-\end_inset
-
- is equal to 1.
-\begin_inset Formula 
-\[
-K_{v,c}=K\frac{z_{c}}{p_{c}}
+\tan19.03=\frac{16.1}{z_{c}-82.5}
 \]
 
 \end_inset
@@ -4213,30 +4490,60 @@ K_{v,c}=K\frac{z_{c}}{p_{c}}
 
 \begin_inset Formula 
 \[
-E_{ss,c,\text{ramp}}=\frac{1}{K_{v,c}}=\frac{p_{c}}{Kz_{c}}
+z_{c}=54.93
 \]
 
 \end_inset
 
 
-\begin_inset Newline newline
+\end_layout
+
+\begin_layout Standard
+\noindent
+Now we can find 
+\begin_inset Formula $K$
 \end_inset
 
-This implies that as long as 
-\begin_inset Formula $z_{c}>>p_{c}$
+ through the magnitude property again, similarly to how we did it last time,
+ only now we have changed the desired pole location, and have added another
+ zero.
+\end_layout
+
+\begin_layout Subsection*
+Eliminating Steady-State Error
+\end_layout
+
+\begin_layout Standard
+We need the same operating point to satisfy every other requirement.
+ Adding a pole at the origin increases the type of the system by 1, and
+ eliminates all steady-state error.
+ However, only doing that will completely change the root-locus and will
+ change everything.
+ Thus if we add a zero close to the origin (close to the pole) both their
+ phase contributions and magnitude contributions will almost cancel out
+ completely, leading to a response that is almost unchanged, while eliminating
+ all steady-state error.
+ Our final controller is the cascade of everything so far, giving the controller
+ below.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted9.png
+	scale 65
+
 \end_inset
 
- that we get a very good improvement in steady-state error.
- This also implies that the ratio of the reduction in steady-state error
- of uncontrolled system to the controlled system is the same as the ratio
- of the controllers pole to the controllers zero.
- In summary, the controllers zero and pole should both be as close as possible
- to the origin (to accurately approximate an ideal integrator) while their
- ratio 
-\begin_inset Formula $z_{c}\div p_{c}$
+
+\begin_inset Formula 
+\[
+\text{Controller }=\frac{l_{2}l_{4}l_{5}l_{7}}{l_{1}l_{3}l_{6}}\cdot\frac{\left(s+54.93\right)\left(s+0.1\right)}{s}
+\]
+
 \end_inset
 
- is kept at a large value.
+
 \end_layout
 
 \end_body
