@@ -1585,7 +1585,7 @@ This gives a final definition of the complex-logarithm, which depends on
 \end_layout
 
 \begin_layout Part
-Integration in the Complex Plane
+Complex Integration Theorems
 \end_layout
 
 \begin_layout Chapter
@@ -2705,8 +2705,12 @@ f\left(0\right)=\frac{1}{4}
 \begin_inset Newline newline
 \end_inset
 
-Now we must find the second derivative of f, and its value evaluated at
- 0, Which is not shown here (is trivial compared to the rest of the problem).
+Now we must find the second derivative of 
+\begin_inset Formula $f$
+\end_inset
+
+, and its value evaluated at 0, Which is not shown here (is trivial compared
+ to the rest of the problem).
  Regardless we get a final answer as below.
 \begin_inset Formula 
 \[
@@ -2732,6 +2736,515 @@ f''\left(z_{0}\right)=-\frac{3}{32}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter
+Series Expansions
+\end_layout
+
+\begin_layout Section
+Taylor Series Expansion
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+Taylor Series
+\series default
+\color inherit
+ for complex functions is defined in exactly the same way as real-valued
+ functions.
+ Suppose we have some 
+\begin_inset Formula $f$
+\end_inset
+
+ that is analytic on some domain 
+\begin_inset Formula $D$
+\end_inset
+
+, and that we are trying to fnd an expansion at a point 
+\begin_inset Formula $a$
+\end_inset
+
+ within 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ We can write the taylor series as equation 7.1
+\begin_inset Formula 
+\begin{equation}
+f\left(a\right)=\sum_{k}\frac{f^{\left(n\right)}\left(a\right)}{n!}\left(x-a\right)^{n}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Equation 7.1 is formally called the 
+\begin_inset Quotes eld
+\end_inset
+
+Taylor series for 
+\begin_inset Formula $f\left(z\right)$
+\end_inset
+
+ centered at 
+\begin_inset Formula $a$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, and it is valid for the largest circle centered around 
+\begin_inset Formula $a$
+\end_inset
+
+ that still lies entirely within 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ This series is sometimes called the 
+\series bold
+\color brown
+MacLaurin Series
+\series default
+\color inherit
+ when the series is centered at 0 i.e (
+\begin_inset Formula $a=0$
+\end_inset
+
+).
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Sometimes we hear about a term called the 
+\series bold
+\color brown
+radius of convergence
+\series default
+\color inherit
+ 
+\begin_inset Formula ${\color{brown}R}$
+\end_inset
+
+.
+ This term describes how large around the center point that the series converges
+ to the original function.
+ In terms of complex functions, this 
+\begin_inset Formula $R$
+\end_inset
+
+ is just the distance between the center point and the nearest 
+\series bold
+\color brown
+isolated singularity
+\series default
+\color inherit
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+An 
+\series bold
+\color brown
+isolated singularity
+\series default
+\color inherit
+ is a point at which 
+\begin_inset Formula $f$
+\end_inset
+
+ fails to be analytic, but where 
+\begin_inset Formula $f$
+\end_inset
+
+ remains analytic in some neighbourhood around that point (think point discontin
+uity).
+ An example of an isolated singularity is shown below.
+ Furthermore, if 
+\begin_inset Formula $f$
+\end_inset
+
+ is an entire function, then 
+\begin_inset Formula $R=\infty$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+f\left(z\right)=\frac{1}{z-s_{i}}\text{ implies that }\text{\ensuremath{z=s_{i}}}\text{ is an isolated singularity}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Laurent Series
+\end_layout
+
+\begin_layout Standard
+So far we've seen some things coming up: 
+\series bold
+\color brown
+singular points
+\series default
+\color inherit
+, 
+\series bold
+\color brown
+singularities
+\series default
+\color inherit
+, and 
+\series bold
+\color brown
+poles
+\series default
+\color inherit
+.
+ Which are all examples of when 
+\begin_inset Formula $f\left(z\right)$
+\end_inset
+
+ is not analytic.
+ These points are found as the zeroes of the denominator in 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ Contrast this with 
+\series bold
+\color brown
+entire functions
+\series default
+\color inherit
+ which are analytic everywhere.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Here we can define Laurent's Theorem (leading to a Laurent Series) which
+ lets us find a series expansion for 
+\begin_inset Formula $f$
+\end_inset
+
+ on an annular domain, centered at an 
+\series bold
+\color brown
+isolated singularity
+\series default
+\color inherit
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Let 
+\begin_inset Formula $f$
+\end_inset
+
+ be analytic within an annular domain 
+\begin_inset Formula $D$
+\end_inset
+
+ defined by 
+\begin_inset Formula $r<\left|z-z_{0}\right|<R$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $f$
+\end_inset
+
+ has a series expansion, valid on 
+\begin_inset Formula $D$
+\end_inset
+
+, that is given by equation 7.2 and 7.3
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f\left(z\right)=\sum_{k=-\infty}^{\infty}a_{k}\left(z-z_{0}\right)^{k}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+a_{k}=\frac{1}{2\pi j}\oint_{c}\frac{f\left(s\right)}{\left(s-z_{0}\right)^{k+1}}\,ds
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can seperate this series into the positive and negative indices 
+\begin_inset Formula $k$
+\end_inset
+
+ & 
+\begin_inset Formula $-k$
+\end_inset
+
+.
+ This gives two terms the first term (negative exponent) is called the 
+\series bold
+\color brown
+principal part 
+\series default
+\color inherit
+of the series, and the second one (postive exponent) is called the 
+\series bold
+\color brown
+analytic part
+\series default
+\color inherit
+ of the series.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\left(z\right)=\sum_{k=1}^{\infty}a_{-k}\left(z-z_{0}\right)^{-k}+\sum_{k=1}^{\infty}a_{k}\left(z-z_{0}\right)^{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Residue Theorem
+\end_layout
+
+\begin_layout Section
+Residues
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+\color brown
+residue
+\series default
+\color inherit
+ of a function 
+\begin_inset Formula $f$
+\end_inset
+
+ at a point 
+\begin_inset Formula $z=z_{0}$
+\end_inset
+
+ is simplify the coefficient 
+\begin_inset Formula $a_{-1}$
+\end_inset
+
+ of the Laurent Series expansion of 
+\begin_inset Formula $f$
+\end_inset
+
+ at 
+\begin_inset Formula $z=z_{0}$
+\end_inset
+
+.
+ We can write this shorthand as Equation 8.1
+\begin_inset Formula 
+\begin{equation}
+\text{Res }\left\{ f\left(z\right),z_{0}\right\} =a_{-1}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Lets also try to find the value of this 
+\begin_inset Formula $a_{-1}$
+\end_inset
+
+ value.
+ Lets begin by writing the laurent-series-expansion for 
+\begin_inset Formula $f$
+\end_inset
+
+ at some point 
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ (which is a simple pole, aka a pole of order 1).
+ This simple procedure gives equation 8.2
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\left(z\right)=\frac{{\color{brown}a_{-1}}}{\left(z-z_{0}\right)}+a_{0}+a_{1}\left(z-z_{0}\right)+a_{2}\left(z-z_{0}\right)^{2}+...
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left(z-z_{0}\right)f\left(z\right)={\color{brown}a_{-1}}+a_{0}\left(z-z_{0}\right)+a_{1}\left(z-z_{0}\right)^{2}+a_{2}\left(z-z_{0}\right)^{3}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\lim_{z\rightarrow z_{0}}\left(z-z_{0}\right)f\left(z\right)={\color{brown}a_{-1}}+\lim_{z\rightarrow z_{0}}a_{0}\left(z-z_{0}\right)+a_{1}\left(z-z_{0}\right)^{2}+a_{2}\left(z-z_{0}\right)^{3}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\lim_{z\rightarrow z_{0}}\left(z-z_{0}\right)f\left(z\right)={\color{brown}a_{-1}}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This means that we can write Equation 8.3 as the much easier way to find
+ 
+\series bold
+\color brown
+the residue of a first order pole
+\series default
+\color inherit
+...
+\begin_inset Formula 
+\begin{equation}
+\text{Res }\left\{ f\left(z\right),z_{0}\right\} =\lim_{z\rightarrow z_{0}}\left(z-z_{0}\right)f\left(z\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can also do a similar process, giving Equation 8.4 which shows us how
+ to find 
+\series bold
+\color brown
+the residue of a higher order pole with order 
+\begin_inset Formula $n$
+\end_inset
+
+
+\series default
+\color inherit
+...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Res}\left\{ f\left(z\right),z_{0}\right\} =\frac{1}{\left(n-1\right)!}\lim_{z\rightarrow z_{0}}\frac{d^{n-1}}{dz^{n-1}}\left(z-z_{0}\right)^{n}f\left(z\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Cauchy's Residue Theorem
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $D$
+\end_inset
+
+ be a simply connected domain, and 
+\begin_inset Formula $C$
+\end_inset
+
+ a simple closed-contour lying entirely within 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ If a function 
+\begin_inset Formula $f$
+\end_inset
+
+ is analytic on/within 
+\begin_inset Formula $C$
+\end_inset
+
+, except at a finite number of singular points 
+\begin_inset Formula $z_{0},z_{1},...z_{k}$
+\end_inset
+
+ within 
+\begin_inset Formula $C$
+\end_inset
+
+ then:
+\begin_inset Formula 
+\[
+\oint_{c}f\left(z\right)\,dz=2\pi j\cdot\sum_{k}\text{Res }\left\{ f\left(z\right),z_{k}\right\} 
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Essentially, the contour integral of a function is equal to 
+\begin_inset Formula $2\pi j$
+\end_inset
+
+ multipled by the sum of the residues of the function.
+ Which are extremely easy to find through equation 8.3 and 8.4.
+ This is an 
+\series bold
+\color brown
+extremely important theorem
+\series default
+\color inherit
+ which we will keep revisiting.
 \end_layout
 
 \end_body
