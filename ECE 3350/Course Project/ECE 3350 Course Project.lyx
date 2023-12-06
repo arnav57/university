@@ -389,14 +389,27 @@ For model based V&V a framework should verify/test a device (or a model
 \end_layout
 
 \begin_layout Itemize
-A good heart model shouls satisy a few requirements: the model must cover
- normal and abnormal heart function; the model should be simple enough to
- abstract the timing and electrical conduction as these are the only things
- that interact with the pacemaker; a good heart model takes into account
- that a device model might operate differently than when it is actually
- implanted, thus a physical testbed must be developed.
- They can implement the VHM on simulink, and extract HDL code from it, which
- can be implement on an FPGA device.
+A good heart model shouls satisy a few requirements:
+\end_layout
+
+\begin_layout Itemize
+the model must cover normal and abnormal heart function; 
+\end_layout
+
+\begin_layout Itemize
+the model should be simple enough to abstract the timing and electrical
+ conduction as these are the only things that interact with the pacemaker;
+\end_layout
+
+\begin_layout Itemize
+a good heart model takes into account that a device model might operate
+ differently than when it is actually implanted, thus a physical testbed
+ must be developed.
+\end_layout
+
+\begin_layout Itemize
+The physical testbed they implement the VHM on simulink, and extract HDL
+ code from it, which can be implement on an FPGA device.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -410,12 +423,32 @@ The result was the development of VHM, an integrated framework for V&V of
 
 \begin_layout Itemize
 A formal heart model which captures the timing and electrical conduction
- properties of the heart was developed
+ properties of the heart was developed through use of extended time-automata
 \end_layout
 
 \begin_layout Itemize
-Two different simulink models were developed, both implementing the same
- system (VHM).
+The formal specification was mapped into two Simulink designs: a counter
+ based design, and a stateflow logic temporal design.
+\end_layout
+
+\begin_layout Itemize
+The only difference between both designs is the approach used to control
+ timing execution.
+ One uses a set of counters that count the number of gloval periodically
+ generated clock cycles.
+ The other uses a different way to track temporal events.
+ 
+\end_layout
+
+\begin_layout Itemize
+For a particular VHM, the models behaviour is determined by some parameters.
+ Which arise from different patient conditions (clinical studies).
+\end_layout
+
+\begin_layout Itemize
+for each VHM model, they specify a set of general and condition-specific
+ requirements for the closed-loop system, these criterion are evaluated
+ to check for timing and safety violations for each case.
 \end_layout
 
 \begin_layout Section*
