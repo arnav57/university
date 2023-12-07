@@ -1,0 +1,640 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass report
+\begin_preamble
+\usepackage{tgpagella}
+\usepackage[papersize={640 pt,480 pt}, top = 15mm, left= 15mm, right=15mm]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{circuitikz}
+
+% redefine colors for certain things
+\definecolor{blue}{HTML}{346DC2} %used for Keywords
+\definecolor{brown}{HTML}{BD3A17} % used for Definition
+\definecolor{green}{HTML}{4C7E25} % used for Theorems
+
+% redefine itemize environment
+\setlist[itemize]{label={}, labelsep=3mm}
+
+% reformat header styles
+\titleformat*{\section}{\Large\textit}
+\titleformat*{\subsection}{\large\textit}
+\end_preamble
+\use_default_options true
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Motors & Generators
+\end_layout
+
+\begin_layout Author
+Arnav Goyal
+\end_layout
+
+\begin_layout Date
+
+\emph on
+Electric Machines - Comprehensive Note 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Induction Machines
+\end_layout
+
+\begin_layout Standard
+This chapter will discuss the basics of induction machines, which are another
+ type of electric machine ...
+\end_layout
+
+\begin_layout Itemize
+\noindent
+
+\series bold
+\shape smallcaps
+\color brown
+Definition:
+\series default
+\shape default
+\color inherit
+ An 
+\series bold
+\color blue
+induction machine
+\series default
+\color inherit
+ is an electric machine with the same 3-phase-
+\series bold
+\color blue
+stator
+\series default
+\color inherit
+ as a synchronous machine, but with a different
+\series bold
+\color blue
+ rotor
+\series default
+\color inherit
+ construction.
+ These machines are used ubiquitously as motors, hence the term 
+\begin_inset Quotes eld
+\end_inset
+
+induction machine
+\begin_inset Quotes erd
+\end_inset
+
+ referring to an 
+\begin_inset Quotes eld
+\end_inset
+
+induction motor
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Sometimes induction machines are also referred to as asynchronous machines,
+ for reasons we will cover later...
+\end_layout
+
+\begin_layout Standard
+The operation of induction machines relates back to the basic principles
+ of magnetic fields discussed at the beginning of this note.
+\end_layout
+
+\begin_layout Section
+Induction Machine - Stator
+\end_layout
+
+\begin_layout Standard
+Due to a basic principle of magnetic fields, we know that a current-carrying
+ wire produces a magnetic field in the space around it.
+ The stator in an induction machine is the same as the stator in a synchronous
+ machine, thus we can say the following:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+Theorem:
+\series default
+\shape default
+\color inherit
+ When 3-phase voltages are provided to the stator in an induction machine,
+ the result is the generation of a
+\series bold
+\color blue
+ rotating magnetic field
+\series default
+\color inherit
+ within the stator.
+ The electric frequency provided to the stator 
+\begin_inset Formula $f_{e}$
+\end_inset
+
+ and the speed of the magnetic fields rotation 
+\begin_inset Formula $n_{\text{sync}}$
+\end_inset
+
+, and number of poles 
+\begin_inset Formula $P$
+\end_inset
+
+ are related as follows:
+\begin_inset Formula 
+\[
+f_{e}=\frac{n_{\text{sync}}P}{120}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Induction Machine - Rotor
+\end_layout
+
+\begin_layout Standard
+The rotor of an induction machine is essentially a bunch of loops shorted
+ together at both ends, in order to explain the operation of an induction
+ motor, we can examine another one of the basic principles of magnetic fields...
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+A 
+\series bold
+\color blue
+time-changing magnetic field
+\series default
+\color inherit
+ produces a voltage in a coil of wire if it passes through that coil.
+ Furthermore, when a coil of wire has a current flowing through it, it wants
+ to align its own generated magnetic field, with the net magnetic field
+ present in the area around it, thus we can say the following:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+Theorem:
+\series default
+\shape default
+\color inherit
+ When the net magnetic field produced by the stator rotates in reference
+ to the rotor coils, it induces a voltage in the coils of the rotor which
+ want to align their own magnetic field with the rotating net field.
+\end_layout
+
+\begin_layout Standard
+The theorem above implies that in order for induction motor to rotate, there
+ has to be a magnetic field that rotates 
+\emph on
+with reference to
+\emph default
+ the rotor coils.
+ When the rotor coils catch up exactly to the rotating magnetic field, there
+ is no more movement 
+\emph on
+with respect to
+\emph default
+ the rotor coil, thus there is no more induced current and the rotation
+ stops.
+ Which allows the field to rotate with respect to the coil again, restarting
+ the whole process.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+What was just described was the 
+\series bold
+\color blue
+asynchronous nature
+\series default
+\color inherit
+ of the induction machine.
+ The machine can be operated at any speed except for the 
+\series bold
+\color blue
+synchronous speed
+\series default
+\color inherit
+, which causes it to to fail due to its operating principles.
+ The availability of operation at any speed is also what makes it so popular
+ as a motor.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Because the voltage induced on the rotor coil is proportional to the time-deriva
+tive of magnetic flux, we can reason that the slower the rotor coil is rotating,
+ the more current it will have going through it.
+ With this knowledge we can develop a relation between 
+\series bold
+\color blue
+rotor-current
+\series default
+\color inherit
+ and 
+\series bold
+\color blue
+rotor-speed
+\series default
+\color inherit
+ As the rotor coil speeds up, the time-derivative of magnetic flux is of
+ lower magnitude, thus we will have lower and lower currents passing through
+ the rotor coil.
+\end_layout
+
+\begin_layout Section
+Circuit Model
+\end_layout
+
+\begin_layout Standard
+Because an induction motor accepts 3-phase at the stator, and outputs 3-phase
+ at the rotor, It means that AC voltages and AC currents are present at
+ both the stator and rotor.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+Theorem:
+\series default
+\shape default
+\color inherit
+ If we denote the stator as the primary terminal, and denote the rotor as
+ the secondary terminal, we can model the induction motor as a 
+\series bold
+\color blue
+three-phase transformer
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Shown above is the per-phase equivalent of the three-phase transformer model
+ referred to the primary side.
+ The model incorporates the 
+\series bold
+\color blue
+resistances
+\series default
+\color inherit
+ of the stator and rotor windings as 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+.
+ The 
+\series bold
+\color blue
+self-inductance
+\series default
+\color inherit
+ of each stator and rotor winding is captured as 
+\begin_inset Formula $X_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $X_{2}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Another important phenomenon that should be modeled is the relation between
+ rotor-current and rotor-speed.
+ To model this, we introduce the
+\series bold
+\color blue
+ slip
+\series default
+\color inherit
+ 
+\begin_inset Formula $s$
+\end_inset
+
+, which is defined as a percentage deviation from the synchronous speed.
+ The slip, rotor speed, and synchronous speed are related as well.
+ These formulae can all be used as [rad/s] in place of [rpm] if you would
+ like.
+\begin_inset Formula 
+\[
+s=\frac{n_{\text{sync}}-n_{m}}{n_{\text{sync}}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+n_{m}=n_{\text{sync}}\left(1-s\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Induction Machines - Power
+\end_layout
+
+\begin_layout Standard
+As induction machines are most commonly operated as induction motors, this
+ section will cover the power losses and output of the induction motor.
+ When operated as a motor the 
+\series bold
+\color blue
+input power
+\series default
+\color inherit
+ is the electric power of the stator waveform.
+ This means that 
+\begin_inset Formula $P_{\text{in}}=P_{e}=\sqrt{3}VI$
+\end_inset
+
+.
+ This means that output power is the 
+\series bold
+\color blue
+mechanical power
+\series default
+\color inherit
+ generated by the rotor, i.e 
+\begin_inset Formula $P_{\text{out}}=P_{m}=\tau\omega_{m}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+As the energy is converted from electric energy into mechanical energy,
+ there are losses encountered along the way.
+ As the power enters the stator they experience 
+\series bold
+\color blue
+stator/rotor copper losses
+\series default
+\color inherit
+ and
+\series bold
+\color blue
+ core losses
+\series default
+\color inherit
+, these losses are denoted as 
+\begin_inset Formula $P_{\text{SCL}}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{\text{core}}$
+\end_inset
+
+.
+ On the mechanical side, the rotor experiences losses due to 
+\series bold
+\color blue
+friction and windage
+\series default
+\color inherit
+, as well as 
+\series bold
+\color blue
+stray losses
+\series default
+\color inherit
+.
+ These are denoted as 
+\begin_inset Formula $P_{\text{f\&w}}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{\text{stray}}$
+\end_inset
+
+ respectively.
+ Overall we can write the following...
+\begin_inset Formula 
+\[
+P_{e}=P_{m}+\sum P_{\text{losses}}
+\]
+
+\end_inset
+
+In the equivalent circuit diagram, the 
+\begin_inset Formula $R_{2}/s$
+\end_inset
+
+ resistance models both the rotor copper losses and the slip-effect on correct.
+ We can extract the value of 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ out of this resistance, to obtain the 
+\series bold
+\color blue
+conversion resistor
+\series default
+\color inherit
+ 
+\begin_inset Formula $R_{\text{conv}}$
+\end_inset
+
+ , which tells us that amount of 
+\series bold
+\color blue
+converted power
+\series default
+\color inherit
+, power that gets converted into mechanical energy, it also tells us the
+ value of the
+\series bold
+\color blue
+ induced torque
+\series default
+\color inherit
+ on the rotor shaft.
+ We can also relate the converted power to 
+\series bold
+\color blue
+air gap power
+\series default
+\color inherit
+, if we need ever need to find it.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Regardless, because everything can be found from converted power, thus to
+ find the other values one should always start by finding the value of the
+ conversion resistor, and working towards the desired values.
+\begin_inset Formula 
+\[
+R_{\text{conv}}=\frac{R_{2}}{s}-R_{2}=R_{2}\left(\frac{1-s}{s}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P_{\text{conv}}=I_{2}^{2}R_{\text{conv}}=\tau_{\text{ind}}\omega_{m}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P_{\text{conv}}=\left(1-s\right)P_{\text{AG}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

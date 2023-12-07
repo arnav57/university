@@ -10,7 +10,13 @@
 \usepackage[papersize={640 pt,480 pt}, top = 15mm, left= 15mm, right=15mm]{geometry}
 \usepackage{titlesec}
 \usepackage{xcolor}
-\definecolor{brown}{HTML}{6623E2}
+
+% redefine colors for certain things
+\definecolor{blue}{HTML}{346DC2} %used for Keywords
+\definecolor{brown}{HTML}{BD3A17} % used for Definition
+\definecolor{green}{HTML}{4C7E25} % used for Theorems
+
+% reformat header styles
 \titleformat*{\section}{\Large\textit}
 \titleformat*{\subsection}{\large\textit}
 \end_preamble
@@ -3245,6 +3251,10 @@ extremely important theorem
 \series default
 \color inherit
  which we will keep revisiting.
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \end_body
