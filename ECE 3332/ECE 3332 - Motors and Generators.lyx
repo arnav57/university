@@ -724,10 +724,477 @@ steady frequency
 \end_inset
 
 
-\begin_inset Newline newline
+\end_layout
+
+\begin_layout Chapter
+DC Machines
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\color blue
+DC generators
+\series default
+\color inherit
+ are machines that can produce a DC terminal voltage by having their rotors
+ turned, which would seem to be impossible since it has been stated again
+ and again how voltage can only be induced if the magnetic field is changing.
+\end_layout
+
+\begin_layout Section
+DC Generator - Rotor
+\end_layout
+
+\begin_layout Standard
+According to a basic principle of magnetic fields: A moving wire in the
+ presence of a magnetic field has a voltage induced in it.
+ A DC machines stator is positioned in between 
+\series bold
+\color blue
+two permanent magnets
+\series default
+\color inherit
+.
+ Turning the coil in the middle (rotor) and measuring the voltage across
+ its ends will look like a blocky AC waveform.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted3.png
+	scale 65
+
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\noindent
+The voltage above can be turned into the waveform below through a brush/commutat
+or arrangement which rectifies the signal, as a result the voltage shown
+ below is obtained, and this voltage is always positive.
+ If we add more windings to the inner loop the voltage across the brushes
+ becomes smoother (this is because the second loop helps fill in the air
+ gap between the poles).
+ If a rotor has numerous windings, the voltage across the brushes can become
+ DC.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted4.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The rotor of a DC generator can be wound in one of two complex ways the
+ 
+\series bold
+\color blue
+lap winding
+\series default
+\color inherit
+ or the 
+\series bold
+\color blue
+wave winding
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Section
+Armature Reaction
+\end_layout
+
+\begin_layout Standard
+DC machines can experience an 
+\series bold
+\color blue
+armature reaction
+\series default
+\color inherit
+, which is a field weakening effect that can result in less output DC voltage
+ being produced.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+Definition: 
+\shape default
+\color blue
+armature reaction
+\series default
+\color inherit
+ occurs when the armature windings create a field that counteracts the field
+ produced by the poles such that the net field is less than the original
+ field
+\end_layout
+
+\begin_layout Standard
+The armature reaction can be reduced through 
+\series bold
+\color blue
+brush shifting
+\series default
+\color inherit
+, 
+\series bold
+\color blue
+interpoles
+\series default
+\color inherit
+, or 
+\series bold
+\color blue
+compensating windings
+\series default
+\color inherit
+.
+ In practice questions, when it is stated that a machine has compensating
+ windings we should treat it as it has no armature reaction.
+\end_layout
+
+\begin_layout Section
+Sparking Issue
+\end_layout
+
+\begin_layout Standard
+An issue with DC machines is the 
+\series bold
+\color blue
+sparking
+\series default
+\color inherit
+ that can be caused by 
+\series bold
+\color blue
+overvoltage
+\series default
+\color inherit
+ caused by the shorting out of commutator segments, this prevents DC machines
+ from being used in sensitive applications.
+\end_layout
+
+\begin_layout Section
+Types of DC Generators
+\end_layout
+
+\begin_layout Standard
+There are 5 types of DC generators, and they are classified in the manner
+ in which the 
+\series bold
+\color blue
+field flux
+\series default
+\color inherit
+ is produced.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color blue
+Separately Excited
+\series default
+\color inherit
+ - the field flux is derived from the a seperate power source that is independen
+t of the generator itself
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color blue
+Shunt
+\series default
+\color inherit
+ - the field flux is derived by connecting the field circuit directly across
+ tht terminals of the generator
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color blue
+Series
+\series default
+\color inherit
+ - The field flux is produced by connecting the field circuit in series
+ with the armature of the generator
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color blue
+Cumulatively Compounded
+\series default
+\color inherit
+ - Both a shunt and series field are present and their effects are additive
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\color blue
+Differentially Compounded
+\series default
+\color inherit
+ - Both a shunt and series field are present and their effects are subtractive
+\end_layout
+
+\begin_layout Standard
+In the next chapters I will discuss them more in depth
+\end_layout
+
+\begin_layout Chapter
+DC Generators in Detail
+\end_layout
+
+\begin_layout Standard
+This chapter will discuss the details fo the different types of DC Generators.
+\end_layout
+
+\begin_layout Section
+General DC Generator
+\end_layout
+
+\begin_layout Standard
+The general model of a DC generator is shown below.
+ The 
+\series bold
+\color blue
+field
+\series default
+\color inherit
+ circuit represents the poles of the stator.
+ DC field current is fed to windings wrapped around the poles to create
+ flux.
+ The model has a field resistance 
+\begin_inset Formula $R_{F}$
+\end_inset
+
+ and field inductance 
+\begin_inset Formula $L_{F}$
+\end_inset
+
+.
+ The 
+\series bold
+\color blue
+armature
+\series default
+\color inherit
+ represents the rotor and it contains the induced voltage 
+\begin_inset Formula $E_{A}$
+\end_inset
+
+ and the armature winding 
+\begin_inset Formula $R_{A}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted5.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Separately Excited Generators
+\end_layout
+
+\begin_layout Standard
+The key equations for a separately excited generator are shown below.
+ Note that 
+\begin_inset Formula $V_{T}$
+\end_inset
+
+ drops as the load is increased, and that this drop becomes greater due
+ to armature reaction.
+ The terminal voltage can be controlled by adjusting 
+\begin_inset Formula $E_{A}$
+\end_inset
+
+ through changing the 
+\begin_inset Formula $I_{F}$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega$
+\end_inset
+
+ of the machine.
+\begin_inset Formula 
+\[
+I_{L}=I_{A}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+V_{T}=E_{A}-I_{A}R_{A}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+I_{F}=\frac{V_{F}}{R_{F}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted6.png
+	scale 55
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/pasted7.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The open-circuit-characteristic is very similar to that of a synchronous
+ machine.
+ Note that the curve flattens out due to saturation.
+ Most of the problems in this course related to DC generators will need
+ to be solved using a curve like the one on the right.
+ Furthermore, problems with armature reaction can be solved simply by using
+ an equivalent field current 
+\begin_inset Formula $I_{F}^{*}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\mathscr{F}_{\text{net}}=N_{F}I_{F}-\mathscr{F}_{\text{AR}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+I_{F}^{*}=I_{F}-\frac{\mathscr{F}_{\text{AR}}}{N_{F}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Shunt Generators
+\end_layout
+
+\begin_layout Standard
+A shunt generator and its key equations are shown below.
+ Since a shunt generator needs an 
+\begin_inset Formula $E_{A}$
+\end_inset
+
+ to produce a 
+\begin_inset Formula $V_{T}$
+\end_inset
+
+, and a terminal voltage to produce an 
+\begin_inset Formula $I_{F}$
+\end_inset
+
+, the machine needs to get started via residual flux
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted8.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+A shunt generator may not produce an output voltage for the following reasons.
+\end_layout
+
+\begin_layout Enumerate
+There many be no residual flux present in the generator, in this case the
+ generator must be 
+\series bold
+\color blue
+flashed
+\series default
+\color inherit
+ with a DC source to magnetize the poles.
+\end_layout
+
+\begin_layout Enumerate
+The direction of rotation of the generator may have been reversed This would
+ remove any residual flux in the machine.
+ This may be fixed by correcting the field connection and flashing the field.
+\end_layout
+
+\begin_layout Enumerate
+The field resistance is greater than the critical resistance - the value
+ of 
+\begin_inset Formula $R_{F}$
+\end_inset
+
+ that is parallel to the linear portion of the magnetization curve.
+\end_layout
+
+\begin_layout Standard
+A shunt generator also has a worse voltage regulation than a separately
+ excited one, but does not used a separate source.
+ This is because any drop in the terminal voltage also drops the field current,
+ which drops the 
+\begin_inset Formula $E_{A}$
+\end_inset
+
+ and thus drops the terminal voltage even more.
+ This issue is compounded if there is an armature reaction as it further
+ weakens the field
 \end_layout
 
 \end_body
