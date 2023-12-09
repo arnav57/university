@@ -636,5 +636,99 @@ P_{\text{conv}}=\left(1-s\right)P_{\text{AG}}
 
 \end_layout
 
+\begin_layout Section
+Torque-Speed Curve
+\end_layout
+
+\begin_layout Standard
+Generally what happens as the shaft-load increases is that we need more
+ 
+\begin_inset Formula $\tau_{\text{ind}}$
+\end_inset
+
+ to make the rotor turn faster.
+ However, when the rotor is operating near the synchronous speed, the amount
+ of 
+\begin_inset Formula $\tau_{\text{ind}}$
+\end_inset
+
+ needed to increase the speed of the rotor drops.
+ 
+\emph on
+Note
+\emph default
+: There is no induced torque at synchronous speed for reasons discussed
+ earlier.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/pasted2.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The diagram above illustrates the Induces torque vs.
+ mechanical speed (torque-speed) curve of an induction motor.
+ The 
+\series bold
+\color blue
+starting torque
+\series default
+\color inherit
+ is the amount of induced torque required on the motor and it is 2-3 times
+ higher than the 
+\series bold
+\color blue
+full load torque
+\series default
+\color inherit
+, this means that special circuitry is required to start an induction motor.
+ The 
+\series bold
+\color blue
+pullout torque 
+\series default
+\color inherit
+is the maximum amount of torque that the machine can handle, and it should
+ not be exceeded.
+\end_layout
+
+\begin_layout Section
+The Induction Generator
+\end_layout
+
+\begin_layout Standard
+If the rotor of an induction machine is driven at a speed faster than the
+ synchronous speed (magnetic field speed) then the direction of 
+\begin_inset Formula $\tau_{\text{ind}}$
+\end_inset
+
+reverses and the machine becomes a generator.
+ However, induction machines are rarely used as standalone generators as
+ they do not produce a 
+\series bold
+\color blue
+steady frequency
+\series default
+\color inherit
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document

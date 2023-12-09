@@ -1,0 +1,479 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass report
+\begin_preamble
+\usepackage{tgpagella}
+\usepackage[papersize={640 pt,480 pt}, top = 15mm, left= 15mm, right=15mm]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% redefine colors for certain things
+\definecolor{blue}{HTML}{346DC2} %used for Keywords
+\definecolor{brown}{HTML}{BD3A17} % used for Definition
+\definecolor{green}{HTML}{4C7E25} % used for Theorems
+
+% reformat header styles
+\titleformat*{\section}{\Large\textit}
+\titleformat*{\subsection}{\large\textit}
+
+% redefine itemize environment
+\setlist[itemize]{label={}, labelsep=3mm}
+\end_preamble
+\use_default_options true
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Introduction to Machine Learning
+\end_layout
+
+\begin_layout Author
+Arnav Goyal
+\end_layout
+
+\begin_layout Date
+
+\emph on
+DATASCI 3000 - Comprehensive Note 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\hyp}{h_{\theta}}
+{h_{\theta}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Continuous-Valued Linear Regression
+\end_layout
+
+\begin_layout Standard
+In this chapter we will aim to understand 
+\series bold
+\color blue
+linear regression
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+Definition: 
+\series default
+\shape default
+\color inherit
+continuous-valued 
+\series bold
+\color blue
+linear regression
+\series default
+\color inherit
+ aims to predict a continuous valued response variable based on the 
+\series bold
+\color blue
+features
+\series default
+\color inherit
+ of some input data.
+\end_layout
+
+\begin_layout Standard
+Obviously in terms of the machine learning landscape we would like to figure
+ out how 
+\begin_inset Quotes eld
+\end_inset
+
+correct
+\begin_inset Quotes erd
+\end_inset
+
+ our predictions are, with the ultimate goal of predicting more correct
+ answers.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Regression can also be used for classification (next chapter) and can be
+ used to understand the importance of features.
+\end_layout
+
+\begin_layout Section
+The Line of Best Fit
+\end_layout
+
+\begin_layout Standard
+The simplest form of linear regression is done through trying to find a
+ 
+\series bold
+\color blue
+line of best fit
+\series default
+\color inherit
+ through the data points.
+ We say that this line of best fit is a 
+\series bold
+\color blue
+model 
+\begin_inset Formula $h_{\theta}\left(X\right)$
+\end_inset
+
+
+\series default
+\color inherit
+, where 
+\begin_inset Formula $X$
+\end_inset
+
+ contains some feature 
+\begin_inset Formula $i$
+\end_inset
+
+ from all our datapoints, hence we refer to the slope and intercept of the
+ line as the 
+\series bold
+\color blue
+model parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+
+\series default
+\color inherit
+.
+ In general, 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is a vector, and our 
+\begin_inset Formula $\hyp$
+\end_inset
+
+ function is called the 
+\series bold
+\color blue
+hypothesis function
+\series default
+\color inherit
+ (it is what our model hypothesizes), and it parametrized through the elements
+ in 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+ For simple linear regression we can write the following matrix multiplication.
+\begin_inset Formula 
+\[
+h_{\theta}\left(x\right)=\begin{bmatrix}1 & x_{1i}\\
+1 & x_{2i}\\
+1 & x_{3i}
+\end{bmatrix}\cdot\begin{bmatrix}\theta_{0} & \theta_{1}\end{bmatrix}=\begin{bmatrix}\theta_{0}+\theta_{1}x_{1i}\\
+\theta_{0}+\theta_{1}x_{2i}\\
+\theta_{0}+\theta_{1}x_{3i}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+More often than not, we examine multiple features during regression, in
+ this case our 
+\begin_inset Formula $x$
+\end_inset
+
+ becomes a vector, which represents values for each feature in the dataset.
+ In the case of multiple feature regression, we can write the 
+\begin_inset Formula $\hyp$
+\end_inset
+
+ function as a matrix multiplication as shown below.
+\begin_inset Formula 
+\[
+\hyp\left(X\right)=\begin{bmatrix}1 & x_{1i} & x_{1j} &  & x_{1n}\\
+1 & x_{2i} & x_{2j} & \dots & x_{2n}\\
+1 & x_{3i} & x_{3j} &  & x_{3n}
+\end{bmatrix}\cdot\begin{bmatrix}\theta_{0} & \theta_{1} & \dots & \theta_{n}\end{bmatrix}=\begin{bmatrix}\theta_{0}+\theta_{1}x_{1i}+\theta_{2}x_{1j}+\dots+\theta_{n}x_{1n}\\
+\theta_{0}+\theta_{1}x_{2i}+\theta_{2}x_{2j}+\dots+\theta_{n}x_{2n}\\
+\theta_{0}+\theta_{1}x_{3i}+\theta_{2}x_{3j}+\dots+\theta_{n}x_{3n}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Accuracy of Predictions
+\end_layout
+
+\begin_layout Standard
+Now that we know how to predict our continuous valued response variable,
+ let's talk about what it means to have an accurate prediction, what does
+ it mean to have a good model? We can measure performance in many ways,
+ but the easiest way to measure performance is through the 
+\series bold
+\color blue
+sum of squared residuals (RSS)
+\series default
+\color inherit
+.
+ Which just tells us the total sum of squared deviations between the predicted
+ value of datapoint 
+\begin_inset Formula $\hat{y_{i}}=\hyp\left(x_{i}\right)$
+\end_inset
+
+ and the true value 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+.
+ The formulation for RSS is shown in Equation 1.1.
+ The RSS is sometimes called the L2-Norm.
+\begin_inset Formula 
+\begin{equation}
+\text{RSS}\left(\hat{y},y\right)=\sum_{i}\left(\hat{y_{i}}-y_{i}\right)^{2}
+\end{equation}
+
+\end_inset
+
+The next performance metric is called 
+\series bold
+\color blue
+absolute deviations
+\series default
+\color inherit
+ 
+\series bold
+\color blue
+(AD)
+\series default
+\color inherit
+, and it is similar to RSS but instead uses the L1-Norm which makes it more
+ robust to outliers than RSS.
+ The formulation for AD is shown in Equation 1.2
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{AD\ensuremath{\left(\hat{y},y\right)}=\ensuremath{\sum_{i}\left|\hat{y_{i}}-y_{i}\right|}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Now that we have a performance metric, we can say that the optimal line
+ is the one possessing parameters such that it results in the the lowest
+ value of whichever performance metric we define.
+ We can find these through the 
+\series bold
+\color blue
+stochastic gradient descent (SGD)
+\series default
+\color inherit
+ algorithhm.
+ Minimizing through RSS is called 
+\series bold
+\color blue
+Ordinary Least Squares (OLS)
+\series default
+\color inherit
+ and it is the most common linear regression method.
+ Minimizing through AD is called 
+\series bold
+\color blue
+Least Absolute Deviations (LAD)
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Chapter
+Dimensionality Reduction
+\end_layout
+
+\begin_layout Standard
+In this chapter we will be learning about how we can better work with intractabl
+e, high-dimensional data.
+\end_layout
+
+\begin_layout Section
+Variance & Covariance
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+Definition: 
+\shape default
+\color blue
+Variance
+\series default
+\color inherit
+ is the measure of spread of data, with some mean 
+\begin_inset Formula $\bar{x}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+Definition: 
+\shape default
+\color blue
+Covariance 
+\series default
+\color inherit
+is a measure of how much each of the dimensions varies from the mean with
+ respect to each other, the covariance between one dimension and itself
+ is the variance.
+\end_layout
+
+\begin_layout Section
+Principal Component Analysis (PCA)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\color blue
+Principal component analysi
+\series default
+\color inherit
+s is the most common approach to dimensionality reduction.
+ It can be thought of as an unsupervised version of linear regression.
+ It works by first identifying the a hyperplane that lies closest to the
+ data (hyperplane of best fit) and then projects the data onto it.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The components it identifies all make up some percentage of the total variance
+ in the dataset.
+ An easy way to select the correct number of components to transform the
+ data into is to plot total explained variance as a function of included
+ dimensions, and see where the curve stops growing fast.
+\end_layout
+
+\end_body
+\end_document
