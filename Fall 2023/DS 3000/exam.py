@@ -13,8 +13,8 @@ def preprocessing(dataframe, dropcols=None):
     # copy the original df as to not modify it
     df = dataframe.copy(deep=True)
 
-    # drop columns with NA
-    df.dropna(['Id'], axis=1, inplace=True)
+    # drop rows with NA
+    df.dropna(axis=0, inplace=True)
 
     # drop provided columns
     if dropcols is not None:
@@ -28,8 +28,8 @@ def one_hot_encode(dataframe, catcols):
     # copy the original df as to not modify it
     df = dataframe.copy(deep=True)
 
-    rm_cols = 0
     add_cols = 0
+    rm_cols = 0
 
     for col in catcols:
         # obtain one hot encoding for col
@@ -41,20 +41,26 @@ def one_hot_encode(dataframe, catcols):
 
         # generate unique col names (ensure no column overriding), add columnwise to the df
         col_names = list(one_hot.columns)
-        add_cols = add_cols + len(add_cols)
         for col_name in col_names:
+            add_cols = add_cols + 1
             name = col_name + "-" + col
             df[name] = one_hot[col_name]
         
-        print(f'Added {add_cols} columns, removed {rm_cols}, resulting in a net-gain of {add_cols-rm_cols} columns to the returned dataframe...')
+    print(f'Added {add_cols} columns, removed {rm_cols}, resulting in a net-gain of {add_cols-rm_cols} columns to the returned dataframe...')
 
-        return df
+    return df
 
-def binarize(y_target):
+def binarize(y_target, type='mean'):
     '''converts the continuous valued (listlike) y_target to a binary variable such that 1 >= mean, 0 < mean'''
     y_targ = np.copy(y_target)
 
-    mean = np.mean(y_targ)
+    if type =='mean':
+        mean = np.mean(y_targ)
+    elif type == 'median':
+        mean = np.median(y_targ)
+    else:
+        mean = np.mean(y_targ)
+
     for i in range(len(y_targ)):
         if y_targ[i] >= mean:
             y_targ[i] = 1
@@ -116,51 +122,63 @@ def reciever_operating_characteristic(y_true, y_preds, print=False):
 
 ## -------------------------------
 ## BEGIN:
-## MODEL TRAINING FUNCTIONS
+## MODEL FUNCTIONS
 ## -------------------------------
 
-def train_sklearn_model(x_train, y_train, model=None):
-    if model is None:
-        raise Exception('No sklearn-model specified to train')
+class NN(torch.nn.Module):
+    def __init__(self, feats_in, num_classes, architecture):
+        self.feats_in = feats_in # input vector dim
+        self.num_classes = num_classes # output vector dim
+        super().__init__()
+
+        ## define NN architecture
+        self.layers = architecture
     
-    model.fit(x_train, y_train)
+    def forward(self, X):
+        # # might be required if you accept np tensor inputs
+        # X = X.to(torch.float32)
+        X = self.layers(X)
+        
+        return X
 
-    return model
+## -------------------------------
+## BEGIN:
+## TESTBENCH
+## -------------------------------
 
-def train_pytorch_model(x_train, y_train, epochs=100, model=None, epsilon=None, lossfcn=None):
-    if ((model is None) or (opt is None) or (lossfcn is None)):
-        raise Exception('improper torch-model, opt or lossfcn specified')
-    
-    # convert inputs to torch tensor
-    x_train = torch.from_numpy(x_train)
-    y_train = torch.from_numpy(y_train)
+def test_processing():
+  # use property price csv from midterm
+  dropcols = ['Id']
+  data = preprocessing(df, dropcols=dropcols)
+  assert data.shape == (1452,27)
 
-    # define the opt
-    opt  = torch.optim.SGD(model.parameters(), lr=epsilon)
+  return data
 
-    # list to hold losses
-    losses = []
+def test_one_hot_encode():
+  catcols = ['LandSlope', 'HouseStyle', 'Heating', 'CentralAir', 'PavedDrive']
+  data = one_hot_encode(df, catcols=catcols)
+  assert data.shape == (1460,45)
 
-    # start training
-    for i in range(epochs):
+  return data
 
-        # reset grad
-        opt.zero_grad()
+def test_binarize():
+  data = df['1stFlrSF']
+  output = binarize(data, type='mean')
+  mean = np.mean(data)
+  for i, data in enumerate(data):
+    if (data >= mean):
+      assert 1 == output[i]
+    else:
+      assert 0 == output[i]
 
-        # obtain current preds
-        y_preds = model(x_train)
+  data = df['1stFlrSF']
+  output = binarize(data, type='median')
+  median = np.median(data)
+  for i, data in enumerate(data):
+    if (data >= median):
+      assert 1 == output[i]
+    else:
+      assert 0 == output[i]
 
-        # find losses / append to list
-        l = lossfcn(input=y_preds, target=y_train)
-        losses.append(l.item())
-
-        # calc gradients
-        l.backward()
-
-        # train
-        opt.step()
-    
-    return model, losses
-    
-
+  return output
 

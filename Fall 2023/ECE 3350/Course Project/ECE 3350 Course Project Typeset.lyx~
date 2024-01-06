@@ -1,0 +1,1241 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass report
+\begin_preamble
+% import necessary packages
+\usepackage{tgpagella}
+\usepackage[papersize={640 pt,480 pt}, top = 15mm, left= 15mm, right=15mm]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+% redefine colors for certain things
+\definecolor{blue}{HTML}{346DC2} %used for Keywords
+\definecolor{brown}{HTML}{BD3A17} % used for Definition
+\definecolor{green}{HTML}{4C7E25} % used for Theorems
+
+% reformat header styles
+\titleformat*{\section}{\Large\textit}
+\titleformat*{\subsection}{\large\textit}
+\titleformat*{\subsubsection}{\textit}
+\end_preamble
+\use_default_options true
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Paper Study - Cyber-Physical Modeling of Implantable Cardiac Medical Devices
+ 
+\emph on
+(Jiang et al.)
+\end_layout
+
+\begin_layout Author
+Arnav Goyal
+\end_layout
+
+\begin_layout Date
+
+\emph on
+Paper Studies
+\end_layout
+
+\begin_layout Chapter*
+My Notes
+\end_layout
+
+\begin_layout Standard
+\noindent
+This document holds my notes while reading the paper by 
+\emph on
+Jiang et.
+ al.
+ 
+\emph default
+These notes are used in reference for the final project, and not anywhere
+ else, these notes are purely for my own understanding of the paper
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Things to refer back to in the future enclosed in square brackets and colored
+ 
+\series bold
+\shape smallcaps
+\color brown
+[brick-red]
+\series default
+\shape default
+\color inherit
+ or 
+\series bold
+\shape smallcaps
+\color green
+[olive-green]
+\series default
+\shape default
+\color inherit
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\color blue
+keywords 
+\series default
+\color inherit
+are in blue
+\emph on
+ 
+\emph default
+and broken down (explained) if need be.
+\end_layout
+
+\begin_layout Section*
+Abstract
+\end_layout
+
+\begin_layout Itemize
+Creating the software that is used in wearable medical devices (typically
+ complex implants) that control/acutuate organs (i.e pacemakers) is challenging
+ due to bugs and user-safety.
+\end_layout
+
+\begin_layout Itemize
+Of all the safety recalls of pacemakers / other cardiac implants, 41% of
+ these were due to firmware issues, this trend seems to be going up.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+[Paper's motivation]
+\series default
+\shape default
+\color inherit
+ There is no formal way to test and verify the correct operation of medical
+ device [cardiac defib implant] software; which is what the paper aims to
+ solve by creating a time-automata model of a virtual heart.
+ Called the 
+\series bold
+\color blue
+virtual heart model (VHM)
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+[Possible paper link?]
+\series default
+\shape default
+\color inherit
+ The word 
+\series bold
+\color blue
+timed-automata mode
+\series default
+\emph on
+\color inherit
+l
+\emph default
+ can be broken down into its constituents.
+ 
+\series bold
+\color blue
+Automata
+\series default
+\color inherit
+ refers to a machine capable of performing certain computations, 
+\series bold
+\color blue
+timed-automata
+\series default
+\color inherit
+ refers to an automata that incorporates a sense of time into its behaviour
+ (computations effected by time).
+ Therefore a 
+\series bold
+\color blue
+time-automata model
+\series default
+\color inherit
+ describes a model/representation of a machine that is capable of computation
+ while incorporating time into its computation.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+\color blue
+closed-loop context
+\series default
+\color inherit
+ of a patient refers to an environment where there are feedback mechanisms
+ present; in this situation it would be systems to regulate the hearts bpm
+ or blood pressure (i think thats hearts also do this?).
+ Which is kinda hard to do without implanting the device, hence this VHM
+ developed has these things built-into it.
+\end_layout
+
+\begin_layout Section*
+Introduction
+\end_layout
+
+\begin_layout Itemize
+Pacemakers, and other heart implants that regulate heartbeat fall under
+ the term 
+\series bold
+\color blue
+implantable cardiac defibrillators (ICDs).
+\end_layout
+
+\begin_layout Itemize
+My god pacemakers arent easy devices to make - 80k to 100k loc.
+ in them.
+ Also seems like the buggy software/firmware has caused a lot of urgent
+ implant recalls.
+ Which are seemingly happening more often, for the following (extremely
+ not scary) reason 
+\begin_inset Quotes eld
+\end_inset
+
+reasonable probability that use of these products will cause serious adverse
+ health consequences or death.
+\end_layout
+
+\begin_layout Itemize
+There is a need for, but no real (accurate, standard, and formal) way to
+ test, validate and verify the software within ICDs.
+\end_layout
+
+\begin_layout Itemize
+In other safety-critical environments, standards are enforced for a safe
+ software development life-cycle.
+ The Medical industry has some challenges:
+\end_layout
+
+\begin_layout Itemize
+Current evaluation of devices is done in an open-loop context - which is
+ unable to ensure that the product will never drive the patient into an
+ unsafe state.
+ To ensure this, closed-loop context testing is required.
+\end_layout
+
+\begin_layout Itemize
+There are very few high-quality patient models (and relevant simulators)
+ for device design
+\end_layout
+
+\begin_layout Itemize
+The treatment offered by these ICDs must be able to adapt to the patients
+ current state, there is a need for validation algorithms to ensure that
+ the device control and optimization of ICDs can cover large classes of
+ patient conditions.
+\end_layout
+
+\begin_layout Subsubsection*
+FDA & Device Software
+\end_layout
+
+\begin_layout Itemize
+The FDA doesnt review software during pre-market submission.
+\end_layout
+
+\begin_layout Itemize
+They have recommendations for software evaulation, but no hard standards
+ for software verification.
+ testing, validation, and verification to show its safe and effective are
+ all on the mfg.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color brown
+[My opinion]
+\series default
+\shape default
+\color inherit
+ Software is only reviewed under a device recall, they should probably review
+ software that they certify.
+ Isnt that the whole point of safety?
+\end_layout
+
+\begin_layout Subsubsection*
+Current Testing, V&V Approaches
+\end_layout
+
+\begin_layout Itemize
+Current testing involves playing back a recorded ECG signal, and seeing
+ if the pacemaker triggers a response.
+ This testing is context independent, is this response correct for the patient?
+\end_layout
+
+\begin_layout Itemize
+Something called 
+\series bold
+\color blue
+pacemaker mediated tachycardia (PMT)
+\series default
+\color inherit
+ is a condition where the pacemaker (inappropriately) drives the heart rate
+ towards the upper rate limit (This sounds super safe!!! and not dangerous
+ at all!!)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+[Possible paper link?]
+\series default
+\shape default
+\color inherit
+,
+\series bold
+\shape smallcaps
+\color brown
+ [My Opinion]
+\series default
+\shape default
+\color inherit
+ Some formal methods have recetly been used for medical device safety, In
+ these papers the authors either used a simplified patient model, or did
+ not model the patient at all.
+ I think this defeats the whole point, because everyone is different, and
+ has a different heart, thus specific testing should be required before
+ someone implants something into their heart.
+ Just because something 
+\begin_inset Quotes eld
+\end_inset
+
+generally works
+\begin_inset Quotes erd
+\end_inset
+
+, it doesn't guarantee that it will work for your specific case.
+\end_layout
+
+\begin_layout Subsubsection*
+Methodology for Closed-loop ICD Safety
+\end_layout
+
+\begin_layout Itemize
+The authors made three things.
+ 1) a VHM and pacemaker model for clinically relevant test generation.
+ 2) a set of general/patient condition-based software requirements for a
+ pacemaker that ensures that safety is met under ALL cases.
+ 3) a means to test/verify the closed-loop system over simple and complex
+ closed-loop tests.
+\end_layout
+
+\begin_layout Section*
+Model Based Design for Medical Devices
+\end_layout
+
+\begin_layout Itemize
+Model based design is widely-used, and enables constant V&V from the early
+ stages of development
+\end_layout
+
+\begin_layout Itemize
+This paper is focuses on developing a system and methods for system-level
+ testing and verification of ICDs
+\end_layout
+
+\begin_layout Itemize
+To do this, they develop a model of the heart and a pacemaker to be the
+ correct complexity such that it can be verified/validated, and such that
+ is is physiologically relevant.
+\end_layout
+
+\begin_layout Itemize
+They define 
+\series bold
+\color blue
+verification & validation (V&V)
+\series default
+\color inherit
+; Verification is showing that you can do what you intended to do; Validation
+ is showing that what you intended to do was the right thing to do.
+\end_layout
+
+\begin_layout Subsubsection*
+Previous Heart Modeling Efforts
+\end_layout
+
+\begin_layout Itemize
+The hardest part about correctly modeling anything is to pick the correct
+ 
+\series bold
+\color blue
+(level of detail) LOD
+\series default
+\color inherit
+, too accurate and it is slow, too vague and it is useless.
+\end_layout
+
+\begin_layout Itemize
+A good heart model should capture the 
+\series bold
+\color blue
+electrophysiological (EP)
+\series default
+\color inherit
+ properties of the heart (conduction / timing signals) and generate functional
+ signals which are used as inputs to the device.
+\end_layout
+
+\begin_layout Itemize
+Lots of other heart models have previously been created, all of them are
+ complex and used for various other reasons (i.e studying fluid flow in the
+ heart), these are too complex for this use-case
+\end_layout
+
+\begin_layout Itemize
+Furthermore, those models have thousands of parameters, in contrast, a pacemaker
+ only has 2 or 3 electrodes (parameters) to work with!
+\end_layout
+
+\begin_layout Subsubsection*
+Requirements for Model-Based, Closed-loop V&V
+\end_layout
+
+\begin_layout Itemize
+For model based V&V a framework should verify/test a device (or a model
+ of the device) in closed-loop with the heart.
+ Thus the main part is the model of the heart (which will interface with
+ the device)
+\end_layout
+
+\begin_layout Itemize
+A good heart model shouls satisy a few requirements:
+\end_layout
+
+\begin_layout Itemize
+the model must cover normal and abnormal heart function; 
+\end_layout
+
+\begin_layout Itemize
+the model should be simple enough to abstract the timing and electrical
+ conduction as these are the only things that interact with the pacemaker;
+\end_layout
+
+\begin_layout Itemize
+a good heart model takes into account that a device model might operate
+ differently than when it is actually implanted, thus a physical testbed
+ must be developed.
+\end_layout
+
+\begin_layout Itemize
+The physical testbed they implement the VHM on simulink, and extract HDL
+ code from it, which can be implement on an FPGA device.
+\end_layout
+
+\begin_layout Subsubsection*
+Overview of VHM
+\end_layout
+
+\begin_layout Itemize
+The result was the development of VHM, an integrated framework for V&V of
+ ICDs.
+\end_layout
+
+\begin_layout Itemize
+A formal heart model which captures the timing and electrical conduction
+ properties of the heart was developed through use of extended time-automata
+\end_layout
+
+\begin_layout Itemize
+The formal specification was mapped into two Simulink designs: a counter
+ based design, and a stateflow logic temporal design.
+\end_layout
+
+\begin_layout Itemize
+The only difference between both designs is the approach used to control
+ timing execution.
+ One uses a set of counters that count the number of gloval periodically
+ generated clock cycles.
+ The other uses a different way to track temporal events.
+ 
+\end_layout
+
+\begin_layout Itemize
+For a particular VHM, the models behaviour is determined by some parameters.
+ Which arise from different patient conditions (clinical studies).
+\end_layout
+
+\begin_layout Itemize
+for each VHM model, they specify a set of general and condition-specific
+ requirements for the closed-loop system, these criterion are evaluated
+ to check for timing and safety violations for each case.
+\end_layout
+
+\begin_layout Section*
+Understanding the Heart Function
+\end_layout
+
+\begin_layout Itemize
+An ICDs key function is to act as a rhythm management device that prevents
+ the heart from operating below a minimum rate and maintains synchrony between
+ the upper and lower chambers
+\end_layout
+
+\begin_layout Subsubsection*
+Celluluar Level Action Potential
+\end_layout
+
+\begin_layout Itemize
+The heart tissue (heart cell) can be activated by an external voltage applied
+ to the cell.
+ After its activation, a voltage change over time can be sensed due to the
+ inward flow of Na
+\begin_inset Formula $^{+}$
+\end_inset
+
+ ions into the cell.
+ This ion movement is called 
+\series bold
+\color blue
+depolarization
+\series default
+\color inherit
+ or the 
+\series bold
+\color blue
+upstroke of action potential
+\series default
+\emph on
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+During depolarization the voltage change will affect nearby heart tissue,
+ which will essentially cause an 
+\series bold
+\color blue
+activation wave
+\series default
+\color inherit
+ across the heart.
+ After the depolarization there is a 
+\series bold
+\color blue
+refractory period
+\series default
+\color inherit
+ when ions flow out of the cell, which drops the voltage down to resting
+ levels.
+\end_layout
+
+\begin_layout Itemize
+The refractory period can be divided into 
+\series bold
+\color blue
+Effective Refractory Period (ERP)
+\series default
+\color inherit
+ and 
+\series bold
+\color blue
+Relative Refractory Period (RRP)
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+During ERP the cell cannot be activated again due to the recovery process
+ of ion channels, so the activation wave will get blocked at the source.
+\end_layout
+
+\begin_layout Itemize
+During RRP the ion channels are partially recovered, and the cell can be
+ activated again.
+ However, the new action potential generated if activated again will have
+ a different shape.
+\end_layout
+
+\begin_layout Subsubsection*
+Electrical Conduction System of the Heart
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+\color blue
+Electrical Conduction System (ECS)
+\series default
+\color inherit
+ of the heart controls the coordinated tissue contraction of the heart.
+\end_layout
+
+\begin_layout Itemize
+Specialized tissue present at the 
+\series bold
+\color blue
+sinoatrial (SA) node
+\series default
+\color inherit
+ preiodically and spontaneously self-depolarizes.
+ This is essentially the natural pacemaker of the heart, that is controlled
+ by the nervous system.
+\end_layout
+
+\begin_layout Itemize
+Upon self-depolarization at the SA node, the activation waves propagate
+ through both atria this causes contraction and pushes blood into the ventricles.
+ But the activation waves are further delayed at the 
+\series bold
+\color blue
+atrioventricular (AV) node
+\series default
+\color inherit
+, which allows the ventricles to fill fully.
+\end_layout
+
+\begin_layout Itemize
+The fast-conducting 
+\series bold
+\color blue
+His-Purkinje
+\series default
+\color inherit
+ system then spreads the activation wave within both ventricles.
+ This simultaneous contraction will push blood out of the heart.
+\end_layout
+
+\begin_layout Subsubsection*
+Cardiac Arrhythmias
+\end_layout
+
+\begin_layout Itemize
+The coordination of the hearts electrical activity can be impaired by anomalies
+ within the conduction and refractory properties in the heart tissues.
+ This is called 
+\series bold
+\color blue
+arrhythmia
+\series default
+\color inherit
+.
+ This can be further categrozied into 
+\series bold
+\color blue
+bradychardia
+\series default
+\emph on
+\color inherit
+ 
+\emph default
+and 
+\series bold
+\color blue
+tachycardia
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+Bradycardia features a slower heart rate which results in insufficient blood
+ supply.
+ This can occur due to failure of impulse generation at the SA node, or
+ failure/slow-down of impulse propagation.
+\end_layout
+
+\begin_layout Itemize
+Tachycardia features a faster heart rate which would impair hemodynamics
+ (blood flow).
+ It can be caused by anomalies in the SA or the 
+\series bold
+\color blue
+reentry
+\series default
+\emph on
+\color inherit
+ 
+\series bold
+\emph default
+\color blue
+circuit
+\series default
+\color inherit
+.
+ The latter is the most common cause of tachycardia, is responsible for
+ most related-fatalaties.
+\end_layout
+
+\begin_layout Itemize
+The basic premise of the reentry circuit is that additional conduction pathways
+ form a conducting loop with the primary conduction pathways.
+ Since freq of activation signal going around the loop is greater than freq
+ of impulse from SA node, this causes a fast and irregular heart rate.
+\end_layout
+
+\begin_layout Subsubsection*
+Arrhythmia Diagnosis & Treatment
+\end_layout
+
+\begin_layout Itemize
+Arrhythmia can be invasively diagnosed through 
+\series bold
+\color blue
+electrophysiology (EP
+\series default
+\color inherit
+) or non-invasively through an 
+\series bold
+\color blue
+electrocardiogram (ECG)
+\series default
+\color inherit
+.
+\end_layout
+
+\begin_layout Itemize
+EP is used to precisely determine where the timing anomalies of the heart
+ appear.
+ This is done through catheteres with electrode tips.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color blue
+Ablation surgery
+\series default
+\color inherit
+ can treat tachycardia, if it is caused by reentry circuit, which is done
+ by sending an RF signal through an electrode-tipped catheter to kill the
+ tissue participating in the reentry circuit.
+\end_layout
+
+\begin_layout Itemize
+ECG signals can be detected non-invasively from the surface of the body.
+ Because this is non-invasive this is the most common way to diagnoise an
+ arryhthmia.
+\end_layout
+
+\begin_layout Itemize
+Since the heart tissue can be activated with external voltages, devices
+ like pacemakers have been developed to deliver timely pulses to the heart
+ to treat bradycardia.
+\end_layout
+
+\begin_layout Itemize
+The pacemaker has two leads inserted into the heart: Right Atrium, and right
+ ventricle.
+ Through timing analysis of readings from both leads, the pacemaker generates
+ electrical pulses when neccesary that can maintain ventricular rate and
+ enforce atrium and ventricle synchronization.
+\end_layout
+
+\begin_layout Section*
+Heart Model
+\end_layout
+
+\begin_layout Itemize
+The ECS of the heart consists of pathways with different delays and refractory
+ periods.
+ Since refractory poperties of a path are determined by the refractory propertie
+s of tissue at both terminals, a conduction path can be modelled with two
+ 
+\series bold
+\color blue
+node
+\series default
+\color inherit
+ components that model refractory properties, and a 
+\series bold
+\color blue
+path
+\series default
+\color inherit
+ component that models conduction properties between the nodes.
+ Because everything here is of a temporal nature, they use timed automata
+ to model all of these things.
+\end_layout
+
+\begin_layout Subsubsection*
+A Brief Overview of Extended Timed Automata
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape smallcaps
+\color green
+[Possible paper link]
+\series default
+\shape default
+\color inherit
+ A 
+\series bold
+\color blue
+Timed automaton
+\series default
+\color inherit
+ is an extension of a
+\series bold
+\color blue
+ finite automaton
+\series default
+\color inherit
+ with a finite set of real valued clocks
+\end_layout
+
+\begin_layout Itemize
+The value of all clocks in the VHM increases over time at the same rate.
+ Each state can be assigned with a set of 
+\series bold
+\color blue
+clock-invariants
+\series default
+\color inherit
+ which are conditions expression constraints on the clock values for the
+ location.
+\end_layout
+
+\begin_layout Itemize
+In most models a 
+\series bold
+\color blue
+state-invariant
+\series default
+\emph on
+\color inherit
+ 
+\emph default
+defines an uppr bound on the values that a clock can have while the state
+ is active.
+\end_layout
+
+\begin_layout Itemize
+A 
+\series bold
+\color blue
+transition guard
+\series default
+\color inherit
+ is a condition on the values of clocks.
+ A typical guard is of the form 
+\begin_inset Formula $t\geq T$
+\end_inset
+
+.
+ which provides a lower bound 
+\begin_inset Formula $T$
+\end_inset
+
+ for the clock value.
+\end_layout
+
+\begin_layout Itemize
+A transition between states is enables when the guard of the transition
+ evaluates to true.
+\end_layout
+
+\begin_layout Itemize
+In order to model deterministic transitions at a particular time, state
+ invariants are usually defined as the complement of the guard (the opposing
+ inequality), when a transition occurs, associated (programmed) actions
+ are taken.
+\end_layout
+
+\begin_layout Itemize
+A 
+\series bold
+\color blue
+channel
+\series default
+\color inherit
+ 
+\begin_inset Formula $c$
+\end_inset
+
+ synchronizes with a sender 
+\begin_inset Formula $c'$
+\end_inset
+
+ and an arbitrary number of receivers 
+\begin_inset Formula $\bar{c}$
+\end_inset
+
+.
+ Furthermore, a transition with reciever 
+\begin_inset Formula $\bar{c}$
+\end_inset
+
+ is taken if 
+\begin_inset Formula $c'$
+\end_inset
+
+ is available.
+\end_layout
+
+\begin_layout Subsubsection*
+Modeling the ECS of the Heart
+\end_layout
+
+\begin_layout Itemize
+A 
+\series bold
+\color blue
+node automaton
+\series default
+\color inherit
+ models the refractory period of heart-tissue.
+ A 
+\series bold
+\color blue
+path automaton
+\series default
+\color inherit
+ models the propagation properties of heart tissue.
+\end_layout
+
+\begin_layout Itemize
+Heart tissue along a conducting path can then be modeled with two node-automata
+ and a path automaton connecting them.
+ When one node is activated it will send an 
+\emph on
+Act_path
+\emph default
+ event to the path automaton, which after some modeled conduction delay
+ will send an 
+\emph on
+Act_node
+\emph default
+ signal to the remaining node automaton.
+ This effect will essentially daisy-chain all the way till the end of the
+ conduction path.
+ This means that the ECS of the heart can be modelled with a chain of these
+ heart tissue blocks
+\end_layout
+
+\begin_layout Subsubsection*
+Node Automaton
+\end_layout
+
+\begin_layout Standard
+A node automation with some index 
+\begin_inset Formula $i$
+\end_inset
+
+ is used to mimic the timing of the upstroke of action potential.
+ The automaton starts from the REST state (corresponding to the resting
+ level potential).
+ if 
+\begin_inset Formula $i$
+\end_inset
+
+ models the SA node, the corresponding node automaton will self-activate
+ into the next state, ERP, after some amount of time 
+\begin_inset Formula $T_{rest}$
+\end_inset
+
+.
+ A broadcast even 
+\emph on
+Act_path
+\emph default
+
+\begin_inset Formula $\left(i\right)'$
+\end_inset
+
+ is sent to all path automata connected to node automaton 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ In this case, the shared variable 
+\begin_inset Formula $C\left(i\right)\in\left(0,1\right],$
+\end_inset
+
+ which is shared among all paths connected to node 
+\begin_inset Formula $i$
+\end_inset
+
+, is updated to 1 (indicating normal conduction delay).
+ All node-automata can be activated by receiving event 
+\emph on
+
+\begin_inset Formula $\bar{Act\_node\left(i\right)}$
+\end_inset
+
+
+\emph default
+ after some path connecting to it finishes conduction.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ERP state serves as a blocking period since the node does not react to activatio
+n signals while the state is active.
+ After time 
+\begin_inset Formula $T_{erp}$
+\end_inset
+
+ in the ERP state, transition to RRP state occurs.
+ If no external stimuli occur, the node will return to REST state after
+ some time 
+\begin_inset Formula $T_{rrp}$
+\end_inset
+
+.
+ However, if a node is activated during RRP state, transition to ERP will
+ occur.
+ activating all paths connected to the node.
+ Prior to entering ERP state, the variable used for the clock invariant
+ of the state is modified.
+ the 
+\begin_inset Formula $C$
+\end_inset
+
+ variable representing conduction delay will also be updated.
+ The 
+\begin_inset Formula $T_{erp}$
+\end_inset
+
+ will also change according to the functions 
+\begin_inset Formula $f$
+\end_inset
+
+ and 
+\begin_inset Formula $g$
+\end_inset
+
+, where 
+\begin_inset Formula $t$
+\end_inset
+
+ represents current 
+\begin_inset Formula $T_{erp}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{\text{min}}$
+\end_inset
+
+ and
+\begin_inset Formula $T_{\text{max}}$
+\end_inset
+
+ represent min and max values of 
+\begin_inset Formula $T_{erp}$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+f\left(t\right)=1-\frac{t}{T_{rrp}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{AV}\left(t\right)=T_{\text{min}}+\left(1-\left(1-t^{3}\right)\right)\cdot\left(T_{\text{max}}-T_{\text{min}}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+g\left(t\right)=T_{\text{min}}+\left(1-t^{3}\right)\cdot\left(T_{\text{max}}-T_{\text{min}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Path Automaton
+\end_layout
+
+\begin_layout Standard
+A path automaton models the electrical conduction between two nodes, each
+ path automation can conduct both ways, and it also connects nodes 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+.
+ Each path automation starts from the IDLE state (no conduction).
+ ANTE and RETRO states correspond with the real terms for forward and backward
+ conduction.
+ if an 
+\emph on
+Act_path
+\emph default
+ event is received from a node, the transition from IDLE into ANTE or RETRO
+ will occur in the path automaton.
+ The clock invariant of the state is modified according to the shared 
+\begin_inset Formula $C$
+\end_inset
+
+ value.
+ this change is modelled according to 
+\begin_inset Formula $h$
+\end_inset
+
+, where 
+\begin_inset Formula $v$
+\end_inset
+
+ represents the conduction velocity.
+\begin_inset Formula 
+\[
+h_{AV}\left(c\right)=\frac{\text{len}\left(path\right)}{v}\left(1+3c\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h\left(c\right)=\frac{\text{len}\left(path\right)}{v}\left(1+3c^{2}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Then after 
+\begin_inset Formula $T_{ante}$
+\end_inset
+
+ or 
+\begin_inset Formula $T_{retro}$
+\end_inset
+
+ time, the path sends out a corresponding 
+\emph on
+Act_node
+\emph default
+ signal.
+ There is then a brief transition to a state to prevent back flow called
+ CONFLICT before transition back to IDLE state.
+ In the case of two-way conduction transition to DOUBLE state is carried
+ out, before eventual transition to IDLE state as the signals cancel each
+ other out during two-way conduction.
+\end_layout
+
+\end_body
+\end_document
