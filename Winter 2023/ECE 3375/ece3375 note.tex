@@ -1,0 +1,224 @@
+% BEGIN_FOLD PREAMBLE
+\documentclass[]{report}
+
+%BEGIN_FOLD IMPORTS
+\usepackage[]{tikz}
+\usetikzlibrary{shapes.geometric}
+\usepackage[]{xcolor}
+\usepackage[]{anyfontsize}
+\usepackage[top=10mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+\usepackage[explicit]{titlesec}
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage[]{parskip}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{linktoc=all}
+\usepackage[outline]{contour}
+\usepackage{soul}
+\sethlcolor{hlcol}
+% END_FOLD IMPORTS
+
+% BEGIN_FOLD COLORS
+\definecolor{covercol}{HTML}{171717}
+\definecolor{maintextcol}{HTML}{CCCCCC}
+\definecolor{kwcol}{HTML}{CCCCCC} %used for Keywords
+\definecolor{defcol}{HTML}{FFFFFF} % used for Definition 98817B
+\definecolor{thecol}{HTML}{98817B} % used for Theorems 98817B
+\definecolor{hlcol}{HTML}{383838} % used for highlight
+\pagecolor{covercol}
+\AtBeginDocument{\color{maintextcol}}
+% END_FOLD COLORS
+
+% BEGIN_FOLD FONTS
+\usepackage[defaultfam,tabular,lining]{montserrat} %% Option 'defaultfam'
+%% only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\renewcommand*\oldstylenums[1]{{\fontfamily{Montserrat-TOsF}\selectfont #1}}
+% END_FOLD FONTS
+
+% BEGIN_FOLD TITLE FORMATS
+\titleformat{\chapter}[hang]{\huge\bfseries\color{white}}{\thechapter . }{0pt}{\MakeUppercase{#1}}[\vspace{-1cm}]
+\titleformat{\section}[hang]{\Large\bfseries\color{white}}{\thesection . }{0pt}{\MakeUppercase{#1}}
+% END_FOLD TITLE FORMATS
+
+% BEGIN_FOLD COVERPAGE
+\newcommand{\makecoverpage}[5]{
+	
+	%%%% LAYERS %%%%
+	\thispagestyle{empty}
+	\pgfdeclarelayer{bg}
+	\pgfdeclarelayer{main}
+	\pgfdeclarelayer{fg}
+	\pgfsetlayers{bg, main, fg}
+	
+	%%% COLORS %%%
+	\definecolor{covercol}{HTML}{171717}
+	\definecolor{subtextcol}{HTML}{999999}
+	
+	%%% DRAWING %%%
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		\begin{pgfonlayer}{fg}
+			\fill[covercol] (current page.south west) rectangle (current page.north east);
+		\end{pgfonlayer}
+		
+	\end{tikzpicture}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		\begin{pgfonlayer}{fg}
+			% title and subtitle
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm] current page.center)
+			{\Huge\bfseries\fontsize{40}{40}\selectfont #5};
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm, yshift=2cm] current page.center)
+			{\Huge\bfseries\fontsize{40}{40}\selectfont #1};
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm,yshift=-1.5cm]current page.center) {\Large\item\fontsize{20}{20}\selectfont #2};
+			
+			% author and date 
+			\node[align=right, text=white, anchor=south east] at ([xshift=-1cm, yshift=2cm]current page.south east) {\Large\color{white}#3};
+			\node[align=right, text=white, anchor=south east] at ([xshift=-1cm, yshift=1cm]current page.south east) {\Large\color{white}#4};
+		\end{pgfonlayer}
+		
+	\end{tikzpicture}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		\begin{pgfonlayer}{bg}
+			% Define the number of sides and the radius
+			\def\numSides{4}
+			\def\radius{3cm}
+			
+			% Loop to draw concentric polygons
+			\foreach \i in {1,...,15}{
+				\node[draw, subtextcol, dash pattern= on 1pt off 5+2*\i pt, line width = 1 pt, inner sep = 1cm, regular polygon, regular polygon sides=\numSides, minimum size=2*\i*\radius, rotate= 15+5*\i, opacity=50] at (6,-6) {};
+			}
+		\end{pgfonlayer}
+	\end{tikzpicture}
+	\newpage
+}
+% END_FOLD COVERPAGE
+
+% BEGIN_FOLD ENVIRONMENTS
+
+%----------------------------------------------------------------------------------------
+%   HIGHLIGHT ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{highlight}{
+	colback=covercol,
+	colframe=maintextcol,
+	coltext=maintextcol,
+	boxrule=2pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.5cm
+}
+
+%----------------------------------------------------------------------------------------
+%   REMARK ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{remark}{
+	colback=covercol,
+	colframe=maintextcol,
+	coltext=maintextcol,
+	boxrule=0pt,
+	leftrule=2pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.5cm
+}
+
+%----------------------------------------------------------------------------------------
+%   OUTLINE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{outline}[1][4pt]{
+	enhanced,
+	colback=covercol,
+	colframe=covercol, % To essentially hide the frame, but we will draw the corners manually
+	coltext=maintextcol,
+	boxrule=0pt,
+	boxsep=#1,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.5cm,
+	overlay={
+		% Top left corner
+		\draw[maintextcol,line width=2pt] 
+		(frame.north west) -- ++(0,-0.25*\tcbtextheight)
+		(frame.north west) -- ++(0.25*\tcbtextwidth,0);
+		% Bottom right corner
+		\draw[maintextcol,line width=2pt]
+		(frame.south east) -- ++(0,0.25*\tcbtextheight)
+		(frame.south east) -- ++(-0.25*\tcbtextwidth,0);
+	}
+}
+
+%----------------------------------------------------------------------------------------
+%   LSTLISTING ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\lstset
+{ %Formatting for code in appendix
+	language=Python,
+	basicstyle=\footnotesize,
+	numbers=left,
+	stepnumber=1,
+	showstringspaces=false,
+	tabsize=4,
+	breaklines=true,
+	breakatwhitespace=false,
+}
+
+%----------------------------------------------------------------------------------------
+%   DEFINITION ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newenvironment{definition}{
+	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{defcol}{Definition}}}]{}
+	}
+	{
+	\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%   THEORY ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newenvironment{theory}{
+	\begin{itemize}[labelindent=4.2em,labelsep=0.5cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{thecol}{Theorem}}}]
+	}
+	{
+	\end{itemize}
+}
+%----------------------------------------------------------------------------------------
+%   KEYWORD & STROKE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newcommand{\keyword}[1]{{{\color{kwcol}{\hl{#1}}\,}}}
+\newcommand{\stroke}[1]{{\contour{white}{\bfseries\color{black}{#1}}}}
+% END_FOLD ENVIRONMENTS
+
+% BEGIN_FOLD PAGE NUMBS
+\pagenumbering{gobble}
+% END_FOLD PAGE NUMBS
+
+% END_FOLD PREAMBLE
+
+% BEGIN_FOLD DOCUMENT
+\begin{document}	
+	
+	
+\makecoverpage{Microprocessors}{ECE 3375}{Arnav Goyal}{Winter 2023}{\& Microcomputers}
+\tableofcontents
+
+\chapter{INTRODUCTION}
+	
+
+		
+	
+\end{document}
+% END_FOLD DOCUMENT
