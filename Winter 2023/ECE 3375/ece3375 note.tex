@@ -110,7 +110,7 @@
 	colback=covercol,
 	colframe=maintextcol,
 	coltext=maintextcol,
-	boxrule=2pt,
+	boxrule=1pt,
 	boxsep=4pt,
 	arc=0pt,
 	outer arc=0pt,
@@ -127,7 +127,7 @@
 	colframe=maintextcol,
 	coltext=maintextcol,
 	boxrule=0pt,
-	leftrule=2pt,
+	leftrule=1pt,
 	boxsep=4pt,
 	arc=0pt,
 	outer arc=0pt,
@@ -217,7 +217,7 @@
 \tableofcontents
 
 \chapter{INTRODUCTION \& REVIEW}
-This chapter goes over a bit of the basic knowledge that we will build off-of for the rest of this document, almost everything here was taught in ECE-2277 Digital Logic Systems.
+This chapter goes over a bit of the basic knowledge that we will build off-of for the rest of this document, almost everything here was taught in ECE-2277 (Digital Logic Systems).
 \section{NUMBER SYSTEMS}
 
 
@@ -321,6 +321,8 @@ During signed addition, the range of values we can store is basically halved to 
 
 Some quick takeaways:
 \begin{itemize}
+	\item Overflow only corresponds with signed arithmetic
+	\item Carry only corresponds with unsigned arithmetic
 	\item An overflow can never occur when adding two numbers with differing signs
 	\item During subtraction, carry = NOT borrow
 \end{itemize}
