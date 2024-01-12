@@ -322,7 +322,9 @@ During signed addition, the range of values we can store is basically halved to 
 Some quick takeaways:
 \begin{itemize}
 	\item Overflow only corresponds with signed arithmetic
+	\item If both addition operands have the same MSb value, and produce a result with the other MSb value, an overflow (V) has occured. 
 	\item Carry only corresponds with unsigned arithmetic
+	\item When an addition produces another bit, a carry has occured (C)
 	\item An overflow can never occur when adding two numbers with differing signs
 	\item During subtraction, carry = NOT borrow
 \end{itemize}
