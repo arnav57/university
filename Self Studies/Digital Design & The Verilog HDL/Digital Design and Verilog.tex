@@ -54,18 +54,19 @@
 
 % BEGIN_FOLD PREFACE
 \newcommand{\preface}{%
-\newpage
-\section*{PREFACE}
-The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed under this portion.
-
-In general this document follows the format of highlighting \keyword{keywords} in green. I can also introduce a {{\itshape\scshape\color{purple!55!red}{Definition}}} or a {{\itshape\scshape\color{red!55!purple}{Theorem}}}. There may also be various other things like code blocks which include \code{keywords} or \str{strings}. Remarks (similar to markdown style quotes). Or highlighted boxes. I might use these to organize things further if I deem necessary.
-
-\section*{REFERENCES}
-\begin{itemize}
-	\item Provided Lecture Notes \& Info on Course Website
-	\item Applied Digital Signal Processing: Theory and Practice - G. Manolakis, K. Ingle 
-\end{itemize}
-\newpage
+	\newpage
+	\section*{PREFACE}
+	The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed under this portion.
+	
+	In general this document follows the format of highlighting \keyword{keywords} in green. I can also introduce a {{\itshape\scshape\color{purple!55!red}{Definition}}} or a {{\itshape\scshape\color{red!55!purple}{Theorem}}}. There may also be various other things like code blocks which include \code{keywords} or \str{strings}. Remarks (similar to markdown style quotes). Or highlighted boxes. I might use these to organize things further if I deem necessary.
+	
+	\section*{REFERENCES}
+	\begin{itemize}
+		\item Provided Lecture Notes for ECE 2277 (Digital Logic Systems)
+		\item Digital Design With An Introduction to the Verilog HDL - M. Mano, D. Ciletti
+		\item Verilog Complete Tutorial - VLSI Point (\href{https://www.youtube.com/playlist?list=PL_3xKnVkfI2itQhCyfnamNYSCHd2KHi4k}{YouTube Link})
+	\end{itemize}
+	\newpage
 }
 
 
@@ -250,8 +251,103 @@ In general this document follows the format of highlighting \keyword{keywords} i
 % BEGIN_FOLD DOCUMENT
 \begin{document}	
 	
-\makecoverpage{Digital Systems}{ECE 3351}{Arnav Goyal}{Winter '23-'24}{\& Signal Processing}
+	
+\makecoverpage{Digital Design}{Self Studies}{Arnav Goyal}{Winter 2023}{\& The Verilog HDL}
 \tableofcontents
 \preface
+%% ensure digital design is part I, verilog should be part II
+\part{DIGITAL DESIGN}
+\part{THE VERILOG HDL}
+
+\chapter{THE BASICS}
+
+\section{HARDWARE DESCRIPTION LANGUAGES}
+
+\keyword{Hardware Description Languages (HDLs)} are a specialized computer language that are used to describe the structure and behavior of \keyword{electronic circuits}, they also include the notion of \keyword{time-delays} present in real digital circuits, and they also support multiple things happening at the same time - \keyword{concurrency}. This is different from programming languages which are line-by-line (sequential) in nature
+
+This document goes over the \keyword{Verilog} HDL which is ubiquitous in the industry, and uses the \texttt{.v} file extension. Another key thing is that HDLs are used \textit{after} designing the hardware, remember that they are NOT programming languages.
+
+\section{LEVELS OF ABSTRACTION}
+
+Within this field of study we commonly encounter the need to use predesigned elements such as registers and multiplexers within more complex designs. When this arises we add a block for the multiplexer, its inputs, and its outputs, and treat it as a block without worrying about how it works. This is called \keyword{abstraction}.
+
+There are three main levels of abstraction provided by Verilog, and we can code things at each level.
+\begin{itemize}
+	\item Gate Level
+	\item Dataflow Level (Register Transfer Level)
+	\item Behavioural Level
+\end{itemize}
+
+\emph{Gate Level Modeling} allows us to connect hardware gate-by-gate, and wire-by-wire. Verilog has the basic gates ready for use through basic syntax. It is the lowest level of abstraction
+
+\begin{lstlisting}[caption={Basic Gate Level Modeling},label={lst1}]
+and G1(out1, A, B);
+or G2(out2, A, B);
+nand G3(out3, A, B);
+\end{lstlisting}
+
+\emph{Register Transfer Level Modeling} allows us to talk about how the data flows in a circuit and it deals with the concept of \keyword{continuous assignment}.
+
+\begin{lstlisting}[caption={Basic RTL Modeling}, label={lst2}]
+assign out1 = x & y;
+assign out2 = x | y;
+assign out3 = ~y;
+\end{lstlisting}
+
+\emph{Behavioral Modeling} allows us to describe the behavior of circuits in (almost) plain English, this is the highest level of abstraction and uses keywords such as \code{always} and \code{initial}. It is also usually the fastest way to write simple things such as conditional statements.
+
+\begin{lstlisting}[caption={Basic Behavioral Modeling}, label={lst3}]
+always @(sel, I0, I1):
+begin
+	if (sel)
+		out = I1;
+	else
+		out = I0;
+end
+\end{lstlisting}
+
+\section{MODULES \& ENTITIES}
+
+A \keyword{module} is the basic building block of Verilog and it can be an element or collection of other lower-level modules. They provide their functionality to higher-level blocks through means of their \keyword{ports}, but they hide the internal implementation. This is essentially the concept of abstraction we discussed earlier, but this also allows for procedural based design. 
+
+\begin{lstlisting}[caption={Module Declaration Syntax}, label={lst4}]
+module <moduleName> (
+	[port-list]
+);
+// Module functionality goes here
+endmodule
+\end{lstlisting}
+
+Aside from declaring modules, we can also create \keyword{entities} by instantiating modules. To learn by example we can use the code for a 2x1 MUX in Snippet \ref{lst3} to create  4x1 MUX.
+
+\begin{lstlisting}[caption={Module Instantition Example (4x1 MUX)}]
+// Create the 2x1 MUX module
+module mux_2x1 (
+	input i0, i1, sel
+	output out
+);
+	always @(i0, i1, sel)
+	begin
+		if (sel)
+			out = i1;
+		else
+			out = i0;
+	end
+endmodule
+
+// Create the 4x1 MUX module
+module mux_4x1(
+	input i0, i1, i2, i3, sel0, sel1,
+	output out
+);
+
+	wire outA, outB;
+	
+	2x1mux A (i0,i1,sel0, outA);
+	2x1mux B (i2,i3,sel0, outB);
+	2x1mux C (outA, outB, sel1, out);
+	
+endmodule
+\end{lstlisting}
 
 \end{document}

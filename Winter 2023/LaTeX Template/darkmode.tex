@@ -6,7 +6,7 @@
 \usetikzlibrary{shapes.geometric}
 \usepackage[]{xcolor}
 \usepackage[]{anyfontsize}
-\usepackage[top=10mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+\usepackage[top=20mm, bottom=20mm, left=25mm, right=25mm]{geometry}
 \usepackage[explicit]{titlesec}
 \usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
@@ -18,18 +18,25 @@
 \hypersetup{linktoc=all}
 \usepackage[outline]{contour}
 \usepackage{soul}
-\sethlcolor{hlcol}
+\sethlcolor{greyblue!95!white}
 % END_FOLD IMPORTS
 
 % BEGIN_FOLD COLORS
-\definecolor{covercol}{HTML}{171717}
-\definecolor{maintextcol}{HTML}{CCCCCC}
-\definecolor{kwcol}{HTML}{CCCCCC} %used for Keywords
-\definecolor{defcol}{HTML}{FFFFFF} % used for Definition 98817B
-\definecolor{thecol}{HTML}{98817B} % used for Theorems 98817B
-\definecolor{hlcol}{HTML}{383838} % used for highlight
-\pagecolor{covercol}
-\AtBeginDocument{\color{maintextcol}}
+\definecolor{whitesmoke}{HTML}{CCCCCC}
+\definecolor{grey}{HTML}{686E75}
+\definecolor{red}{HTML}{D65B5C}
+\definecolor{orange}{HTML}{EF8511}
+\definecolor{yellow}{HTML}{D3B006}
+\definecolor{green}{HTML}{5DB267}
+\definecolor{blue}{HTML}{62ABF3}
+\definecolor{purple}{HTML}{7F76DA}
+\definecolor{pink}{HTML}{B76CC7}
+\definecolor{greyblue}{HTML}{171B20} % default: 171B20
+
+\pagecolor{greyblue}
+\AtBeginDocument{\color{whitesmoke}}
+
+	
 % END_FOLD COLORS
 
 % BEGIN_FOLD FONTS
@@ -40,12 +47,33 @@
 % END_FOLD FONTS
 
 % BEGIN_FOLD TITLE FORMATS
-\titleformat{\chapter}[hang]{\huge\bfseries\color{white}}{\thechapter . }{0pt}{\MakeUppercase{#1}}[\vspace{-1cm}]
-\titleformat{\section}[hang]{\Large\bfseries\color{white}}{\thesection . }{0pt}{\MakeUppercase{#1}}
+\titleformat{\chapter}[hang]{\Huge\bfseries\color{white}}{\thechapter \ \textasciitilde \  }{0pt}{\MakeUppercase{#1}}[\vspace{-1cm}]
+\titleformat{\section}[hang]{\Large\bfseries\color{white}}{\thesection \ \textasciitilde \ }{0pt}{\MakeUppercase{#1}}
+\titleformat{\subsection}[hang]{\large\bfseries\color{whitesmoke}}{\thesubsection \ \textasciitilde \ }{0pt}{\MakeUppercase{#1}}
 % END_FOLD TITLE FORMATS
 
+% BEGIN_FOLD PREFACE
+\newcommand{\preface}{%
+	\newpage
+	\section*{PREFACE}
+	The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed under this portion.
+	
+	In general this document follows the format of highlighting \keyword{keywords} in green. I can also introduce a {{\itshape\scshape\color{purple!55!red}{Definition}}} or a {{\itshape\scshape\color{red!55!purple}{Theorem}}}. There may also be various other things like code blocks which include \code{keywords} or \str{strings}. Remarks (similar to markdown style quotes). Or highlighted boxes. I might use these to organize things further if I deem necessary.
+	
+	\section*{REFERENCES}
+	\begin{itemize}
+		\item Provided Lecture Notes \& Info on Course Website
+		\item Additional Textbooks Here ...
+	\end{itemize}
+	\newpage
+}
+
+
+% END_FOLD PREFACE
+
+
 % BEGIN_FOLD COVERPAGE
-\newcommand{\makecoverpage}[4]{
+\newcommand{\makecoverpage}[5]{
 	
 	%%%% LAYERS %%%%
 	\thispagestyle{empty}
@@ -54,17 +82,13 @@
 	\pgfdeclarelayer{fg}
 	\pgfsetlayers{bg, main, fg}
 	
-	%%% COLORS %%%
-	\definecolor{covercol}{HTML}{171717}
-	\definecolor{subtextcol}{HTML}{999999}
-	
 	%%% DRAWING %%%
 	\begin{tikzpicture}[remember picture, overlay]
 		
 		\begin{pgfonlayer}{fg}
-			\fill[covercol] (current page.south west) rectangle (current page.north east);
+			\fill[greyblue] (current page.south west) rectangle (current page.north east);
 		\end{pgfonlayer}
-			
+		
 	\end{tikzpicture}
 	
 	\begin{tikzpicture}[remember picture, overlay]
@@ -72,12 +96,14 @@
 		\begin{pgfonlayer}{fg}
 			% title and subtitle
 			\node[align=right, text=white, anchor=east] at ([xshift=10cm] current page.center)
+			{\Huge\bfseries\fontsize{40}{40}\selectfont #5};
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm, yshift=2cm] current page.center)
 			{\Huge\bfseries\fontsize{40}{40}\selectfont #1};
-			\node[align=right, text=white, anchor=east] at ([xshift=10cm,yshift=-1.5cm]current page.center) {\Large\item\fontsize{20}{20}\selectfont #2};
+			\node[align=right, text=whitesmoke, anchor=east] at ([xshift=10cm,yshift=-1.5cm]current page.center) {\Large\item\fontsize{20}{20}\selectfont #2};
 			
 			% author and date 
-			\node[align=right, text=white, anchor=south east] at ([xshift=-1cm, yshift=2cm]current page.south east) {\Large\color{white}#3};
-			\node[align=right, text=white, anchor=south east] at ([xshift=-1cm, yshift=1cm]current page.south east) {\Large\color{white}#4};
+			\node[align=right, anchor=south east] at ([xshift=-1cm, yshift=2cm]current page.south east) {\Large\color{whitesmoke}#3};
+			\node[align=right,, anchor=south east] at ([xshift=-1cm, yshift=1cm]current page.south east) {\Large\color{whitesmoke}#4};
 		\end{pgfonlayer}
 		
 	\end{tikzpicture}
@@ -85,12 +111,12 @@
 	\begin{tikzpicture}[remember picture, overlay]
 		\begin{pgfonlayer}{bg}
 			% Define the number of sides and the radius
-			\def\numSides{4}
+			\def\numSides{7}
 			\def\radius{3cm}
 			
 			% Loop to draw concentric polygons
-			  \foreach \i in {1,...,15}{
-				\node[draw, subtextcol, dash pattern= on 1pt off 5+2*\i pt, line width = 1 pt, inner sep = 1cm, regular polygon, regular polygon sides=\numSides, minimum size=2*\i*\radius, rotate= 15+5*\i, opacity=50] at (0,0) {};
+			\foreach \i in {1,...,15}{
+				\node[draw, grey, dash pattern= on 1pt off 5+2*\i pt, line width = 1 pt, inner sep = 1cm, regular polygon, regular polygon sides=\numSides, minimum size=2*\i*\radius, rotate= 15+5*\i, opacity=50] at (-3,-6) {};
 			}
 		\end{pgfonlayer}
 	\end{tikzpicture}
@@ -105,14 +131,15 @@
 %----------------------------------------------------------------------------------------
 
 \newtcolorbox{highlight}{
-	colback=covercol,
-	colframe=maintextcol,
-	coltext=maintextcol,
-	boxrule=2pt,
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
+	boxrule=0.75pt,
 	boxsep=4pt,
 	arc=0pt,
 	outer arc=0pt,
-	enlarge bottom by=0.5cm
+	enlarge bottom by=0.25cm,
+	enlarge top by=0.15cm
 }
 
 %----------------------------------------------------------------------------------------
@@ -120,15 +147,15 @@
 %----------------------------------------------------------------------------------------
 
 \newtcolorbox{remark}{
-	colback=covercol,
-	colframe=maintextcol,
-	coltext=maintextcol,
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
 	boxrule=0pt,
-	leftrule=2pt,
+	leftrule=0.75pt,
 	boxsep=4pt,
 	arc=0pt,
 	outer arc=0pt,
-	enlarge bottom by=0.5cm
+	enlarge bottom by=0.5cm,
 }
 
 %----------------------------------------------------------------------------------------
@@ -137,21 +164,21 @@
 
 \newtcolorbox{outline}[1][4pt]{
 	enhanced,
-	colback=covercol,
-	colframe=covercol, % To essentially hide the frame, but we will draw the corners manually
-	coltext=maintextcol,
-	boxrule=0pt,
+	colback=greyblue,
+	colframe=greyblue, % To essentially hide the frame, but we will draw the corners manually
+	coltext=whitesmoke,
+	boxrule=1pt,
 	boxsep=#1,
-	arc=0pt,
-	outer arc=0pt,
+	arc=1pt,
+	outer arc=1pt,
 	enlarge bottom by=0.5cm,
 	overlay={
 		% Top left corner
-		\draw[maintextcol,line width=2pt] 
+		\draw[whitesmoke,line width=1pt] 
 		(frame.north west) -- ++(0,-0.25*\tcbtextheight)
 		(frame.north west) -- ++(0.25*\tcbtextwidth,0);
 		% Bottom right corner
-		\draw[maintextcol,line width=2pt]
+		\draw[whitesmoke,line width=1pt]
 		(frame.south east) -- ++(0,0.25*\tcbtextheight)
 		(frame.south east) -- ++(-0.25*\tcbtextwidth,0);
 	}
@@ -162,14 +189,28 @@
 %----------------------------------------------------------------------------------------
 \lstset
 { %Formatting for code in appendix
-	language=Python,
-	basicstyle=\footnotesize,
+	language=Verilog,
+	frame=single,
+	basicstyle=\footnotesize\texttt,
 	numbers=left,
 	stepnumber=1,
 	showstringspaces=false,
 	tabsize=4,
 	breaklines=true,
 	breakatwhitespace=false,
+	aboveskip=2em,
+	belowcaptionskip=0.75em
+}
+\usepackage[font={color=white, it}]{caption}
+\renewcommand{\lstlistingname}{\color{white} Snippet}
+\lstset{ %
+	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{grey},    % comment style
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue!55!green},       % keyword style
+	stringstyle=\color{green!75!white},     % string literal style
 }
 
 %----------------------------------------------------------------------------------------
@@ -177,7 +218,7 @@
 %----------------------------------------------------------------------------------------
 \newenvironment{definition}{
 	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
-		\item[{{\itshape\scshape\color{defcol}{Definition}}}]{}
+		\item[{{\itshape\scshape\color{purple!55!red}{Definition}}}]{}
 	}
 	{
 	\end{itemize}
@@ -188,16 +229,18 @@
 %----------------------------------------------------------------------------------------
 \newenvironment{theory}{
 	\begin{itemize}[labelindent=4.2em,labelsep=0.5cm,leftmargin=*]
-		\item[{{\itshape\scshape\color{thecol}{Theorem}}}]
+		\item[{{\itshape\scshape\color{red!55!purple}{Theorem}}}]
 	}
 	{
 	\end{itemize}
 }
 %----------------------------------------------------------------------------------------
-%   KEYWORD & STROKE ENVIRONMENT
+%   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
 %----------------------------------------------------------------------------------------
-\newcommand{\keyword}[1]{{{\color{kwcol}{\hl{#1}}\,}}}
-\newcommand{\stroke}[1]{{\contour{white}{\bfseries\color{black}{#1}}}}
+\newcommand{\keyword}[1]{{{\color{green}{#1}\,}}}
+\newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
+\newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
+\renewcommand{\emph}[1]{} % renew emph style here as required
 % END_FOLD ENVIRONMENTS
 
 % BEGIN_FOLD PAGE NUMBS
@@ -207,10 +250,9 @@
 % END_FOLD PREAMBLE
 
 % BEGIN_FOLD DOCUMENT
-\begin{document}
-\makecoverpage{Sample Title}{Course Code}{Arnav Goyal}{Winter 2023}
-\tableofcontents
-
+\begin{document}\makecoverpage{Sample Title}{Course Code}{Arnav Goyal}{Winter '23-'24}{. . .}
+\tableofcontents 
+\preface
 \chapter{chapter}
 
 This is the chapter preface
@@ -218,6 +260,10 @@ This is the chapter preface
 \section{section}
 
 Here is some example text \ldots
+
+\subsection*{SUBSECTION}
+
+Here is some text separated by a subsection
 
 \section{boxes}
 
@@ -235,7 +281,7 @@ Here is some example text \ldots
 
 \section{code}
 
-\begin{lstlisting}[language=Python, frame=single]
+\begin{lstlisting}[language=Python, frame=single, caption={Example Code}]
 print("Hello World")
 
 # toggle flip-flops on rising edge clock 
@@ -246,15 +292,14 @@ if (clk == HIGH):
 \end{lstlisting}
 
 \section{keyword}
-This is a \keyword{keyword}, and this is a \stroke{stroked word}
-
+This is a \keyword{keyword}, these are \code{code} or \str{string} references.
 \section{definition \& theory}
 
 \begin{definition}
 	Apples are a basic food
 \end{definition}
 \begin{theory}
-	Kiwis are better than appless
+	Kiwis are better than apples
 \end{theory}
 
 \chapter{complex analysis}
