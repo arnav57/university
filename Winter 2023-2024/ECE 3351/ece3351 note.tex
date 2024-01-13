@@ -2,6 +2,7 @@
 \documentclass[]{report}
 
 %BEGIN_FOLD IMPORTS
+\usepackage{amsfonts}
 \usepackage[]{tikz}
 \usetikzlibrary{shapes.geometric}
 \usepackage[]{xcolor}
@@ -64,6 +65,7 @@ In general this document follows the format of highlighting \keyword{keywords} i
 \begin{itemize}
 	\item Provided Lecture Notes \& Info on Course Website
 	\item Applied Digital Signal Processing: Theory and Practice - G. Manolakis, K. Ingle 
+	\item Digital Signal Processing: Principles, Algorithms, and Applications 4e - G. Proakis, G. Manolakis
 \end{itemize}
 \newpage
 }
@@ -216,11 +218,11 @@ In general this document follows the format of highlighting \keyword{keywords} i
 %   DEFINITION ENVIRONMENT
 %----------------------------------------------------------------------------------------
 \newenvironment{definition}{
-	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
+	\begin{remark}\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
 		\item[{{\itshape\scshape\color{purple!55!red}{Definition}}}]{}
 	}
 	{
-	\end{itemize}
+	\end{itemize}\end{remark}
 }
 
 %----------------------------------------------------------------------------------------
@@ -236,7 +238,7 @@ In general this document follows the format of highlighting \keyword{keywords} i
 %----------------------------------------------------------------------------------------
 %   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
 %----------------------------------------------------------------------------------------
-\newcommand{\keyword}[1]{{{\color{green}{#1}\,}}}
+\newcommand{\keyword}[1]{{{\color{green}{#1}}}}
 \newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
 \newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
 \renewcommand{\emph}[1]{} % renew emph style here as required
@@ -253,5 +255,105 @@ In general this document follows the format of highlighting \keyword{keywords} i
 \makecoverpage{Digital Systems}{ECE 3351}{Arnav Goyal}{Winter '23-'24}{\& Signal Processing}
 \tableofcontents
 \preface
+
+\chapter{INTRODUCTION}
+
+\section{SIGNALS}
+
+\subsection*{SIGNALS \& SYSTEMS}
+As we begin the study of \keyword{signal processing} we should start by defining what a \keyword{signal} actually is. 
+
+\begin{definition}
+	A \keyword{signal} is a measurable or detectable physical quantity (air-pressure, voltage, current, etc.) that carries some information.
+\end{definition}
+
+The study of signal processing involves passing a signal through a \keyword{system}. With the goal of extracting something (usually the information) from the signal
+\begin{definition}
+	A \keyword{system} is a physical device that performs an operation on a signal.
+\end{definition}
+
+\subsection*{INFORMATION \& NOISE}
+Signals will always contain two things. \keyword{Information} and \keyword{Noise}. The information is the part we are interested in, and the Noise is considered everything else. For example when dealing with speech recognition, background music would be considered noise.
+
+Information can be encoded within a signal through the some of the following methods:
+\begin{itemize}
+	\item Signal Amplitude
+	\item Signal frequency or Spectral Content
+	\item Signal Phase
+\end{itemize}
+
+Now we can see that signal processing deals with extracting information by essentially 'interpreting' its used encoding method.
+
+\subsection*{ANALOG \& DIGITAL SIGNALS}
+
+Signals can be found as \keyword{analog signals} or as \keyword{digital signals}.
+\begin{definition}
+	An \keyword{analog signal} is a signal that varies continuously with respect to its independent variables.
+\end{definition}
+
+Most real life signals are analog signals, and analog signals can either be processed directly or converted into digital signals for processing before being reconverted into analog signals.
+
+\begin{definition}
+	A \keyword{digital signal} is a signal that represents data as a sequence of discrete and quantized values. In other words, it is a discrete-valued AND discrete-time signal.
+\end{definition}
+
+Digital signals have some pretty big benefits:
+\begin{itemize}
+	\item Noise robustness - either a 0 or 1
+	\item Software Implementation - can be processed through code instead of circuits
+	\item Easy to store and transmit
+	\item Fairly independent of external parameters like temperature
+\end{itemize}
+
+They have some drawbacks too:
+\begin{itemize}
+	\item Increased system complexity - Need A/D and D/A conversion and complex digital circuitry
+	\item Limited Range of Frequencies - Sampling rate must be twice the value of the highest frequency present within the signal
+	\item Power Consumption - requires active devices, rather than analog signal processors which can be passive.
+\end{itemize}
+
+Overall, the advantages matter more than the drawbacks which is why digital signals are so commonplace.
+
+\section{CLASSIFICATION OF SIGNALS}
+
+Signals can be further classified based on the information they provide. Namely to classify a signal we choose an option among the 5 characteristics below.
+\begin{itemize}
+	\item Continuous-Time OR Discrete-Time
+	\item Continuous-Valued OR Discrete-Valued
+	\item One-Channel OR Multi-Channel
+	\item One-Dimensional OR Multi-Dimensional
+	\item Deterministic OR Random
+\end{itemize}
+
+\subsection*{CONTINUOUS VS DISCRETE TIME SIGNALS}
+
+\keyword{Continuous-time signals} are defined on some interval $(a,b)$, thus it can be represented as a function of a continuous variable $f\left( t \right) , t\in\left[ a,b\right]$
+
+\keyword{Discrete-time signals} are defined on a set of integer numbers (indices) $\left\{ 0,1,2,\ldots \right\}$ and each index has a corresponding value $\left\{ f_0,f_1,f_2,\ldots \right\}$. This means that we can represent them as sequences: $f\left[ n\right] = \left\{ f_0,f_1,f_2,\ldots \right\}$
+
+\subsection*{CONTINUOUS VS DISCRETE-VALUED SIGNALS}
+
+\keyword{Continuous-valued signals} can take on all-possible values from its continuous range, while
+\keyword{discrete-valued signals} take on values from a finite set. The process of converting a continuous-valued signal into a discrete-valued one is called \keyword{quantization}
+
+\subsection*{SIGNAL CHANNELS}
+\keyword{single channel signals} are usually generated by one source and can be represented by \emph{scalar} functions, \keyword{multi-channel signals} are usually generated by multiple sources/sensors and are represented by \emph{vector functions}
+
+\subsection*{SIGNAL DIMENSIONS}
+
+\keyword{One-dimensional signals} are a function of one independent variable (usually time). while \keyword{N-dimensional signals} are a function of N independent variables (time, x-pos, y-pos, etc.)
+
+\subsection*{DETERMINISTIC VS RANDOM SIGNALS}
+
+If we can exactly predict the future values of a signal by using its past values, we say that the signal is a \keyword{deterministic signal}. On the other hand, if we cannot predict it exactly we say that the signal is a \keyword{random signal}. There is no sharp distinction between the two due to the presence of noise, but these serve the purpose of broad categories.
+
+\begin{highlight}
+	Consider the signal fed into a colored TV. This signal would typically have 3-channels (R, G, B) and 3-dimensions - time, and coordinates to differentiate each pixel (t, x-pos, y-pos).
+	
+	\[ \mathbb{I}\left( x,y,t \right) = \begin{bmatrix}
+		I_r\left(x,y,t\right) \\ I_g\left(x,y,t\right) \\ I_b\left(x,y,t\right)
+	\end{bmatrix}	\]
+	
+\end{highlight}
 
 \end{document}
