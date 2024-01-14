@@ -3,7 +3,9 @@
 
 %BEGIN_FOLD IMPORTS
 \usepackage[]{tikz}
-\usetikzlibrary{shapes.geometric}
+\usepackage{circuitikz}
+\ctikzset{logic ports = ieee}
+\usetikzlibrary{shapes.geometric, decorations.markings}
 \usepackage[]{xcolor}
 \usepackage[]{anyfontsize}
 \usepackage[top=20mm, bottom=20mm, left=25mm, right=25mm]{geometry}
@@ -247,16 +249,119 @@
 \pagenumbering{gobble}
 % END_FOLD PAGE NUMBS
 
+% BEGIN_FOLD BLOCK DIAGRAMS
+% Define block styles
+\tikzstyle{blockg} = [rectangle, draw, minimum width=5em, text centered, minimum height=4em, fill=green!45!black]
+\tikzstyle{input} = [coordinate] %[draw, ellipse, text centered, minimum height=2em, fill=greyblue!65!black]
+\tikzstyle{output} = [coordinate] %[draw, ellipse, text centered, minimum height=2em, fill=greyblue!65!black]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{arrow} = [draw, -latex']
+\tikzset{
+	inverter/.style={rectangle,draw,inner sep=2pt,minimum size=6mm},
+	dot/.style={circle,inner sep=0pt,minimum size=0.5mm,draw,fill=black},
+	buswidth/.style={decoration={
+			markings,
+			mark= at position 0.5 with {\node[font=\footnotesize] {/};\node[below=2pt] {\tiny #1};}
+		}, postaction={decorate}}
+	}
+% END_FOLD BLOCK DIAGRAMS
+
+% BEGIN_FOLD CUSTOM CTIKZ
+\tikzset{flipflop HA/.style={flipflop,
+	flipflop def={t1=x, t3=y, t4=c, t6=r}}
+}
+% END_FOLD CUSTOM CTIKZ
+
 % END_FOLD PREAMBLE
 % BEGIN_FOLD DOCUMENT
 \begin{document}	
 	
-	
 \makecoverpage{Digital Design}{Self Studies}{Arnav Goyal}{Winter 2024}{\& The Verilog HDL}
 \tableofcontents
 \preface
-%% ensure digital design is part I, verilog should be part II
+
 \part{DIGITAL DESIGN}
+
+\chapter{COMBINATIONAL LOGIC}
+
+\section{COMBINATIONAL CIRCUITS}
+
+A \keyword{combinational circuit} consists of a connection of logic gates with no feedback loops or memory elements. In general a combinational circuit aims to map some number of $m$ inputs into the desired $n$ outputs
+\begin{center} \begin{tikzpicture}[node distance = 3.5cm]
+	\node [input] (input) {};
+	\node [blockg, right of = input] (block1) {Combinational Circuit};
+	\node [output, right of = block1] (output) {};
+	
+	\draw[-stealth, buswidth={m inputs}] (input) -- (block1);
+	\draw[-stealth, buswidth={n outputs}] (block1) -- (output);
+\end{tikzpicture} \end{center}
+
+\section{THE BINARY ADDER}
+
+A \keyword{binary adder} performs the addition of bits. In order to construct this circuit, lets first start by creating the truth table. Consider two addition bits x and y, with result r and a carry bit c.
+\[
+\begin{array}{|c c|c c|}
+	\hline
+	x & y & r & c \\
+	\hline
+	0 & 0 & 0 & 0 \\
+	0 & 1 & 1 & 0 \\
+	1 & 0 & 1 & 0 \\ 
+	1 & 1 & 0 & 1 \\
+	\hline
+\end{array} \]
+
+Using the truth table, we can construct a circuit. This circuit is called a \keyword{half-adder} as it doesnt consider a carry-in bit, and its circuit looks like this.
+\\
+
+\begin{center} \begin{circuitikz}
+		\draw (2,0) node[and port] (A){};
+		\draw (2,-2) node[xor port] (X){};
+		\draw (A.in 1) to[short, -*] ++(-3,0) node[label=left:$x$] (x){};
+		\draw (A.in 2) to[short, -*] ++(-3,0) node[label=left:$y$] (y){};
+		\draw (x) ++(1.5,0) node[circ]{} |- (X.in 1);
+		\draw (y) ++(1,0) node[circ]{} |- (X.in 2);
+		\draw (A.out) to[short, -*] ++(2,0) node[label=right:$c$] (c){};
+		\draw (X.out) to[short, -*] ++(2,0) node[label=right:$r$] (r){};
+\end{circuitikz} \end{center}
+\vspace{1em}
+Suppose we did want to consider a carry in bit. The resulting truth table with the addition of the carry in bit b looks like this. This circuit is called a \keyword{full adder}.
+
+\[
+\begin{array}{|c c c|c c|}
+	\hline
+	x & y & b & r & c \\
+	\hline
+0                     & 0                     & 0                     & 0                     & 0                     \\
+0                     & 0                     & 1                     & 1                     & 0                     \\
+0                     & 1                     & 0                     & 1                     & 0                     \\
+0                     & 1                     & 1                     & 0                     &  1                     \\
+\hline
+1                     & 0                     & 0                     & 1                     & 0                     \\
+1                     & 0                     & 1                     & 0                     & 1                     \\
+1                     & 1                     & 0                     & 0                     & 1                     \\
+1                     & 1                     & 1                     & 1                     & 1     \\
+	\hline
+\end{array} \]
+
+Constructing this circuit directly from the truth table is trivial, but another way to construct a full-adder involves using two half adders. \\
+
+\begin{center} \begin{circuitikz}
+		\draw (2,0) node[flipflop HA] (HA1) {HA};
+		\draw (5,-3) node[flipflop HA] (HA2) {HA};
+		\draw (HA2.pin 4) to ++(1,0) node[or port, anchor=in 2] (OR) {};
+		\draw (HA2.pin 1) to[short] ++(-5,0) node[label=left:$c_\text{ in}$, circ]{};
+		\draw (HA1.pin 1) to ++(-2,0) node[label=left:$x$, circ]{};
+		\draw (HA1.pin 3) to ++(-2,0) node[label=left:$y$, circ]{};
+		\draw (HA1.pin 6) to ++(0.5,0) |- (HA2.pin 3);
+		\draw (HA1.pin 4) to ++(3.5,0) |- (OR.in 1);
+		\draw (OR.out) to ++(1,0) node[label=right:$c_\text{ out}$, circ]{};
+		\draw (HA2.pin 6) to ++(4,0) node[label=right:$r$, circ]{};
+\end{circuitikz} \end{center}
+\vspace{1em}
+Now that we have constructed a basic full-adder, we can chain these together to create an arbitrary $n$-bit adder. Below is a 2-bit adder to show how we can extend this concept further to larger sizes (also to avoid drawing a crazy circuit in \TeX)
+
+
 \part{THE VERILOG HDL}
 
 \chapter{THE BASICS}
