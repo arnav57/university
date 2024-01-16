@@ -6,10 +6,10 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tcolorbox}
 \usepackage{listings}
-\setlength{\parindent}{0pt}
 \setcounter{tocdepth}{1}
 \usepackage{booktabs}
 \usepackage{amsmath, xparse}
+\usepackage{parskip}
 
 \geometry{
 	paperwidth=640pt,
@@ -19,6 +19,8 @@
 
 \titlespacing*{name=\chapter,numberless}{0pt}{-35pt}{40pt}
 \titlespacing*{name=\chapter}{0pt}{-22pt}{40pt}
+\titleformat{\part}[block]{\normalfont\Huge\filcenter}{\partname\ \thepart}{2em}{} % Adjust the format as needed
+
 
 \renewcommand{\maketitlepage}{%
 {
@@ -33,10 +35,14 @@
 }
 }
 
+\AtBeginDocument{\setlength{\parindent}{0cm}}
+
 \newcommand{\preface}{
 \newpage
 \section*{Preface}
-The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed here.
+The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further develop my understanding, and these references will be listed here. 
+
+This document should eventually serve as a standalone reference for learning or review of the subject matter. There is also a lot of organization within these documents, please refer to the table of contents within your PDF viewer for ease of navigation.
 
 \section*{References}
 \begin{itemize}
