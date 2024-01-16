@@ -1,0 +1,371 @@
+% BEGIN_FOLD PREAMBLE
+\documentclass[]{report}
+
+%BEGIN_FOLD IMPORTS
+\usepackage[]{tikz}
+\usepackage{circuitikz}
+\ctikzset{logic ports = ieee}
+\usetikzlibrary{shapes.geometric, decorations.markings}
+\usepackage[]{xcolor}
+\usepackage[]{anyfontsize}
+\usepackage[top=20mm, bottom=20mm, left=25mm, right=25mm]{geometry}
+\usepackage[explicit]{titlesec}
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage[]{parskip}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{linktoc=all}
+\usepackage[outline]{contour}
+\usepackage{soul}
+\sethlcolor{greyblue!95!white}
+% END_FOLD IMPORTS
+
+% BEGIN_FOLD COLORS
+\definecolor{whitesmoke}{HTML}{CCCCCC}
+\definecolor{grey}{HTML}{686E75}
+\definecolor{red}{HTML}{D65B5C}
+\definecolor{orange}{HTML}{EF8511}
+\definecolor{yellow}{HTML}{D3B006}
+\definecolor{green}{HTML}{5DB267}
+\definecolor{blue}{HTML}{62ABF3}
+\definecolor{purple}{HTML}{7F76DA}
+\definecolor{pink}{HTML}{B76CC7}
+\definecolor{greyblue}{HTML}{171B20} % default: 171B20
+
+\pagecolor{greyblue}
+\AtBeginDocument{\color{whitesmoke}}
+
+
+% END_FOLD COLORS
+
+% BEGIN_FOLD FONTS
+\usepackage[defaultfam,tabular,lining]{montserrat} %% Option 'defaultfam'
+%% only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\renewcommand*\oldstylenums[1]{{\fontfamily{Montserrat-TOsF}\selectfont #1}}
+% END_FOLD FONTS
+
+% BEGIN_FOLD TITLE FORMATS
+\titleformat{\chapter}[hang]{\Huge\bfseries\color{white}}{\thechapter \ \textasciitilde \  }{0pt}{\MakeUppercase{#1}}[\vspace{-1cm}]
+\titleformat{\section}[hang]{\Large\bfseries\color{white}}{\thesection \ \textasciitilde \ }{0pt}{\MakeUppercase{#1}}
+\titleformat{\subsection}[hang]{\large\bfseries\color{whitesmoke}}{\thesubsection \ \textasciitilde \ }{0pt}{\MakeUppercase{#1}}
+% END_FOLD TITLE FORMATS
+
+% BEGIN_FOLD PREFACE
+\newcommand{\preface}{%
+	\newpage
+	\section*{PREFACE}
+	The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed under this portion.
+	
+	In general this document follows the format of highlighting \keyword{keywords} in green. I can also introduce a {{\itshape\scshape\color{purple!55!red}{Definition}}} or a {{\itshape\scshape\color{red!55!purple}{Theorem}}}. There may also be various other things like code blocks which include \code{keywords} or \str{strings}. Remarks (similar to markdown style quotes). Or highlighted boxes. I might use these to organize things further if I deem necessary.
+	
+	\section*{REFERENCES}
+	\begin{itemize}
+		\item Provided Lecture Notes for ECE 2277 (Digital Logic Systems)
+		\item Digital Design With An Introduction to the Verilog HDL - M. Mano, D. Ciletti
+		\item Verilog Complete Tutorial - VLSI Point (\href{https://www.youtube.com/playlist?list=PL_3xKnVkfI2itQhCyfnamNYSCHd2KHi4k}{YouTube Link})
+	\end{itemize}
+	\newpage
+}
+
+
+% END_FOLD PREFACE
+
+% BEGIN_FOLD COVERPAGE
+\newcommand{\makecoverpage}[5]{
+	
+	%%%% LAYERS %%%%
+	\thispagestyle{empty}
+	\pgfdeclarelayer{bg}
+	\pgfdeclarelayer{main}
+	\pgfdeclarelayer{fg}
+	\pgfsetlayers{bg, main, fg}
+	
+	%%% DRAWING %%%
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		\begin{pgfonlayer}{fg}
+			\fill[greyblue] (current page.south west) rectangle (current page.north east);
+		\end{pgfonlayer}
+		
+	\end{tikzpicture}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		\begin{pgfonlayer}{fg}
+			% title and subtitle
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm] current page.center)
+			{\Huge\bfseries\fontsize{40}{40}\selectfont #5};
+			\node[align=right, text=white, anchor=east] at ([xshift=10cm, yshift=2cm] current page.center)
+			{\Huge\bfseries\fontsize{40}{40}\selectfont #1};
+			\node[align=right, text=whitesmoke, anchor=east] at ([xshift=10cm,yshift=-1.5cm]current page.center) {\Large\item\fontsize{20}{20}\selectfont #2};
+			
+			% author and date 
+			\node[align=right, anchor=south east] at ([xshift=-1cm, yshift=2cm]current page.south east) {\Large\color{whitesmoke}#3};
+			\node[align=right,, anchor=south east] at ([xshift=-1cm, yshift=1cm]current page.south east) {\Large\color{whitesmoke}#4};
+		\end{pgfonlayer}
+		
+	\end{tikzpicture}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		\begin{pgfonlayer}{bg}
+			% Define the number of sides and the radius
+			\def\numSides{7}
+			\def\radius{3cm}
+			
+			% Loop to draw concentric polygons
+			\foreach \i in {1,...,15}{
+				\node[draw, grey, dash pattern= on 1pt off 5+2*\i pt, line width = 1 pt, inner sep = 1cm, regular polygon, regular polygon sides=\numSides, minimum size=2*\i*\radius, rotate= 15+5*\i, opacity=50] at (-3,-6) {};
+			}
+		\end{pgfonlayer}
+	\end{tikzpicture}
+	\newpage
+}
+% END_FOLD COVERPAGE
+
+% BEGIN_FOLD ENVIRONMENTS
+
+%----------------------------------------------------------------------------------------
+%   HIGHLIGHT ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{highlight}{
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
+	boxrule=0.75pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.25cm,
+	enlarge top by=0.15cm
+}
+
+%----------------------------------------------------------------------------------------
+%   REMARK ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{remark}{
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
+	boxrule=0pt,
+	leftrule=0.75pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.5cm,
+}
+
+%----------------------------------------------------------------------------------------
+%   OUTLINE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{outline}[1][4pt]{
+	enhanced,
+	colback=greyblue,
+	colframe=greyblue, % To essentially hide the frame, but we will draw the corners manually
+	coltext=whitesmoke,
+	boxrule=1pt,
+	boxsep=#1,
+	arc=1pt,
+	outer arc=1pt,
+	enlarge bottom by=0.5cm,
+	overlay={
+		% Top left corner
+		\draw[whitesmoke,line width=1pt] 
+		(frame.north west) -- ++(0,-0.25*\tcbtextheight)
+		(frame.north west) -- ++(0.25*\tcbtextwidth,0);
+		% Bottom right corner
+		\draw[whitesmoke,line width=1pt]
+		(frame.south east) -- ++(0,0.25*\tcbtextheight)
+		(frame.south east) -- ++(-0.25*\tcbtextwidth,0);
+	}
+}
+
+%----------------------------------------------------------------------------------------
+%   LSTLISTING ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\lstset
+{ %Formatting for code in appendix
+	language=Verilog,
+	frame=single,
+	basicstyle=\footnotesize\texttt,
+	numbers=left,
+	stepnumber=1,
+	showstringspaces=false,
+	tabsize=4,
+	breaklines=true,
+	breakatwhitespace=false,
+	aboveskip=2em,
+	belowcaptionskip=0.75em
+}
+\usepackage[font={color=white, it}]{caption}
+\renewcommand{\lstlistingname}{\color{white} Snippet}
+\lstset{ %
+	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{grey},    % comment style
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue!55!green},       % keyword style
+	stringstyle=\color{green!75!white},     % string literal style
+}
+
+%----------------------------------------------------------------------------------------
+%   DEFINITION ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newenvironment{definition}{
+	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{purple!55!red}{Definition}}}]{}
+	}
+	{
+	\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%   THEORY ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newenvironment{theory}{
+	\begin{itemize}[labelindent=4.2em,labelsep=0.5cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{red!55!purple}{Theorem}}}]
+	}
+	{
+	\end{itemize}
+}
+%----------------------------------------------------------------------------------------
+%   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newcommand{\keyword}[1]{{{\color{green}{#1}\,}}}
+\newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
+\newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
+\renewcommand{\emph}[1]{} % renew emph style here as required
+% END_FOLD ENVIRONMENTS
+
+% BEGIN_FOLD PAGE NUMBS
+\pagenumbering{gobble}
+% END_FOLD PAGE NUMBS
+
+% BEGIN_FOLD BLOCK DIAGRAMS
+% Define block styles
+\tikzstyle{block} = [rectangle, draw, minimum width=5em, text centered, minimum height=4em, fill=green!45!black]
+\tikzstyle{input} = [coordinate] %[draw, ellipse, text centered, minimum height=2em, fill=greyblue!65!black]
+\tikzstyle{output} = [coordinate] %[draw, ellipse, text centered, minimum height=2em, fill=greyblue!65!black]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{arrow} = [draw, -latex']
+\tikzset{
+	inverter/.style={rectangle,draw,inner sep=2pt,minimum size=6mm},
+	dot/.style={circle,inner sep=0pt,minimum size=0.5mm,draw,fill=black},
+	buswidth/.style={decoration={
+			markings,
+			mark= at position 0.5 with {\node[font=\footnotesize] {/};\node[below=2pt] {\tiny #1};}
+		}, postaction={decorate}}
+}
+% END_FOLD BLOCK DIAGRAMS
+
+% BEGIN_FOLD CUSTOM CTIKZ
+\tikzset{flipflop HA/.style={flipflop,
+		flipflop def={t1=x, t3=y, t4=c, t6=r}}
+}
+% END_FOLD CUSTOM CTIKZ
+
+% END_FOLD PREAMBLE
+
+%
+
+% BEGIN_FOLD DOCUMENT
+\begin{document}
+	
+	\makecoverpage{Telecommunications}{Self Studies}{Arnav Goyal}{Winter 2024}{\& Satellite Operations}
+	
+	%
+	
+	\tableofcontents
+	
+	%
+	
+	\chapter{TELECOMMUNICATIONS}
+	\section{BASICS}
+	
+	\keyword{Telecommunications} is the exchange of information through wire, radio, optical, or other EM based systems.
+	
+	Information can be transmitted wirelessly through EM-waves. Most commonly we use EM waves in the range of 300 kHz to 300 GHz (1km to 1mm wavelengths). 
+	
+	Radio waves for communication are created by a \keyword{transmitter} (abbreviated tx) and detected on the other side of a \keyword{radio link} by a \keyword{receiver} (abbreivated rx). A basic radio link is shown below.
+	\\ % link diagram
+	\begin{center} \begin{circuitikz}
+			\draw (0,0) node[flipflop] (TX) {TX};
+			\draw (TX.pin 5) to ++(-0.25,0) -| ++(2,2) node[bareTXantenna] {Tx};
+			\draw (12,0) node[flipflop] (RX) {RX};
+			\draw (RX.pin 2) to ++(0.25,0) -| ++(-2,2) node[bareRXantenna] {Rx};
+	\end{circuitikz} \end{center}
+	\vspace{1em}
+	
+	\section{NOISE}
+	
+	A receiver will receive everything in its reception bandwidth, including \keyword{noise}. Noise corrupts the signal and introduces errors into the received data.
+	
+	To help deal with this, an important figure of merit is called the \keyword{signal-to-noise ratio (SNR)}. It is defined as the ratio between the received signal power to the received noise power
+	
+	\begin{remark}
+		\[ \text{SNR} = \frac{P_S}{P_N} \]
+	\end{remark}
+	
+	\section{OTHER DECIBELS}
+	
+	Building off the base notion of \keyword{decibels}, where an increase of 10dB means a multiplication of 10. Recall that they are defined as:
+	\begin{remark}
+		\[G_{dB} = 10\log R\]
+	\end{remark}
+	Another useful quantity is \keyword{decibel-watts (dBW)}. To do this, we use a reference quantity, typically $P_0=1$W
+	\begin{remark}
+		\[P_{dBW} = 10\log \frac{P}{P_0}\]
+	\end{remark}
+	This lets us simplify gain-calculations using addition. A -27dbW signal going through a 26dB gain will have a resulting strength of -1dbW.
+	%
+	
+	\section{ANTENNAS}
+	
+	An \keyword{antenna} is a device which couples EM-waves to and from free space. This means that they can be used to transmit and/or receive data. Each antenna also intrinsically has a \keyword{gain} which refers to the amount that they appear to amplify a transmitted or received signal.
+	
+	Antennas are generally considered to be \keyword{reciprocal}, which means that tx gain is the same as rx gain. Antennas also also \keyword{passive devices} so how does the concept of gain work?
+	
+	Gain is actually considered to be a geometric effect. It is essentially the focusing of a signal onto a point. This means that we actually need to point the antenna to the other end of the radio link!
+	
+	\chapter{MODULATION}
+	A radio wave of constant frequency and amplitude carries no information - its just a wave. We can \keyword{encode information} into this wave by changing some of its properties in a way that both the TX and RX know, this process is referred to as \keyword{modulation}.
+	
+	Each EM wave has two properties we can adjust - its \keyword{amplitude} and \keyword{phase}. We can adjust these properties with respect to time to serially encode a message.
+	
+	\section{ON OFF KEYING}
+	The simplest way to send a digital message is to turn the wave on and off to send a 1 or 0. This is called \keyword{on-off-keying} (OOK). In other words, we set amplitude $A=1$ to send a 1, and set $A=0$ to send a 0. We also leave the phase $\varphi$ untouched
+	
+	This is very easy to implement, but it is very susceptible to noise, and it features a wide range of spectral content.
+	
+	Due to these limitations OOK is only really used for simple and low-cost systems.
+	
+	\section{PHASE SHIFT KEYING}
+	
+	Here we do the opposite, we leave the amplitude $A$ untouched, and only change the phase $\varphi$.
+	This is called \keyword{phase-shift-keying} (PSK). In binary PSK (BPSK) we choose phase shifts as far apart as possible (ex. 0, and $\pi$).
+	
+	This is much more robust to noise, and is moderately complex to implement. This is very commonly used for telemetry and control links between spacecraft and earth.
+	
+	\section{FREQUENCY SHIFT KEYING}
+	
+	We can also send a signal through \keyword{frequency modulation}. This is called \keyword{frequency-shift-keying} (FSK) and we can do this easily by choosing two frequencies, the lower one representing a 0, and the higher one representing a 1. This is called binary FSK (BFSK).
+	
+	This is popular due to its reasonable noise immunity, and it is more power efficient due to it using a continuous waveform. It is also reasonably easy to implement.
+	
+	\section{OTHER MODULATION TYPES}
+	
+	\keyword{Amplitude Phase Shift Keying} (APSK) is very similar to another form of modulation called Quadrature Amplitude Modulation (QAM), but designed to allow the use of more power-efficient amplifiers. This is common on space missions for very high rate data down-link.
+	
+	\keyword{Guassian Minimum Shift Keying} (GMSK) is a special-case of FSK. GMSK uses the minimum possible frequency shift (1/2 the baud rate) and a gaussian pulse shape to ensure spectral efficiency. This effectively combines the error performance of PSK with the power efficiency of FSK (only through use of a special algorithm on the Rx end). This is becoming more common on space missions.
+	
+	
+\end{document}
+% END_FOLD DOCUMENT
