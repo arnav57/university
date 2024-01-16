@@ -1,265 +1,32 @@
-% BEGIN_FOLD PREAMBLE
-\documentclass[]{report}
-
-%BEGIN_FOLD IMPORTS
-\usepackage[]{tikz}
-\usepackage{circuitikz}
-\usetikzlibrary{shapes.geometric}
-\usepackage[]{xcolor}
-\usepackage[]{anyfontsize}
-\usepackage[top=20mm, bottom=20mm, left=25mm, right=25mm, papersize={640 pt, 480 pt}]{geometry}
-\usepackage[explicit]{titlesec}
-\usepackage{fancyhdr}
-\usepackage[most]{tcolorbox}
-\usepackage{listings}
-\usepackage[]{parskip}
-\usepackage{caption}
-\usepackage{enumitem}
-\usepackage[hidelinks]{hyperref}
-\hypersetup{linktoc=all}
-\usepackage[outline]{contour}
-\usepackage{soul}
-\sethlcolor{greyblue!95!white}
-% END_FOLD IMPORTS
-
+\input{../../Winter 2023-2024/LaTeX Templates/default}
 \ctikzset{logic ports = ieee}
 \tikzset{flipflop SR Latch/.style={flipflop,
 		flipflop def={t1=$S$, t3=$R$, t5=$Q$}}
 }
 
-% BEGIN_FOLD COLORS
-\definecolor{whitesmoke}{HTML}{CCCCCC}
-\definecolor{grey}{HTML}{686E75}
-\definecolor{red}{HTML}{D65B5C}
-\definecolor{orange}{HTML}{EF8511}
-\definecolor{yellow}{HTML}{D3B006}
-\definecolor{green}{HTML}{5DB267}
-\definecolor{blue}{HTML}{62ABF3}
-\definecolor{purple}{HTML}{7F76DA}
-\definecolor{pink}{HTML}{B76CC7}
-\definecolor{greyblue}{HTML}{171B20} % default: 171B20
+\title{Microprocessors \& \\Microcomputers}
+\author{Arnav Goyal}
+\publisher{Winter 2024 / ECE 3375}
 
-\pagecolor{black!95}
-\AtBeginDocument{\color{white}}
-
-% END_FOLD COLORS
-
-% BEGIN_FOLD FONTS
-\usepackage{tgpagella}
-\usepackage[T1]{fontenc}
-% END_FOLD FONTS
-
-% BEGIN_FOLD TITLE FORMATS
-\titleformat{\chapter}[hang]{\Huge}{}{0pt}{#1}[\vspace{-1cm}]
-\titleformat{\section}[hang]{\Large\itshape}{}{0pt}{#1}
-\titleformat{\subsection}[hang]{\large\bfseries}{\thesubsection \ \textasciitilde \ }{0pt}{#1}
-% END_FOLD TITLE FORMATS
-
-% BEGIN_FOLD PREFACE
-\newcommand{\preface}{%
-	\newpage
-	\section*{\scshape PREFACE}
-	The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed under this portion.
-	
-	In general this document follows the format of highlighting \keyword{keywords} in green. I can also introduce a {{\itshape\scshape\color{purple!55!red}{Definition}}} or a {{\itshape\scshape\color{red!55!purple}{Theorem}}}. There may also be various other things like code blocks which include \code{keywords} or \str{strings}, remarks (similar to markdown style quotes), or highlighted boxes. I might use these to organize things further if I deem necessary.
-	
-	\section*{\scshape REFERENCES}
-	\begin{itemize}
-		\item Provided Lecture Notes \& Info on Course Website
-		\item Digital Design With An Introduction to the Verilog HDL, 5e - M. Mano, D. Ciletti
-	\end{itemize}
-	\newpage
+\def\myreferences{
+	\item Provided Course Material \& Lecture Notes
+	\item Digital Design with an Introduction to the Verilog HDL - 5e - M. Mano, D. Ciletti
 }
 
 
-% END_FOLD PREFACE
-
-% BEGIN_FOLD COVERPAGE
-\newcommand{\makecoverpage}[5]{
-	
-	%%%% LAYERS %%%%
-	\thispagestyle{empty}
-	\pgfdeclarelayer{bg}
-	\pgfdeclarelayer{main}
-	\pgfdeclarelayer{fg}
-	\pgfsetlayers{bg, main, fg}
-	
-	%%% DRAWING %%%
-	\begin{tikzpicture}[remember picture, overlay]
-		
-		\begin{pgfonlayer}{fg}
-			\fill[greyblue] (current page.south west) rectangle (current page.north east);
-		\end{pgfonlayer}
-		
-	\end{tikzpicture}
-	
-	\begin{tikzpicture}[remember picture, overlay]
-		
-		\begin{pgfonlayer}{fg}
-			% title and subtitle
-			\node[align=right, text=white, anchor=east] at ([xshift=10cm] current page.center)
-			{\Huge\bfseries\fontsize{40}{40}\selectfont #5};
-			\node[align=right, text=white, anchor=east] at ([xshift=10cm, yshift=2cm] current page.center)
-			{\Huge\bfseries\fontsize{40}{40}\selectfont #1};
-			\node[align=right, text=whitesmoke, anchor=east] at ([xshift=10cm,yshift=-1.5cm]current page.center) {\Large\item\fontsize{20}{20}\selectfont #2};
-			
-			% author and date 
-			\node[align=right, anchor=south east] at ([xshift=-1cm, yshift=2cm]current page.south east) {\Large\color{whitesmoke}#3};
-			\node[align=right,, anchor=south east] at ([xshift=-1cm, yshift=1cm]current page.south east) {\Large\color{whitesmoke}#4};
-		\end{pgfonlayer}
-		
-	\end{tikzpicture}
-	
-	\begin{tikzpicture}[remember picture, overlay]
-		\begin{pgfonlayer}{bg}
-			% Define the number of sides and the radius
-			\def\numSides{7}
-			\def\radius{3cm}
-			
-			% Loop to draw concentric polygons
-			\foreach \i in {1,...,15}{
-				\node[draw, grey, dash pattern= on 1pt off 5+2*\i pt, line width = 1 pt, inner sep = 1cm, regular polygon, regular polygon sides=\numSides, minimum size=2*\i*\radius, rotate= 15+5*\i, opacity=50] at (-3,-6) {};
-			}
-		\end{pgfonlayer}
-	\end{tikzpicture}
-	\newpage
-}
-% END_FOLD COVERPAGE
-
-% BEGIN_FOLD ENVIRONMENTS
-
-%----------------------------------------------------------------------------------------
-%   HIGHLIGHT ENVIRONMENT
-%----------------------------------------------------------------------------------------
-
-\newtcolorbox{highlight}{
-	colback=greyblue,
-	colframe=whitesmoke,
-	coltext=whitesmoke,
-	boxrule=0.75pt,
-	boxsep=4pt,
-	arc=0pt,
-	outer arc=0pt,
-	enlarge bottom by=0.25cm,
-	enlarge top by=0.15cm
-}
-
-%----------------------------------------------------------------------------------------
-%   REMARK ENVIRONMENT
-%----------------------------------------------------------------------------------------
-
-\newtcolorbox{remark}{
-	colback=greyblue,
-	colframe=whitesmoke,
-	coltext=whitesmoke,
-	boxrule=0pt,
-	leftrule=0.75pt,
-	boxsep=4pt,
-	arc=0pt,
-	outer arc=0pt,
-	enlarge bottom by=0.5cm,
-}
-
-%----------------------------------------------------------------------------------------
-%   OUTLINE ENVIRONMENT
-%----------------------------------------------------------------------------------------
-
-\newtcolorbox{outline}[1][4pt]{
-	enhanced,
-	colback=greyblue,
-	colframe=greyblue, % To essentially hide the frame, but we will draw the corners manually
-	coltext=whitesmoke,
-	boxrule=1pt,
-	boxsep=#1,
-	arc=1pt,
-	outer arc=1pt,
-	enlarge bottom by=0.5cm,
-	overlay={
-		% Top left corner
-		\draw[whitesmoke,line width=1pt] 
-		(frame.north west) -- ++(0,-0.25*\tcbtextheight)
-		(frame.north west) -- ++(0.25*\tcbtextwidth,0);
-		% Bottom right corner
-		\draw[whitesmoke,line width=1pt]
-		(frame.south east) -- ++(0,0.25*\tcbtextheight)
-		(frame.south east) -- ++(-0.25*\tcbtextwidth,0);
-	}
-}
-
-%----------------------------------------------------------------------------------------
-%   LSTLISTING ENVIRONMENT
-%----------------------------------------------------------------------------------------
-\lstset
-{ %Formatting for code in appendix
-	language=Verilog,
-	frame=single,
-	basicstyle=\footnotesize\texttt,
-	numbers=left,
-	stepnumber=1,
-	showstringspaces=false,
-	tabsize=4,
-	breaklines=true,
-	breakatwhitespace=false,
-	aboveskip=2em,
-	belowcaptionskip=0.75em
-}
-\usepackage[font={color=white, it}]{caption}
-\renewcommand{\lstlistingname}{\color{white} Snippet}
-\lstset{ %
-	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
-	breaklines=true,                 % automatic line breaking only at whitespace
-	captionpos=b,                    % sets the caption-position to bottom
-	commentstyle=\color{grey},    % comment style
-	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-	keywordstyle=\color{blue!55!green},       % keyword style
-	stringstyle=\color{green!75!white},     % string literal style
-}
-
-%----------------------------------------------------------------------------------------
-%   DEFINITION ENVIRONMENT
-%----------------------------------------------------------------------------------------
-\newenvironment{definition}{
-	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
-		\item[{{\itshape\scshape\color{purple!55!red}{Definition}}}]{}
-	}
-	{
-	\end{itemize}
-}
-
-%----------------------------------------------------------------------------------------
-%   THEORY ENVIRONMENT
-%----------------------------------------------------------------------------------------
-\newenvironment{theory}{
-	\begin{itemize}[labelindent=4.2em,labelsep=0.5cm,leftmargin=*]
-		\item[{{\itshape\scshape\color{red!55!purple}{Theorem}}}]
-	}
-	{
-	\end{itemize}
-}
-%----------------------------------------------------------------------------------------
-%   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
-%----------------------------------------------------------------------------------------
-\newcommand{\keyword}[1]{{{\bfseries\color{purple}{#1}\,}}}
-\newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
-\newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
-\renewcommand{\emph}[1]{} % renew emph style here as required
-% END_FOLD ENVIRONMENTS
-
-% BEGIN_FOLD PAGE NUMBS
-\pagenumbering{gobble}
-% END_FOLD PAGE NUMBS
-
-% END_FOLD PREAMBLE
 % BEGIN_FOLD DOCUMENT
-\begin{document}	
-	
+\begin{document}
+\frontmatter
+\pagenumbering{roman}
+\maketitle
 \tableofcontents
+\preface
  
+\mainmatter
+\pagenumbering{arabic}
 % \input{Review}
 
 \input{Memory Mapping}
-
-
 
 \end{document}
 % END_FOLD DOCUMENT

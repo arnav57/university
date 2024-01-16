@@ -1,0 +1,186 @@
+\documentclass[oneside, openany]{tufte-book}
+
+\usepackage[]{lipsum}
+\usepackage{circuitikz}
+\usepackage{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\setlength{\parindent}{0pt}
+\setcounter{tocdepth}{1}
+\usepackage{booktabs}
+\usepackage{amsmath, xparse}
+
+\geometry{
+	paperwidth=640pt,
+	paperheight=480pt,
+	right=7cm, left=25mm, bottom=25mm
+}
+
+\titlespacing*{name=\chapter,numberless}{0pt}{-35pt}{40pt}
+\titlespacing*{name=\chapter}{0pt}{-22pt}{40pt}
+
+\renewcommand{\maketitlepage}{%
+{
+		\begin{fullwidth}%
+			\thispagestyle{empty}
+			\fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\itshape\thanklessauthor}%
+			\vspace{11.5pc}%
+			\fontsize{36}{40}\selectfont\par\noindent\textcolor{darkgray}{\thanklesstitle}%
+			\vspace{2mm}
+			\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\scshape\thanklesspublisher}%
+		\end{fullwidth}%
+}
+}
+
+\newcommand{\preface}{
+\newpage
+\section*{Preface}
+The purpose of this document is to act as a comprehensive note for my understanding on the subject matter. I may also use references aside from the lecture material to further organize my understanding, and these references will be listed here.
+
+\section*{References}
+\begin{itemize}
+	\myreferences
+\end{itemize}
+}
+
+
+%% NEEDS TO BE DEFINED IN MAIN DOC
+% define title, author, publisher, and \def\myreferences for use in the preface
+
+\let\cleardoublepage\clearpage
+
+%%% -------------------
+%%% |  CUSTOM COLORS  |
+%%% -------------------
+
+\definecolor{whitesmoke}{HTML}{CCCCCC}
+\definecolor{grey}{HTML}{686E75}
+\definecolor{red}{HTML}{D65B5C}
+\definecolor{orange}{HTML}{EF8511}
+\definecolor{yellow}{HTML}{D3B006}
+\definecolor{green}{HTML}{5DB267}
+\definecolor{blue}{HTML}{62ABF3}
+\definecolor{purple}{HTML}{7F76DA}
+\definecolor{pink}{HTML}{B76CC7}
+\definecolor{greyblue}{HTML}{171B20} % default: 171B20
+
+%%% -------------------
+%%% | CUSTOM COMMANDS |
+%%% -------------------
+
+
+%----------------------------------------------------------------------------------------
+%   HIGHLIGHT ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{highlight}{
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
+	boxrule=0.75pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.25cm,
+	enlarge top by=0.15cm
+}
+
+%----------------------------------------------------------------------------------------
+%   REMARK ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{remark}{
+	colback=greyblue,
+	colframe=whitesmoke,
+	coltext=whitesmoke,
+	boxrule=0pt,
+	leftrule=0.75pt,
+	boxsep=4pt,
+	arc=0pt,
+	outer arc=0pt,
+	enlarge bottom by=0.5cm,
+}
+
+%----------------------------------------------------------------------------------------
+%   OUTLINE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+
+\newtcolorbox{outline}[1][4pt]{
+	enhanced,
+	colback=greyblue,
+	colframe=greyblue, % To essentially hide the frame, but we will draw the corners manually
+	coltext=whitesmoke,
+	boxrule=1pt,
+	boxsep=#1,
+	arc=1pt,
+	outer arc=1pt,
+	enlarge bottom by=0.5cm,
+	overlay={
+		% Top left corner
+		\draw[whitesmoke,line width=1pt] 
+		(frame.north west) -- ++(0,-0.25*\tcbtextheight)
+		(frame.north west) -- ++(0.25*\tcbtextwidth,0);
+		% Bottom right corner
+		\draw[whitesmoke,line width=1pt]
+		(frame.south east) -- ++(0,0.25*\tcbtextheight)
+		(frame.south east) -- ++(-0.25*\tcbtextwidth,0);
+	}
+}
+
+%----------------------------------------------------------------------------------------
+%   LSTLISTING ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\lstset
+{ %Formatting for code in appendix
+	language=Verilog,
+	frame=single,
+	basicstyle=\footnotesize\texttt,
+	numbers=left,
+	stepnumber=1,
+	showstringspaces=false,
+	tabsize=4,
+	breaklines=true,
+	breakatwhitespace=false,
+	aboveskip=2em,
+	belowcaptionskip=0.75em
+}
+\usepackage[font={color=white, it}]{caption}
+\renewcommand{\lstlistingname}{\color{white} Snippet}
+\lstset{ %
+	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{grey},    % comment style
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue!55!green},       % keyword style
+	stringstyle=\color{green!75!white},     % string literal style
+}
+
+%----------------------------------------------------------------------------------------
+%   DEFINITION + THEORY ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newenvironment{definition}{
+	\begin{itemize}[labelindent=5em,labelsep=0.25cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{purple!55!red}{Definition}}}]{}
+	}
+	{
+	\end{itemize}
+}
+
+
+\newenvironment{theory}{
+	\begin{itemize}[labelindent=4.2em,labelsep=0.5cm,leftmargin=*]
+		\item[{{\itshape\scshape\color{red!55!purple}{Theorem}}}]
+	}
+	{
+	\end{itemize}
+}
+%----------------------------------------------------------------------------------------
+%   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
+%----------------------------------------------------------------------------------------
+\newcommand{\keyword}[1]{{{\bfseries\color{purple}{#1}\,}}}
+\newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
+\newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
+\renewcommand{\emph}[1]{} % renew emph style here as required
+% END_FOLD ENVIRONMENTS
