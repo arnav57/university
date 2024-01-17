@@ -10,6 +10,10 @@
 \usepackage{booktabs}
 \usepackage{amsmath, xparse}
 \usepackage{parskip}
+\usepackage[font={color=black}]{caption}
+\captionsetup{
+	font={footnotesize}
+}
 
 \geometry{
 	paperwidth=640pt,
@@ -19,7 +23,7 @@
 
 \titlespacing*{name=\chapter,numberless}{0pt}{-35pt}{40pt}
 \titlespacing*{name=\chapter}{0pt}{-22pt}{40pt}
-\titleformat{\part}[block]{\normalfont\Huge\filcenter}{\partname\ \thepart}{2em}{} % Adjust the format as needed
+\titleformat{\part}[block]{\normalfont\Huge\filcenter\color{darkgray}}{\partname\ \thepart}{2em}{} % Adjust the format as needed
 
 
 \renewcommand{\maketitlepage}{%
@@ -151,8 +155,7 @@ This document should eventually serve as a standalone reference for learning or 
 	aboveskip=2em,
 	belowcaptionskip=0.75em
 }
-\usepackage[font={color=white, it}]{caption}
-\renewcommand{\lstlistingname}{\color{white} Snippet}
+\renewcommand{\lstlistingname}{\color{black} Code Snippet}
 \lstset{ %
 	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
 	breaklines=true,                 % automatic line breaking only at whitespace

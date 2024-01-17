@@ -1,0 +1,83 @@
+\chapter{The Basics}
+
+\section{Hardware Description Languages}
+
+A \keyword{hardware description language (HDL)} is a specialized computer language used to describe the nature of digital electronic circuits.
+\begin{itemize}
+	\item They include the notion of \keyword{time}\sidenote{They include a notion of time through gate delays, and how long it takes for the signal to propagate through them} and \keyword{concurrency}\sidenote{Concurrency allows multiple things to happen at the same time, this is different to a regular programming language like python which is inherently not concurrent and is sequential in nature}
+\end{itemize}
+In this handbook we will be concerning ourselves with the \keyword{Verilog} and \keyword{SystemVerilog} HDL. Both of which are used ubiquitously within the silicon industry for logic design and verification.
+\begin{itemize}
+	\item SystemVerilog is a superset of Verilog\sidenote{This is similar to the relationship between C and C++, we will also start by learning Verilog, and then diving into the features that SystemVerilog offers}
+\end{itemize}
+
+\section{Levels of Abstraction}
+Within this field of study we will often deal with the concept of \keyword{abstraction}. Verilog offers the description of things at three levels of abstraction.
+\begin{itemize}
+	\item Gate-Level-Modeling\sidenote{This is the lowest-level of abstraction and allows us to manually code each gate, and wire. Verilog already has the logic gates ready for use through basic syntax}
+	\item Dataflow Modeling\sidenote{Also called Register Transfer Level Modeling, here we can talk about how data flows through our circuit, and it deals with continuous assignment}
+	\item Behavioural Modeling\sidenote{This allows us to describe the operation of our circuits in english-like words, this is the highest level of abstraction}
+\end{itemize}
+Here are some basic code examples of the three modeling styles $\ldots$
+
+\begin{lstlisting}[caption={Gate-Level Modeling}]
+and G1(out, A, B);
+or G2(out, A, B);
+nand G3(out, A, B);
+\end{lstlisting}
+
+\begin{lstlisting}[caption={RTL Modeling}]
+assign out1 = x & y;
+assign out2 = x | y;
+assign out3 = ~y;
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Behavioral Modeling}, label={mux2to1}]
+always @(sel, I0, I1):
+begin
+	if (sel)
+		out = I1;
+	else
+		out = I0;
+end
+\end{lstlisting}
+
+\section{Modules \& Entities}
+
+A \keyword{module} is the basic building block of Verilog, Modules are abstracted and interact with the external environment through their \keyword{ports}.
+\begin{itemize}
+	\item Modules can be an element, or a collection of other (lower-level) modules
+	\item Modules can be instantiated (but cannot be defined!) within other modules.
+	\item A module that is not instantiated within any other module, is referred to as the \keyword{top-level module}
+\end{itemize}
+
+\begin{marginfigure}
+\begin{lstlisting}[caption={Module Declaration Syntax}, label={defmodule}]
+module <moduleName> (
+[port-list]
+);
+// Module specification goes here!
+endmodule
+\end{lstlisting}
+\end{marginfigure}
+
+It is quite easy to declare a module as shown in Code Snippet \ref{defmodule}, lets also learn by example though. Consider creating a 4$\times$2 MUX from two 2$\times$1 MUX blocks, which we have defined in Code Snippet \ref{mux2to1}. Lets assume that we encased that code in a module named \code{mux\_2x1}.
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[caption={Creating a 4x2 MUX from two 2x1 MUX modules}, label={mux4to2}]
+module mux_4x1(
+	input i0, i1, i2, i3, sel0, sel1,
+	output out
+);
+
+// wires to route internal connections
+wire outA, outB;
+
+// connection logic
+2x1mux A (i0,i1,sel0, outA);
+2x1mux B (i2,i3,sel0, outB);
+2x1mux C (outA, outB, sel1, out);
+
+endmodule
+\end{lstlisting}
+\end{minipage}
