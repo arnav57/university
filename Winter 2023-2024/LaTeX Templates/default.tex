@@ -185,11 +185,18 @@ This document should eventually serve as a standalone reference for learning or 
 	{
 	\end{itemize}
 }
+
+\newenvironment{bullets}{
+	\begin{itemize}[leftmargin=2em]
+	}
+	{
+	\end{itemize}
+}
 %----------------------------------------------------------------------------------------
 %   KEYWORD, CODE, EMPH & STROKE ENVIRONMENT
 %----------------------------------------------------------------------------------------
 \newcommand{\keyword}[1]{{{\bfseries\color{purple}{#1}\,}}}
 \newcommand{\code}[1]{{\ttfamily\color{blue!55!green}\,{#1}\,}}
 \newcommand{\str}[1]{{\ttfamily\color{green!55!white}\,{"#1"}\,}}
-\renewcommand{\emph}[1]{} % renew emph style here as required
+\renewcommand{\emph}[1]{{\itshape#1}} % renew emph style here as required
 % END_FOLD ENVIRONMENTS
