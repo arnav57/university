@@ -1,0 +1,33 @@
+\chapter{Sampling}
+
+\section{The Notion of Frequency}
+% frequency notation and fundamental period defintions for CT and DT signals
+Both types of time-based signals\sidenote{Continuous-Time (CT) and discrete-time (DT)}. Have the properties of \keyword{frequency} and \keyword{period}.
+
+Through the basic definition of a sinusoidal-CT-signal\sidenote{Sinusoidal CT Signals can be defined as $x(t)=A\cos{(\omega t+\phi)}$} one can obtain both definitions of frequency
+\begin{bullets}
+	\item $\omega$ [rad/sec] defines radial frequency
+	\item $\omega = 2\pi f$, here $f$ [cycles/sec] defines temporal frequency
+\end{bullets} 
+
+Similarly through the basic definition of a sinusoidal-DT-signal\sidenote{Sinusoidal DT Signals can be defined as $x(n)=A\cos{(\omega_s n+\phi)}$} we can get more definitions that deal with how often we take samples.
+\begin{bullets}
+	\item $\omega_s$ is the radial sampling frequency [samples/rad]
+	\item $\omega_s=2\pi f_s$, here $f_s$ is the temporal sampling frequency [samples/sec]
+\end{bullets}
+
+If we take the inverse of frequency, we obtain the period $T = 1/f$. The period deals with how long it takes per cycle, $T$ [sec/cycle] or how long we have in-between samples (sampling period) $T_s$ [sec/sample].
+
+To make notation clear, every time frequency is represented with a base symbol of $\omega$ it represents radial frequencies, frequency with a base unit of $f$ will represent temporal frequencies. 
+
+%
+
+\section{Properties of Discrete-Time Signals}
+% properties as shown in the slides and maybe their proofs
+
+\section{Analog-to-Digital Conversion}
+Conversion of a signal from analog into digital form occurs in three steps\sidenote{Sampling, Quantization, and Encoding. Sampling produces a DT signal, and Quantization produces a Discrete-Valued (DV) signal.}. After this process our signal can be represented as a sequence of binary values.
+
+We can perform \keyword{uniform sampling} (periodic sampling) with \keyword{sampling period} $T_s$\sidenote{Recall: this also means that we have a sampling frequency of $f_s = 1/T_s$} on a CT signal $x_{ct}(t)$ by constructing a sequence out of it:
+\[ x(n) =: x_{ct}(nT_s) ,\ n\in \mathbb{Z} \]
+
