@@ -1,86 +1,19 @@
-\chapter{Memory Mapping}
+\section{Memory Mapping}
 
-This chapter will discuss the useful concept of \keyword{memory mapping}, which is a technique used to assign the memory address space to different physical devices.
+This chapter is best learned through examples, and that is exactly what will be done here.
 
-\section{Memory}
+\subsection{Example 1}
+Consider a Von Neumann memory mapped system with 4 KB of memory space (2K RAM + 2K ROM).
 
-A \keyword{memory device} is a construct capable of storing a large quantity of binary information. Memory devices are made up of smaller cells.
-\begin{itemize}
-	\item There are two types of memory: \keyword{Random Access Memory (RAM)} \& \keyword{Read Only Memory (ROM)}
-	\item  RAM supports the fundamental \keyword{read} and \keyword{write} operations; ROM just supports \keyword{read}.
-\end{itemize}
+First we consider the bus width $w$ for the whole system by finding how many address lines we need to represent the entire memory space of 4 KB.
+	\[ w = \frac{\ln{4000}}{\ln{2}} \approx 12	\]
+This means that the system has a bus width of 12, and consequently occupies three hex digits from 0x000 to 0xFFF.
 
-\section{The Memory Cell}
+Lets find out the width required to specify a location onto the 2KB RAM and 2KB ROM. They have the same total space so they will have the same address width of 11.
+	\[ r = \frac{\ln{2000}}{\ln{2}} \approx 11 \]
+Thus we have one digit (The MSb) as a degree of freedom, which we will use to differentiate between selecting an address in the RAM or ROM. Lets consider the MSb $a_{11} = 0$ means selecting from RAM, and $a_{11}=1$ implies selecting from ROM.
 
-\keyword{Memory cells} are the fundamental storage component present in a memory device. A 1-bit memory cell is called a \keyword{binary cell (BC)} and can be modeled by a D-latch and some additional gates. The binary cell has 4 ports: Input, Output, Read/Write, and Select.
-\begin{itemize}
-	\item The select signal acts as the \keyword{enable} signal of the cell
-	\item The Read/Write signal meaning corresponds to \keyword{read = 1} and \keyword{write = 0}
-	\item The input accepts data to be stored within the cell
-	\item The output provides the data currently stored within the cell
-\end{itemize}
-The equivalent logic for a binary cell looks like the following: 
-\\
-\begin{center} \begin{circuitikz}
-		\draw (2,0) node[flipflop SR Latch] (SR) {};
-		\draw (SR.pin 1) node[and port, anchor=out, number inputs=3] (AND1) {};
-		\draw (SR.pin 3) node[and port, anchor=out, number inputs=3] (AND2) {};
-		\draw (AND1.in 3) to ++(-3,0) node[circ] (INPUT) {} to ++(-1,0) node[label=left:Input] {};
-		\draw (AND2.in 3) to ++(-0.5,0) node[not port, anchor=out, scale=0.5] (NOT1) {};
-		\draw (INPUT) |- (NOT1.in);
-		\draw (AND1.in 2) to ++(-2.5,0) node[circ] (SELECT) {} to ++(-1.5,0) node[label=left:Select] {};
-		\draw (AND2.in 2) to ++(-2.5,0) node[circ] {} to (SELECT);
-		\draw (AND1.in 1) -| ++(-2,-3) node[not port, anchor=out, scale=0.5, rotate=90] (NOT2) {};
-		\draw (NOT2.in) |- ++(0,-1) node[circ](READWRITE){} to ++(-2,0) node[label=left:Read/Write] {};
-		\draw (SR.pin 5) to ++(1,0) node[and port, anchor = in 1, number inputs = 3] (AND3) {};
-		\draw (AND2.in 1) to ++(-2,0) node[circ]{};
-		\draw (AND2.in 2) ++(-2.5, 0) to ++(0,-2.5) -| ++(7,0) |- (AND3.in 2);
-		\draw (READWRITE) to ++(7,0) |- (AND3.in 3);
-		\draw (AND3.out) node[label=right:Output] () {};
-\end{circuitikz} \end{center}
-\vspace{1em}
-
-This BC can now be used to create RAM by grouping many of these together.
-\begin{itemize}
-	\item BCs can be \keyword{grouped} by sharing select and read/write signals. This allows them to all be enabled at once, and read/write together.
-	\item If we group $n$ BCs together, we can write $n$ bits of information and read $n$ bits of information by supplying an appropriate read/write and select signal.
-	\item If we make multiple groups, and find a way to select only one group at a time (through a decoder) we have essentially created RAM.
-\end{itemize} 
-{\itshape Note:} This design is \keyword{not physically implementable!} When a BC is not selected it has an output of 0 (GND) onto the shared bus, we actually need \keyword{tri-state logic} to implement this with a shared bus. This example mainly serves the purpose of explaining the \keyword{equivalent logic} behind RAM, not actual implementation.
-
-\section{Random Access Memory (RAM)}
-Now that we have learned to create RAM, lets learn about it as a block. 
-
-For starters, the time it takes to transfer information to and from any \keyword{random desired location} is always the same.
-
-Consider a RAM with $k$-address lines, which correspond to a maximum of $2^k$ memory addresses/words (\# of groupings), and $n$-bits per word (\# of BCs per grouping). This RAM has 4 ports with the following specifications. We denote this as a $2^k \times n$ RAM.
-\begin{itemize}
-	\item $n$-bit input line
-	\item $n$-bit output line
-	\item $k$-bit address line
-	\item $1$-bit read/write line
-\end{itemize}
-Because we have $n$ bits per group, and $2^k$ maximum groupings, our \keyword{memory capacity} is $2^k \times n$ bits. 
-
-There are a couple \keyword{optimizations} we can do to make this RAM better, such as using 2 dimensional decoding instead of 1, and combining the input/output data lines into a shared bus using tri-state logic. However, this is not a digital design class, thus it is covered within the textbook.
-
-All RAM is also not the same, there are two types: \keyword{Static RAM (SRAM}) and \keyword{Dynamic RAM (DRAM}).
-\begin{itemize}
-	\item SRAM consists of internal latches that store the information, information is retained as long as power is provided (\keyword{volatile memory}).
-	\item DRAM stores the information as electric charge on capacitors within the chip through MOSFETS. This charge slowly leaves over time, and needs to be \keyword{periodically refreshed}.
-\end{itemize}
-We created SRAM earlier, and in general it is easier to use and has shorter read/write cycles. DRAM offers reduced power consumption and larger storage capacity within a single chip which is what makes it commonplace in industry.
-
-\section{Read Only Memory (ROM)}
-
-read-only-memory is memory device in which \keyword{permanent} binary information is stored.
-\begin{itemize}
-	\item Once stored, it stays within the unit even after the power is turned off. (\keyword{non-volatile memory})
-	\item The $k$-inputs provide the address for the memory and the $n$-outputs provide the stored data-bits. Denoted as a $2^k \times n$ ROM.
-	\item it is organized the same as the RAM we created, thus it has a maximum capacity of $2^k \times n$ bits.
-\end{itemize}
-
-Contrary to its naming convention, we actually can store data within the ROM. We do this by providing the \keyword{truth table} containing all possible memory addresses and stored data for each address, so that we can program it into the ROM. 
+Essentially the 12th bit is used to select from RAM or ROM, and the remaining 11 bits are used to select an address.
 
 
 
