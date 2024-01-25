@@ -1,99 +1,47 @@
-\chapter{Introduction}
+\chapter{Introduction to Signal Processing}
 
 \section{Signals \& Systems}
 
-As we begin the study of \keyword{signal processing} we should start by defining what a \keyword{signal} actually is. 
+The study of signal processing involves \keyword{signals}\sidenote{A signal is a measurable or detectable physical quantity (air-pressure, voltage, current, etc.) that carries some information} and \keyword{systems}\sidenote{A system is an object that performs an operation on a signal}.
+\begin{bullets}
+	\item Real-life signals contain \keyword{information}, and \keyword{noise}\sidenote{noise is just the part of the signal we are not interested in}
+	\item Information can be encoded within a signal through modulating its amplitude, frequency, phase or spectral content.
+\end{bullets}
 
-\begin{definition}
-	A \keyword{signal} is a measurable or detectable physical quantity (air-pressure, voltage, current, etc.) that carries some information.
-\end{definition}
+Signal processing is basically the study of extracting the encoded information within an \keyword{analog} or \keyword{digital} signal.
+\begin{bullets}
+	\item Analog signals vary continuously with respect to their independent variables
+	\item Digital signals are discrete-time and discrete-valued signals
+\end{bullets}
 
-The study of signal processing involves passing a signal through a \keyword{system}. With the goal of extracting something (usually the information) from the signal
-\begin{definition}
-	A \keyword{system} is a physical device that performs an operation on a signal.
-\end{definition}
+Digital Signals have some amazing benefits\sidenote{Noise robustness, software implementation, ease of storage and transmitting, and independent of external factors like temperature}, and drawbacks\sidenote{Increased system complexity due to A/D and D/A conversion, Limited Frequency Range, Increased power consumption - requires active devices} too. Overall the benefits outweight the drawbacks.
 
-\section{Information \& Noise}
-Signals will always contain two things. \keyword{Information} and \keyword{Noise}. The information is the part we are interested in, and the Noise is considered everything else. For example when dealing with speech recognition, background music would be considered noise.
+\section{Signal Classification}
+Signals possess several characteristics that allow us to classify them further, below is a table of the characteristics and a short description of each.
 
-Information can be encoded within a signal through the some of the following methods:
-\begin{itemize}
-	\item Signal Amplitude
-	\item Signal frequency or Spectral Content
-	\item Signal Phase
-\end{itemize}
-
-Now we can see that signal processing deals with extracting information by essentially 'interpreting' its used encoding method.
-
-\subsection*{Analog \& Digital Signals}
-
-Signals can be found as \keyword{analog signals} or as \keyword{digital signals}.
-\begin{definition}
-	An \keyword{analog signal} is a signal that varies continuously with respect to its independent variables.
-\end{definition}
-
-Most real life signals are analog signals, and analog signals can either be processed directly or converted into digital signals for processing before being reconverted into analog signals.
-
-\begin{definition}
-	A \keyword{digital signal} is a signal that represents data as a sequence of discrete and quantized values. In other words, it is a discrete-valued AND discrete-time signal.
-\end{definition}
-
-Digital signals have some pretty big benefits:
-\begin{itemize}
-	\item Noise robustness - either a 0 or 1
-	\item Software Implementation - can be processed through code instead of circuits
-	\item Easy to store and transmit
-	\item Fairly independent of external parameters like temperature
-\end{itemize}
-
-They have some drawbacks too:
-\begin{itemize}
-	\item Increased system complexity - Need A/D and D/A conversion and complex digital circuitry
-	\item Limited Range of Frequencies - Sampling rate must be twice the value of the highest frequency present within the signal
-	\item Power Consumption - requires active devices, rather than analog signal processors which can be passive.
-\end{itemize}
-
-Overall, the advantages matter more than the drawbacks which is why digital signals are so commonplace.
-
-\section{Classifying Signals}
-
-Signals can be further classified based on the information they provide. Namely to classify a signal we choose an option among the 5 characteristics below.
-\begin{itemize}
-	\item Continuous-Time OR Discrete-Time
-	\item Continuous-Valued OR Discrete-Valued
-	\item One-Channel OR Multi-Channel
-	\item One-Dimensional OR Multi-Dimensional
-	\item Deterministic OR Random
-\end{itemize}
-
-\subsection*{Continuous \& Discrete-Time Signals}
-
-\keyword{Continuous-time signals} are defined on some interval $(a,b)$, thus it can be represented as a function of a continuous variable $f\left( t \right) , t\in\left[ a,b\right]$
-
-\keyword{Discrete-time signals} are defined on a set of integer numbers (indices) $\left\{ 0,1,2,\ldots \right\}$ and each index has a corresponding value $\left\{ f_0,f_1,f_2,\ldots \right\}$. This means that we can represent them as sequences: $f\left[ n\right] = \left\{ f_0,f_1,f_2,\ldots \right\}$
-
-\subsection*{Continuous \& Discrete-Valued Signals}
-
-\keyword{Continuous-valued signals} can take on all-possible values from its continuous range, while
-\keyword{discrete-valued signals} take on values from a finite set. The process of converting a continuous-valued signal into a discrete-valued one is called \keyword{quantization}
-
-\subsection*{Signal Channels}
-\keyword{single channel signals} are usually generated by one source and can be represented by \emph{scalar} functions, \keyword{multi-channel signals} are usually generated by multiple sources/sensors and are represented by \emph{vector functions}
-
-\subsection*{Signal Dimensions}
-
-\keyword{One-dimensional signals} are a function of one independent variable (usually time). while \keyword{N-dimensional signals} are a function of N independent variables (time, x-pos, y-pos, etc.)
-
-\subsection*{Deterministic \& Random Signals}
-
-If we can exactly predict the future values of a signal by using its past values, we say that the signal is a \keyword{deterministic signal}. On the other hand, if we cannot predict it exactly we say that the signal is a \keyword{random signal}. There is no sharp distinction between the two due to the presence of noise, but these serve the purpose of broad categories.
-
+\begin{fullwidth}
+\begin{table}[h]
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		\multicolumn{1}{c}{Signal Category} & \multicolumn{1}{c}{Description} \\ \midrule
+		Discrete Time                                               & Defined on a set of numbers - a sequence                \\
+		Continuous Time                                             & Defined on all real numbers - a function                \\ \midrule
+		Discrete Valued                                             & Take on values from a finite set                        \\
+		Continuous Valued                                           & Takes on a continuous range of values                   \\ \midrule
+		Single Channel                                              & From One Source, Represented by a scalar function       \\
+		Multi-Channel                                               & From Many Sources, Represented by a vector function     \\ \midrule
+		Single Dimension                                            & Functions of one independent variable (usually time)    \\
+		Multi-Dimension                                             & Functions of more than one independent variable         \\ \midrule
+		Deterministic                                               & Signal is exactly predictable with past values only     \\
+		Random                                                      & Signal is NOT exactly predictable with past values only \\ \bottomrule
+	\end{tabular}
+\end{table}
+\end{fullwidth}
+\vspace{2em}
 Consider the picture of a color TV. The signal would be a three channel, three dimensional signal. Which we could represent mathematically as below.
 
 \begin{displaymath}
 	\mathbb{I}\left( x,y,t \right) = \begin{bmatrix}
-	I_r\left(x,y,t\right) \\ I_g\left(x,y,t\right) \\ I_b\left(x,y,t\right)
+		I_r\left(x,y,t\right) \\ I_g\left(x,y,t\right) \\ I_b\left(x,y,t\right)
 	\end{bmatrix}
 \end{displaymath}
-
-	 

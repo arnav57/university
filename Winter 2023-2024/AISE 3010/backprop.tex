@@ -1,0 +1,69 @@
+\chapter{Backpropagation}
+
+Now we are going to dive into the complex algorithm called \keyword{backpropagation} which is the way modern NNs are trained. There are two cases for this algorithm
+\begin{bullets}
+	\item When a neuron is an output neuron
+	\item When a neuron isn't an output neuron
+\end{bullets}
+We will be starting with the former, but be warned! this is going to be a painful and math-intensive chapter.
+
+\begin{marginfigure}\begin{tikzpicture}[>=Stealth, node distance=1.5cm, auto, myarrow]
+		
+		% Inputs
+		\node[node, label=$a_1$, node distance=1cm] (inputa) {};
+		\node[node, label=$a_2$, below of=inputa, node distance=1cm] (inputb) {};
+		\node[label=$\vdots$, below of=inputb, node distance=1cm] (dots) {};
+		\node[node, label=$a_n$, below of=dots, node distance=0.75cm] (inputc) {};
+		
+		% sum, bias and activation
+		\node [node, right of = inputb] (sum) {};
+		\node[node, above of = sum, label=$b$] (bias) {};
+		\node[node, right of = sum, label=$\varphi(.)$] (activation) {};
+		
+		% output
+		\node [node, right of = activation, label=$\hat y$] (output) {};
+		
+		% connections
+		\draw [myarrow, darkgray] (inputa) -- (sum) node[midway, above] {$w_1$};
+		\draw [myarrow, darkgray] (inputb) -- (sum) node[midway, above] {$w_2$};
+		\draw [myarrow, darkgray] (inputc) -- (sum) node[midway, above] {$w_n$};
+		\draw [myarrow, darkgray] (bias) -- (sum); 
+		\draw [myarrow, darkgray] (sum) -- (activation) node[midway, above] {$v$};
+		\draw [myarrow, darkgray] (activation) -- (output);
+		
+	\end{tikzpicture} \centering \caption{An Output Neuron} \label{outputneuron}  \end{marginfigure}
+
+
+\section{The Error \& Cost Function}
+
+Consider a neuron $j$ that is located in the output layer of an MLP. It has internal structure as shown by Figure \ref{outputneuron}. We also define the \keyword{error} $\varepsilon$, that gives a measure of how far our current output $\hat{y}$, is from our desired output $y$. For the purposes of this chapter:
+\[  \varepsilon =  y - \hat{y}\]
+
+We should also define a \keyword{cost function} $\ell$ as the \keyword{total error energy} of the whole network.\sidenote{This is usually defined at some iteration $n$ but this is left out for brevity.}
+\[  \ell  = \frac{1}{2}\varepsilon^2 \]	
+
+\section{The Output Neuron}
+
+We are concerned with finding out how the loss function $\ell$ changes with respect to a certain weight $w_k$. In other words we are tasked with finding the derivative.\sidenote{We are tasked with finding  $\dfrac{\partial\ell}{\partial w_k}$}. We can do this through the \keyword{chain rule}.
+
+\[	\frac{\partial\ell}{\partial w_k} = \frac{\partial \ell}{\partial \varepsilon}\cdot\frac{\partial\varepsilon}{\partial\hat{y}}\cdot\frac{\partial\hat{y}}{\partial w_k}\]
+
+We can break down this derivative even further using Figure \ref{outputneuron}, resulting in Equation \ref{eq:1}. We can even extend this to see how we can change the biases, which is given in Equation \ref{eq:2}.
+
+\begin{equation}
+	\label{eq:1}
+	\frac{\partial\ell}{\partial w_k} = \frac{\partial \ell}{\partial \varepsilon}\cdot\frac{\partial\varepsilon}{\partial\hat{y}}\cdot\frac{\partial\hat{y}}{\partial v}\cdot\frac{\partial v}{\partial w_k}
+\end{equation}
+
+\begin{equation}
+	\label{eq:2}
+	\frac{\partial\ell}{\partial b_k} = \frac{\partial \ell}{\partial \varepsilon}\cdot\frac{\partial\varepsilon}{\partial\hat{y}}\cdot\frac{\partial\hat{y}}{\partial v}\cdot\frac{\partial v}{\partial b_k}
+\end{equation}
+
+Analytically solving Equation \ref{eq:1} gives the following result:
+	\[ \frac{\partial\ell}{\partial w_k} = -\varepsilon a_k \varphi'(v)	\]
+	
+\section{A Hidden Neuron}
+
+When a neuron $j$ is located within a hidden layer of the MLP, there is no desired response for that neuron, accordingly the error signal for that neuron would have to be determined recursively, and work backwards from all neurons to where the neuron $j$ is located\sidenote{This is where the term \emph{backpropagation} comes from}.
+

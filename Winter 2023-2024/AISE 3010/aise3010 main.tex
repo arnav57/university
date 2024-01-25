@@ -5,8 +5,24 @@
 \author{Arnav Goyal}
 \publisher{Winter 2024 / AISE 3010}
 
+\tikzstyle{node} = [draw=darkgray, rectangle, fill=darkgray, text=darkgray]
+\tikzstyle{myarrow} = [
+>=Stealth,
+node distance=1.5cm,
+auto,
+myarrow/.style={
+	decoration={
+		markings,
+		mark=at position 0.5 with {\arrow{Stealth}}
+	},
+	postaction={decorate}
+}
+]
+\usetikzlibrary{positioning, arrows.meta, decorations.markings, decorations.pathreplacing}
+
 \def\myreferences{
 	\item Provided Course Material \& Lecture Notes
+	\item Neural Networks and Learning Machines - 3e - S. Haykin
 }
 
 \begin{document}
@@ -18,4 +34,6 @@
 	\mainmatter
 	\pagenumbering{arabic}
 
+	\input{perceptron}
+	\input{backprop}
 \end{document}
