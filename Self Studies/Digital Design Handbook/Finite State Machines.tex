@@ -1,0 +1,35 @@
+\chapter{Finite State Machines}
+
+A \keyword{finite state machine} or\sidenote{Sometimes an FSM is called a Finite State Automaton} (\keyword{FSM}) is a system that can be in a finite number of \keyword{states}, accept a finite set of \keyword{inputs}, producing a finite state of \keyword{outputs}.
+\begin{bullets}
+	\item Listing these states, the possible transitions between states based on the input, and the conditions required for each possible output, provides a complete function description of an FSM.
+\end{bullets}
+
+A FSM is a general concept, a mathematical concept. However, when dealing with a specific subset of then called \keyword{deterministic FSMs}, we can actually implement them with sequential circuits.
+\begin{bullets}
+	\item An FSM is \keyword{deterministic} if every combination of current state and input results in only one transition (no probabilistic transitions).
+\end{bullets}
+
+\section{Mathematical Formalism}
+
+There are two types of FSMs. A \keyword{Mealy} and a \keyword{Moore} FSM. 
+\begin{bullets}
+	\item The output of a Moore FSM depends on only the state it is currently in.
+	\item The output of a Mealy FSM depends on transitions between states.
+\end{bullets}
+
+Lets make things more organized by introducing some basic mathematical notation to this.
+\begin{bullets}
+	\item Let the set of all possible states in an FSM be denoted by $Q$, lets also call the starting state $Q_0$
+	\item Let the set of all possible inputs be called $I$
+	\item Let the transition function be denoted $\delta(Q,\,I)$, it determines the next state as a function of the current state and next input, we say: $\delta : Q \times I \mapsto Q$
+	\item Let the output function be given by $f(\cdot)$, it determines the output as a function of something.
+\end{bullets}
+This means that any FSM $M$ can be described by the following basic description\sidenote{Here the functions are written as variables for clarity, we also probably cant define these functions in any way other than a truth/state table. For now just assume that they can.}
+\[	\text{M} = \left(  Q, I, Q_0, \delta, f \right)	\]
+
+We can differentiate mathematically between Mealy and Moore FSMs through the description of their output functions. Let the set $O$ be the set of all possible outputs.
+\begin{bullets}
+	\item A Moore FSMs output function is defined\sidenote{A Moore FSMs output depends ONLY on its current state} as $f: Q \mapsto O$.
+	\item A Mealy FSMs output function is defined\sidenote{A Mealy FSMs current output depends on the SPECIFIC transition it is experiencing} as $f: \delta \mapsto O$
+\end{bullets}

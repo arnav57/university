@@ -1,0 +1,11 @@
+\chapter{Clock Domain Crossing}
+
+\section{Clock Domains}
+
+So far we've only discussed \keyword{synchronous} circuits\sidenote{circuits that share the same clock.}. In the real world, it is extremely common to have \keyword{asynchronous} circuits\sidenote{circuits with multiple clocks}. Consider some circuit $C$ with two design blocks $C_1\,,C_2\,\subseteq C$
+\begin{bullets}
+	\item we say that the circuit is synchronous if the only clock within $C$ is $f_1$ or derivatives\sidenote{$f_1 / 2\,, f_1/4\,,$ etc.} of $f_1$
+	\item we say that the circuit is asynchronous if there are multiple clocks - if $C_1$ is clocked by $f_1$, and $C_2$ clocked by $f_2$
+\end{bullets}
+
+A problem occurs\sidenote{This is the problem with Clock Domain Crossing (CDC)} when trying to send data from $C_1$ to $C_2$, we are trying to send data at some frequency $f_1$, and trying to sample it on some frequency $f_2$. Whenever this occurs, the data we are trying to send has the possibility of becoming \keyword{metastable}.

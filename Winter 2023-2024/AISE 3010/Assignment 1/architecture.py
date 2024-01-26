@@ -1,86 +1,106 @@
-import numpy as np 
+import numpy as np
 
-# classes that build an NN
-## Neurons -> Layers -> Networks
+class NN:
+    def __init__(self, input_size, hidden_size1, hidden_size2, hidden_size3, output_size):
 
-class neuron():
-    # should be defined with num_inputs and activation function, should randomly create weights/bias upon instantiation
-    def __init__(self, num_inputs, activation):
-        self.num_inputs = num_inputs
+        # store locallt relevant information
+        self.input_size = input_size
+        self.hidden_size1 = hidden_size1
+        self.hidden_size2 = hidden_size2
+        self.hidden_size3 = hidden_size3
+        self.output_size = output_size
+
+        # init weights randomly
+        self.weights = {
+            'W1': np.random.rand(input_size, hidden_size1),
+            'W2': np.random.rand(hidden_size1, hidden_size2),
+            'W3': np.random.rand(hidden_size2, hidden_size3),
+            'W4': np.random.rand(hidden_size3, output_size)
+        }
+
+        # init biases randomly
+        self.biases = {
+            'b1': np.zeros((1, hidden_size1)),
+            'b2': np.zeros((1, hidden_size2)),
+            'b3': np.zeros((1, hidden_size3)),
+            'b4': np.zeros((1, output_size))
+        }
+
+    # allow changing of activation function, must be called after class initialization
+    def define_activation(self, activation, activation_derivative):
         self.activation = activation
-        self.__setup__()
+        self.activation_derivative = activation_derivative
 
-    # organization of constructor
-    def __setup__(self):
-        # create a list of size to hold inputs ; populate weights & bias randomly upon initialization
-        self.inputs = [None for i in range(self.num_inputs)] # inputs NEED to be set using 'set_inputs()'
-        self.weights = [np.random.rand(1) for i in range(self.num_inputs)]
-        self.bias = np.random.rand(1)
-        self.__setparams__()
+    # propagate input signals to output
+    def predict(self, X):
+        # create a 'cache' (dictionary lol) to track the layer inputs and outputs
+        self.cache = {}
 
-    # update params_ field
-    def __setparams__(self):
-        self.params_ = [self.weights, self.bias]
+        # input -> layer 1
+        self.cache['hidden1_input'] = np.dot(X, self.weights['W1']) + self.biases['b1']
+        self.cache['hidden1_output'] = self.activation(self.cache['hidden1_input'])
 
-    # calculate output
-    def __calcluate__(self):
-        self.output = self.activation(np.sum(self.weights * self.inputs) + self.bias)
+        # layer 1 -> layer 2
+        self.cache['hidden2_input'] = np.dot(self.cache['hidden1_output'], self.weights['W2']) + self.biases['b2']
+        self.cache['hidden2_output'] = self.activation(self.cache['hidden2_input'])
 
-    def set_weights(self, new_weights):
-        self.weights = new_weights
-        self.__setparams__()
-    
-    def set_bias(self, new_bias):
-        self.bias = new_bias
-        self.__setparams__()
-    
-    def set_inputs(self, new_inputs):
-        self.inputs = new_inputs
-        # when new inputs are provided, calculate the output
-        self.__calcluate__()
+        # layer 2 -> layer 3
+        self.cache['hidden3_input'] = np.dot(self.cache['hidden2_output'], self.weights['W3']) + self.biases['b3']
+        self.cache['hidden3_output'] = self.activation(self.cache['hidden3_input'])
 
-class inputlayer():
-    # defined with a number of neurons and layer activation function
-    def __init__(self, num_neurons, activation):
-        self.num_neurons = num_neurons
-        self.activation = activation
-        self.__setup__()
-    
-    # constrcutor organization
-    def __setup__(self):
-        # create all the required neurons, each neuron accepts only 1 input as this is the input layer.
-        self.neurons = [neuron(1, self.activation) for i in range(self.num_neurons)]
-        self.__setparams__()
+        # layer 3 -> output
+        self.cache['output_input'] = np.dot(self.cache['hidden3_output'], self.weights['W4']) + self.biases['b4']
+        self.cache['output'] = self.activation(self.cache['output_input'])
 
-    def __calcluate__(self):
-        # obtain layer output as a list
-        self.output = [n.output for n in self.neurons]
+        # final output
+        return self.cache['output']
 
-    def __setparams__(self):
-        self.params_ = []
-        for n in self.neurons:
-            self.params_.append(n.params_)
-    
-    def __summary__(self):
-        print(f'Layer Input:{self.input}\nLayer Params:{self.params_}\nLayer Output:{self.output}')
+    def calculate_loss(self, y_true, y_pred):
+        return np.mean((y_true - y_pred) ** 2)
+
+    def backpropagation(self, X, y, learning_rate):
+        m = X.shape[0]
+
+        ## output layer
+
+        # calculate error signal
+        output_error = self.cache['output'] - y
+        output_delta = output_error * self.activation_derivative(self.cache['output'])
+
+        # output layer adjustments
+        self.weights['W4'] -= learning_rate * np.dot(self.cache['hidden3_output'].T, output_delta)
+        self.biases['b4'] -= learning_rate * np.sum(output_delta, axis=0, keepdims=True)
+
+        ## didden layer 3
+        hidden3_error = np.dot(output_delta, self.weights['W4'].T)
+        hidden3_delta = hidden3_error * self.activation_derivative(self.cache['hidden3_output'])
+        self.weights['W3'] -= learning_rate * np.dot(self.cache['hidden2_output'].T, hidden3_delta)
+        self.biases['b3'] -= learning_rate * np.sum(hidden3_delta, axis=0, keepdims=True)
+
+        # Hidden layer 2
+        hidden2_error = np.dot(hidden3_delta, self.weights['W3'].T)
+        hidden2_delta = hidden2_error * self.activation_derivative(self.cache['hidden2_output'])
+        self.weights['W2'] -= learning_rate * np.dot(self.cache['hidden1_output'].T, hidden2_delta)
+        self.biases['b2'] -= learning_rate * np.sum(hidden2_delta, axis=0, keepdims=True)
+
+        # Hidden layer 1
+        hidden1_error = np.dot(hidden2_delta, self.weights['W2'].T)
+        hidden1_delta = hidden1_error * self.activation_derivative(self.cache['hidden1_output'])
+        self.weights['W1'] -= learning_rate * np.dot(X.T, hidden1_delta)
+        self.biases['b1'] -= learning_rate * np.sum(hidden1_delta, axis=0, keepdims=True)
+
+    def train(self, X, y, epochs, learning_rate):
+        for epoch in range(epochs):
+            # Forward propagation (predictions)
+            predictions = self.predict(X)
+
+            # Calculate loss
+            loss = self.calculate_loss(y, predictions)
+
+            # Backward propagation
+            self.backpropagation(X, y, learning_rate)
+
+            if epoch % 10000 == 0:
+                print(f'Epoch {epoch}, Loss: {loss}')
 
 
-    def set_input(self, new_input):
-        # provide each neuron with an input
-        self.input = new_input
-        for i in range(self.num_neurons):
-            self.neurons[i].set_inputs(np.array(self.input[i]))
-        
-        # upon providing a new layer input, calculate layer output
-        self.__calcluate__()
-        
-
-
-
-        
-        
-
-    
-
-        
-        
