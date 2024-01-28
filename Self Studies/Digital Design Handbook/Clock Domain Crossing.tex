@@ -1,11 +1,61 @@
 \chapter{Clock Domain Crossing}
 
-\section{Clock Domains}
+\section{Clock Domains \& Metastability}
 
 So far we've only discussed \keyword{synchronous} circuits\sidenote{circuits that share the same clock.}. In the real world, it is extremely common to have \keyword{asynchronous} circuits\sidenote{circuits with multiple clocks}. Consider some circuit $C$ with two design blocks $C_1\,,C_2\,\subseteq C$
 \begin{bullets}
-	\item we say that the circuit is synchronous if the only clock within $C$ is $f_1$ or derivatives\sidenote{$f_1 / 2\,, f_1/4\,,$ etc.} of $f_1$
+	\item we say that the circuit is synchronous if the only clock within $C$ is $f_1$ or derivatives\sidenote{Any clocks with constant phase relationships, such as $f_1 / 2\,, f_1/4\,,$ etc.} of $f_1$
 	\item we say that the circuit is asynchronous if there are multiple clocks - if $C_1$ is clocked by $f_1$, and $C_2$ clocked by $f_2$
 \end{bullets}
 
-A problem occurs\sidenote{This is the problem with Clock Domain Crossing (CDC)} when trying to send data from $C_1$ to $C_2$, we are trying to send data at some frequency $f_1$, and trying to sample it on some frequency $f_2$. Whenever this occurs, the data we are trying to send has the possibility of becoming \keyword{metastable}.
+A problem occurs\sidenote{This is the problem with Clock Domain Crossing (CDC)} when trying to send data from $C_1$ to $C_2$, we are trying to send data at some frequency $f_1$, and trying to sample it on some frequency $f_2$. Sending data through different clock domains like this is called \keyword{clock domain crossing} or (\keyword{CDC})
+
+Whenever this occurs, the data we are trying to send has the possibility of becoming \keyword{metastable}.
+\begin{bullets}
+	\item When a signal is metastable, it means that it isn't a well defined 0 or 1.
+	\item Metastability arises from violating the \keyword{setup and hold times}\sidenote{Setup time $t_s$ refers to the amount of time the input must be stable before the clock edge arrives. Hold time $t_h$ refers to the amount of time the input must be stable after the clock edge arrives} of a flip-flop.
+\end{bullets}
+
+\section{Crossing Clock Domains}
+
+When crossing clock domains, metastability arises, it is not possible to completely remove metastability from a design, but with the proper procedures we can reduce the chances of it happening.
+\begin{bullets}
+	\item A measure of metastability can be approximated through the notion of \keyword{mean time between failures} also (\keyword{MBTF})\sidenote{This is an estimate due to the probabilistic nature of metastability. The below equation is provided by cadence's CDC paper \[ \text{MBTF} = \frac{\exp{(k_1 t_{\text{meta}})}}{k_2 \cdot f_{\text{clk}} \cdot f_{\text{data}}} \]}
+	\item We \emph{deal} with metastability by increasing the MBTF as much as we can through the use of some \keyword{CDC techniques}.
+	\item A metastable signal entering a flip flop will either produce a metastable output, or a well defined 0 or 1. There is no way to tell, as this is probabilistic in nature.
+\end{bullets}
+
+Now we will learn the most common techniques to deal with CDC
+\begin{bullets}
+	\item The $n$-flop synchronizer
+	\item Handshake Synchronizer\sidenote{works through a 'request' and 'acknowledge' mechanism}
+	\item Asynchronous FIFO (Queue)\sidenote{tx writes into the queue, and rx reads from the queue.}
+\end{bullets}
+These are extremely complex circuits, so we will only be learning about the first method.
+
+\section{$n$-Flop Synchronizer}
+
+The most common way to deal with CDC is to construct an \keyword{$n$-flop synchronizer}\sidenote{usually $n$ is 2 or 3}. The circuit of 2-flop synchronizer looks like this.
+
+\begin{circuitikz}[]
+	% Draw the first D flip-flop
+	\draw (0,0) node[flipflop D] (d1) {A1};
+	\draw (d1.pin 1) to ++(-1,0) node[label=left:Data In]{};
+	\draw (d1.pin 3) to ++(-1,0) node[label=left:clk $a$]{};
+	
+	\draw (4,0) node[flipflop D] (d2) {B1};
+	\draw (7,0) node[flipflop D] (d3) {B2};
+	\draw(d1.pin 6) to (d2.pin 1);
+	\draw (d2.pin 6) to (d3.pin 1);
+	\draw (d2.pin 3) -| ++ (-0.5,-1) node[circ](clock){};
+	\draw (d3.pin 3) -| ++ (-0.25, -1) to (clock);
+	\draw (d3.pin 6) to ++(1,0) node[label=right:Data Out]{};
+	\draw (clock) to ++(-4.5,0) node[label=left:clk $b$]{};
+\end{circuitikz}
+
+It's easy to see how this circuit can be arbitrarily extended to contain $n$-flops. Adding a flop flop to the chain increased MBTF, but also adds latency to our design.
+\begin{bullets}
+	\item This design works because even if the data becomes metastable after propagating through B1, it has another clock cycle to settle and become a well defined 0 or 1 before propagating through B2.
+	\item Each additional flip-flop in the chain gives the (possibly) metastable signal more time to settle before being sent out.
+\end{bullets}
+
