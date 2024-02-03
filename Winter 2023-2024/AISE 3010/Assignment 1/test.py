@@ -1,29 +1,37 @@
+import math
 import numpy as np
-from architecture import NN
+import numpy.random as r
+from architecture import nn
 
-# activation
+
+
+# example architecture, and activations
+
 def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+  return 1 / (1 + np.exp(-x))
 
-# activation derivative
-def sigmoid_derivative(x):
-    return sigmoid(x) * (1 - sigmoid(x))               
+def sigmoid_p(x):
+  return sigmoid(x) * (1 - sigmoid(x))
 
-# params
-input_size = 2
-hidden_size1 = 4
-hidden_size2 = 3
-hidden_size3 = 2
-output_size = 1
-epochs = 100001
-learning_rate = 0.2
+def softmax(x):
+    exp_x = np.exp(x - np.max(x, axis=0, keepdims=True))  # To avoid numerical instability
+    return exp_x / np.sum(exp_x, axis=0, keepdims=True)
 
-# generate sample data
-np.random.seed(0)
-X = np.random.rand(100, input_size)
-y = np.random.randint(0, 2, (100, output_size))
+def softmax_p(x):
+    s = softmax(x)
+    return np.diagflat(s) - np.outer(s,s)
+  
 
-# create and train the neural network
-neural_net = NN(input_size, hidden_size1, hidden_size2, hidden_size3, output_size)
-neural_net.define_activation(sigmoid, sigmoid_derivative)
-neural_net.train(X, y, epochs, learning_rate)
+arch = {
+    'input_size':3,
+    'output_size':2,
+    'hidden_sizes':[2,3,2],
+    'activation':sigmoid,
+    'ddx_activation':sigmoid_p,
+    'concluding_activation':softmax,
+    'ddx_concluding_activation':softmax_p,
+}
+
+network = nn(architecture=arch)
+network.params()
+print(network.predict(r.randn(3), output='base'))

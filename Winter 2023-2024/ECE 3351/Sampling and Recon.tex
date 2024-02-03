@@ -1,0 +1,70 @@
+\chapter{Sampling \& Reconstruction of Signals}
+
+\section{Frequency}
+
+Consider the definitions\sidenote{One with radial and one with temporal frequency} of a CT-signal.
+\[	x_a (t) = A\cos{(\omega t + \phi)}	\]
+\[	x_a (t) = A\cos{(2\pi f t + \phi)}	\]
+
+The value $f$ is called the signals \keyword{fundamental frequency} measured in Hertz\sidenote{Hz [cycles/sec]}. Given some value of $f$, we can define its inverse, $T = \sfrac{1}{f}$ as the  signals \keyword{fundamental period}\sidenote{Measured in Hz$^{-1}$ [sec/cycle]}.
+
+If some signal $x_a$ has fundamental frequency $f_s$ and fundamental period $T_s$, we can say that:\sidenote{This is the formal definition of fundamental period}
+\[ x\left( t + T_s \right) = x \left(t\right)	\]
+
+Extending this to DT-signals isn't as straightforward as one would think $\ldots$
+
+A DT-signal is periodic with period $N$ if :
+\[	x\left(n + N\right)	= x\left(n\right)\]
+The fundamental period of a DT signal, is the smallest value of $N$ such that the above holds true.
+
+\section{Properties of Discrete-Time Signals}
+
+DT signals have some strange properties.
+\begin{bullets}
+	\item DT-signals are only periodic if their frequency $f$ is a rational number
+	\item DT-signals whose frequencies $\omega$ are seperated by some integer multiple of $2\pi$, are identical	 
+	\item DT-sinusoids are distinct only within a certain frequency range, sinusoids with frequencies outside this range are an alias of a sinusoid with frequency within this range
+	\item The highest frequency possible for a DT-signal is at $\omega=\pm\pi$ or $f=\pm\sfrac{1}{2}$
+\end{bullets}
+
+Lets consider the first property. We require the following to hold.\sidenote{Consider that $x(n) = \cos{(2\pi fn)}$} 
+\[	x(n+N) = x(n)	\]
+\[ \cos{\left(2\pi f (n + N) \right)} = \cos{(2\pi f n)}	\]
+\[ \cos{\left(2\pi f n + 2\pi fN) \right)} = \cos{(2\pi f n)}	\]
+This\sidenote{$\cos{(x)} = \cos{(x + 2\pi k)}$ only holds true for some integer value of $k$, this implies that $2\pi f N = 2\pi k$} implies a rational frequency:
+\[ f = \frac{k}{N} \]
+
+The second property can easily be proven as shown below, suppose $k\in\mathbb{Z}$:
+\[ x_k (n) = \cos{(\omega_0 + 2\pi k)n + \phi}	\]
+\[ x_k (n) = \cos{(\omega_0n + 2\pi k n +\phi)}	\]
+Then, the following two are indistinguishable.
+\[ x_k (n) = \cos{(\omega_0n + 2\pi k n +\phi)}	= \cos{(\omega_0n + \phi)} \]
+
+The third and fourth property are basically to be treated as fact, try creating a sequence of this on a graphing calculator to verify that this is true for yourself.
+
+\section{Analog to Digital Conversion}
+To modify analog signals with a digital signal processor, we must first convert them into digital form\sidenote{a sequence of binary numbers}. This process is called analog to digital conversion (abbreviated A/D conversion). In many cases we also convert the signal back into analog form (D/A conversion).
+
+A/D Conversion is done in three main steps:
+\begin{bullets}
+	\item Sampling
+	\item Quantization
+	\item Encoding
+\end{bullets}
+
+\keyword{Sampling} concerns turning an analog signal into a discrete time signal. \keyword{Quantization} involves turning it from continuous valued into a discrete valued signal. Lastly, \keyword{Encoding} is about turning it into a binary sequence for transmission.
+
+\section{Sampling}
+
+Given some analog input $x_a (t)$ we can perform \keyword{periodic} (or \keyword{uniform sampling}) by storing its value at certain time intervals described by a \keyword{sampling frequency} $f_s$ or \keyword{sampling period} $T_s$.
+\begin{bullets}
+	\item Mathematically this would be the equivalent of taking a CT-sinusoid and performing a substitution $t = \sfrac{n}{f_s} = nT_s$ for some $n\in\mathbb{Z}$
+	\item Essentially we turn a signal into a sequence, $x[n] := x_a (nT_s)$
+\end{bullets}
+
+We know that one of the properties of DT-signals is that if the frequency of two are seperated by some integer value, they are indistinguishable from one another. Consider some analog frequency $f_1$ and $f_2$.
+\[	\dfrac{f_1}{f_s} - \dfrac{f_2}{f_s}	= k\]
+If the above holds true, the DT-signals will look the same after being sampled at frequency $f_s$. This effect is called \keyword{aliasing}.
+
+Consider two CT sinusoids\sidenote{ $x_1 (t) = \cos{(2\pi \cdot \sfrac{1}{8})}$ and $x_2 (t) = \cos{(-2\pi\cdot\sfrac{7}{8})}$} being sampled at $f_s =$ 1 Hz. It can be shown that the frequencies of both signals satisfy the equation above, and are identical after sampling (conversion into a sequence). 
+

@@ -1,0 +1,252 @@
+\chapter{Data Types \& Signals}
+
+\section{Values \& Signal Strength}
+
+Verilog supports 4 possible values, and 8 strength levels to model the functionality of real hardware. Most data types in verilog support these 4 values:
+\begin{bullets}
+	\item \code{0} - Logic Low
+	\item \code{1} - Logic High
+	\item \code{X} - Unknown
+	\item \code{Z} - High Impedance
+\end{bullets}
+
+There are also 8 measures of signal strength\sidenote{From strongest to weakest: \code{supply}, \code{strong}, \code{pull}, \code{large}, \code{weak}, \code{medium}, \code{small}, \code{highz}} but i have never used them before. There are some things to keep in mind though:
+\begin{bullets}
+	\item When dealing with two shorted signals of the \emph{same value}, but different strengths, the highest strength level will be carried forward.
+	\item When dealing with two \emph{different values} of the same strength, the compiler outputs an X (unknown state)
+\end{bullets}
+
+\section{Basic Data Types}
+
+This section will cover the different \keyword{data types}\sidenote{A data type is the 'type' of a variable, it also defines what operations can be applied to the variable} present within the Verilog HDL.
+\begin{bullets}
+	\item The two classes of data in Verilog are \code{net} and \code{reg}
+\end{bullets}
+
+A \code{reg} is a type that represents storage elements\sidenote{A variable of type \code{reg} does not \emph{always} mean it is a register!}. You should think of it as a variable (wire) that can hold a value. 
+\begin{bullets}
+	\item The default value of a \code{reg} is X (unknown).
+	\item Some sub-types of reg are: \code{integer}, \code{real}, and \code{time}.
+\end{bullets}
+
+A \code{net} represents connections between hardware elements \sidenote{It should be thought of as a wire. Conveniently it is also most commonly declared with \code{wire}}. We cannot use them to store values, and all nets should be \keyword{continuously driven}.
+\begin{bullets}
+	\item The default value of a net is Z (high impedance)
+	\item Some sub-types of net are: \code{wire}, \code{wand}, \code{wor}, \code{tri}, \code{trior}, \code{triand}, \code{trireg}, etc...
+\end{bullets}
+
+
+\section{Port Assignments}
+
+There are three types of \keyword{ports} in verilog: the \code{input}, \code{output} and \code{inout}. They are used to interact with modules in a very intuitive way. Now that we know about basic datatypes we can learn about the following rules that apply \keyword{inside a module}.
+\begin{bullets}
+	\item An \code{input} should always be a wire (can be of reg outside the module).
+	\item An \code{output} should always be net or reg (can be of net outside the module).
+	\item An \code{inout} should always be of net (also must be a net outside the module).
+\end{bullets}
+
+\section{Numbers}
+
+Numbers in verilog are pretty different from other languages. There is a syntax to declare them\sidenote{<size>'<base><number>}. Here its easiest to learn through example by reading snippet \ref{nums}.
+\begin{lstlisting}[language=Verilog, caption={Numbers in Verilog}, label=nums]
+1'b1 // 1 bit of binary 1
+8'h21 // 8 bits of hexadecimal 21 -> 0010 0001
+12'ha35 // 12 bits of hex A35 -> 1010 0110 0101
+12'o42xx // 12 bits of 42xx -> 100 010 XXX XXX
+4'd1 // 4 bits of decimal 1 -> 0001
+35 // signed number, default width is 32 bits
+\end{lstlisting}
+
+\section{Net-Data Types}
+Various net data types are supported for synthesis\sidenote{\code{wire}, \code{wand}, \code{wor}, \code{tri}, \code{trior}, \code{triand}, \code{trireg}, \code{supply0}, \code{supply1} etc...}
+\begin{bullets}
+	\item \code{wire} and \code{tri} are equivalent - This also includes the and/or versions\sidenote{This means \code{trior} and \code{wor} are equivalent, the same with \code{wand} and \code{triand}}.
+	\item Types such as \code{wand} and \code{trior} aim to resolve short circuits by inserting an \& or | condition to avoid unknown states (see snippet \ref{wandwor})
+\end{bullets}
+
+\begin{marginfigure}
+	\begin{lstlisting}[language=Verilog, caption={wand and wor}, label=wandwor]
+wand Y;
+assign Y = A & B; // A and B
+assign Y = C | D; // C or D
+/* 
+wand:
+output of Y = (A & B) & (C | D)
+
+wor:
+output of Y = Y = (A & B) | (C | D)
+*/
+	\end{lstlisting}
+\end{marginfigure}
+
+\section{Reg-Data Types}
+Aside from \code{reg}, there exists the \code{integer}, \code{real} and \code{time} reg-data types. They all have their unique purposes
+\begin{bullets}
+	\item \code{integer} is used for counting in for-loops\sidenote{finally a paradigm to regular programming}
+	\item \code{real} is used to store decimal (floating point) numbers
+	\item \code{time} is used to store the current simulation time
+\end{bullets}
+
+Some notes:
+\begin{bullets}
+	\item When assinging a \code{real} to a \code{reg}, we round to the nearest integer value (0.5 rounds up here).
+	\item The \code{time} datatype is not synthesizable (is ignored by syntehsizer), but it is are extremely useful for testbenches.
+\end{bullets}
+
+\section{Vectors \& Arrays}
+
+We can declare datatypes as \keyword{vectors} and/or \keyword{arrays}, which are exactly what they sounds like. See snippet \ref{vecarray} for syntax.
+\begin{marginfigure}\begin{lstlisting}[language=Verilog, caption={Vectors \& Arrays}, label=vecarray]
+// VECTORS
+reg [3:0] q1; 
+// A 4 bit register where index 3 is MSb and index 0 is LSb
+
+// ARRAYS
+reg q2 [1023:0] 
+// 1024, 1-bit registers
+
+// BOTH
+reg [7:0] q3 [1023:0] //  1024, 8-bit registers (A 1K x 8 RAM)
+\end{lstlisting}\end{marginfigure}
+
+\section{Parameters \& Strings}
+
+\keyword{Parameters} cannot be used as variables, instead they are used as replacements for writing values (constants). Similar to HIGH and LOW in Arduino code.
+we declare them as shown in snippet \ref{params}.
+
+\keyword{Strings} are stored in a reg vector of size 8*length, each char is stored as a byte, thus a string is essentially a reg vector of bytes.
+
+Syntax for both is shown in snippet \ref{params}
+
+\begin{marginfigure}\begin{lstlisting}[language=Verilog, caption={parameters}, label=params]
+// PARAMETERS
+parameter A = 0, B = 1;
+
+// STRINGS
+reg [10*8:1] str;
+str = "1234567890" 
+// we can store 10 chars in the str variable
+\end{lstlisting}\end{marginfigure}
+
+\chapter{Operators}
+
+Like standard programming languages, Verilog provides a bunch of \keyword{operators}:
+\begin{bullets}
+	\item Arithmetic, Logical, Bitwise, Equality, Relational, Reduction, Shift, Concatenation, and Conditional Operators are all offered in Verilog!\sidenote{you will \emph{probably} not enjoy learning all of them... unless you are a maniac}
+\end{bullets}
+
+\section{Arithmetic Operators}
+I wonder what these do! They certainly \emph{do not} perform arithmetic operations!\sidenote{Sarcasm}. The operations listed below are binary operations, but we will learn about bitwise and unary operations soon
+\begin{table}[h] \centering
+	\begin{tabular}{ccc}
+		\cellcolor[HTML]{FFFFFF}Operator & \cellcolor[HTML]{FFFFFF}Operation & \multicolumn{1}{l}{Type} \\ \hline
+		+                                & Addition                          & Binary                   \\
+		-                                & Subtraction                       & Binary                   \\
+		*                                & Multiplication                    & Binary                   \\
+		/                                & Division                          & Binary                   \\
+		\%                               & Modulus                           & Binary                   \\
+		**                               & Exponentiation                    & Binary                  
+	\end{tabular}
+\end{table}
+
+\section{Logical Operators}
+These are used to evaluate boolean expressions\sidenote{No sarcasm here}
+\begin{table}[h] \centering
+	\begin{tabular}{ccc}
+		\cellcolor[HTML]{FFFFFF}Operator & \cellcolor[HTML]{FFFFFF}Operation & \multicolumn{1}{l}{Type} \\ \hline
+		!                                & Logical Negation                  & Unary                    \\
+		\&\&                             & Logical AND                       & Binary                   \\
+		||                               & Logical OR                   	 & Binary                   
+	\end{tabular}
+\end{table}
+
+\section{Bitwise Operators}
+These operators perform a bit-by-bit operation on two operands. Sort of like an element-wise function applied to a matrix.
+With these in mind, we can perform a NAND using: $\sim$\&
+\begin{table}[h] \centering
+	\begin{tabular}{ccc}
+		\cellcolor[HTML]{FFFFFF}Operator & \cellcolor[HTML]{FFFFFF}Operation & \multicolumn{1}{l}{Type} \\ \hline
+		$\sim$                           & Bitwise NOT                       & Unary                    \\
+		\&                               & Bitwise AND                       & Binary                   \\
+		|                                & Bitwise OR                        & Binary                   \\
+		\textasciicircum{}               & Bitwise XOR                       & Binary                  
+	\end{tabular}
+\end{table}
+
+\section{Equality Operators}
+These are an extension of the logical operators, and they only deal with equality and inequality. The difference between logical and case equalities are that case equalities can compare with unknowns (X) and high impedance (Z) states, while the regular logical equality cannot.\sidenote{4'b1xxz === 4'b1xxz will return 1, if we used logical equality it would have returned X}
+\begin{table}[h] \centering
+	\begin{tabular}{ccc}
+		\cellcolor[HTML]{FFFFFF}Operator & \cellcolor[HTML]{FFFFFF}Operation & \multicolumn{1}{l}{Type} \\ \hline
+		==                          & Logical equality                      & Binary                    \\
+		!=                             & Logical Inequality                      & Binary                   \\
+		===                             & Case Equality                      & Binary                   \\
+		!==              & Case Inequality                   & Binary                  
+	\end{tabular}
+\end{table}
+
+\section{Relational Operators}
+These are the >, < and >=, <= symbols that are used and behave in exactly the same ways as other programming languages\sidenote{This means I do not have to make another table in \LaTeX $\ :)$}
+
+\section{Reduction Operators}
+Suppose we have a 100 bit vector! How do we perform a bitwise and on this vector? The correct answer is through \keyword{reduction operators}! Given some X = 4'b1010 We have:
+\begin{bullets}
+	\item \& X - equivalent to 1 \& 0 \& 1 \& 0
+	\item |X - equivalent to 1 | 0 | 1 | 0
+	\item \textasciicircum{}X - equivalent to 1 \textasciicircum{} 0 \textasciicircum{} 1 \textasciicircum{} 0
+\end{bullets}
+
+\section{Shift Operators}
+
+Bit shift and arithmetic shift by $n$ bits are done with $>> n$ and $>>> n$ symbols respectively (changing the arrows to $<<$ or $<<<$ changes the shift direction).
+
+\section{Concatentation Operator}
+We can concatenate through angle brackets. {A, B} concatenates A and B. {3{A}} replicates A 3 times.
+
+\section{Conditional Operator}
+We can write if else statements easily thorough this ternary operator
+\[ \text{out} = \text{boolean expression } ? \text{ value if true } : \text{ value if false} \]
+
+\chapter{System Tasks}
+
+There are useful tasks and functions that are used to generate input and output during simulation, called \keyword{system tasks}. Their names begin with a dollar sign \$.
+
+\section{Variable Monitoring}
+We can use the following system tasks as variable monitors (similar to print statements). These must be in an \code{always} block. They have syntax similar to printf() in C\sidenote{\$func( format\_string, [variables] )}
+\begin{bullets}
+	\item \code{\$display()} - immediately prints values, is like println()
+	\item \code{\$strobe()} - prints values at the end of current time-step.
+	\item \code{\$write()} - same as \$display but without the newline character, this is like print()
+	\item \code{\$monitor} - prints values at the end of current time-step if they have changed.
+\end{bullets}
+
+\section{Simulation Control}
+We can also control simulations with system tasks
+\begin{bullets}
+	\item \code{\$reset} - resets the simulation back to time 0
+	\item \code{\$stop} - halts the simulator and puts it in interactive mode\sidenote{the user can enter commands here}
+	\item \code{\$finish} - exits the simulation
+	\item \code{\$time} - holds the current time, can be assigned to a \code{time} datatype or printed.
+\end{bullets}
+
+\section{Tasks \& Functions}
+You will probably be implementing a lot of things over and over again in verilog. Verilog provides \keyword{tasks} and \keyword{functions} to make this easier, as well as improve the maintenance of code.
+
+Tasks are declared with \code{task} and \code{endtask}. They must be used (instead of functions) if any of the below are true regarding the procedure:
+\begin{bullets}
+	\item There are delay, timing or event control constructs within the procedure
+	\item The procedure has zero or more than one output arguments
+	\item The procedure has no input arguments
+\end{bullets}
+
+\begin{marginfigure}[-20em]\begin{lstlisting}[language=Verilog, caption={Task Declaration Syntax}]
+task [task_name];
+	input [ports];
+	output [ports];
+	begin
+		// code procedure here
+	end
+endtask	
+\end{lstlisting}\end{marginfigure}
+
+Functions

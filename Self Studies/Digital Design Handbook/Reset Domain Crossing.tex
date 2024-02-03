@@ -11,5 +11,14 @@ Consider a circuit with many different flip-flops. We define a \keyword{reset do
 There are a couple methods to actually fix this, and the first one is the same as its CDC counterpart
 \begin{bullets}
 	\item $n$-flop synchronizer
-	\item
+	\item reset ordering
+	\item clock gating
 \end{bullets}
+
+\section{RDC Techniques}
+
+Once again the first method is to construct an $n$-flop synchronizer on the rx end that allows the (potentially) metastable signal the settle before propagating through our design. We do this by tying the resets of all the synchronizer flops together.
+
+Reset ordering is done by only ensuring some $rst1$ be fully deasserted before deasserting $rst2$. This works because even if $rst1$ is deasserted on a clock edge (causing a violation of setup/hold time) the metastable signal will not be propagated further as the rx flip flop is in the reset state, only after some time has passed (and the tx output is stable) we deassert $rst2$.
+
+Clock gating is done in a similar fashion, We essentially gate off (cut off) the clock to the rx flop during the $rst1$ assertion so it doesnt sample the metastable signal right away, after the deassertion of $rst1$, we give it some time to settle before un gating the clock, and sampling it at the rx end.

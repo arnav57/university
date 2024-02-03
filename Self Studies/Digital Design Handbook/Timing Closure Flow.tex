@@ -1,0 +1,23 @@
+\chapter{Synthesis \& Timing Closure Flow}
+
+\section{Synthesis}
+
+\keyword{Synthesis} is the process of converting Verilog or any code written in an HDL to equivalent logic, described by a \keyword{netlist}. An EDA tool\sidenote{such as ModelSim} is responsible for doing this and mapping it onto an FPGA device. 
+\begin{bullets}
+	\item We can also provide constraints to guide this process: setup/hold time constraints, power or area constraints, etc.
+\end{bullets}
+
+\section{Timing Closure Flow}
+
+\keyword{Timing closure flow} is the process of ensuring that a design meets timing requirements. Digital circuits must meet their timing requirements in order to function.
+\begin{bullets}
+	\item If the propagation delay of some logic in between two flip-flops is longer than the clock period, the data will not arrive in time to be sampled at the clock pulse, rendering the circuit useless.
+\end{bullets}
+
+In order to avoid this, we employ the timing closure flow.
+\begin{bullets}
+	\item We start by specifying timing constraints, such as the desired clock frequency and setup/hold times.
+	\item Next we test our design and see if it violates any timing constraints.
+	\item If it does we examine the \keyword{critical paths}\sidenote{The paths that violate the timing constraints} and try to optimize them by tweaking logic or some other modifications.
+	\item We then repeat those two steps until we meet our timing constraints while ensuring that any tweaks we made still retain functional integrity of the design.
+\end{bullets}

@@ -1,106 +1,141 @@
 import numpy as np
+import numpy.random as r
 
-class NN:
-    def __init__(self, input_size, hidden_size1, hidden_size2, hidden_size3, output_size):
+'''
+TODO:
+    initialization,
+    predict,
+    backprop
+'''
 
-        # store locallt relevant information
-        self.input_size = input_size
-        self.hidden_size1 = hidden_size1
-        self.hidden_size2 = hidden_size2
-        self.hidden_size3 = hidden_size3
-        self.output_size = output_size
+# # example architecture
+# arch = {
+#     'input_size':5,
+#     'output_size':1,
+#     'hidden_sizes':[4,4,4],
+#     'activation':None,
+#     'ddx_activation':None,
+#     'concluding_activation':None,
+#     'ddx_concluding_activation':None,
+# }
 
-        # init weights randomly
-        self.weights = {
-            'W1': np.random.rand(input_size, hidden_size1),
-            'W2': np.random.rand(hidden_size1, hidden_size2),
-            'W3': np.random.rand(hidden_size2, hidden_size3),
-            'W4': np.random.rand(hidden_size3, output_size)
-        }
+class nn():
+    def __setup__(self, architecture):
+        '''parse architecture dictionary'''
+        self.input_size = architecture['input_size']
+        self.output_size = architecture['output_size']
+        self.hidden_sizes = architecture['hidden_sizes']
+        self.activation = architecture['activation']
+        self.ddx_activation = architecture['ddx_activation']
+        self.concluding_activation = architecture['concluding_activation']
+        self.ddx_concluding_activation = architecture['ddx_concluding_activation']
+    
+    def __initparams__(self):
+        # now we must randomly initialize the weights and biases with correct dimensionality.
+        weights = {} # note: there are no params for the input layer
+        bias = {}
 
-        # init biases randomly
-        self.biases = {
-            'b1': np.zeros((1, hidden_size1)),
-            'b2': np.zeros((1, hidden_size2)),
-            'b3': np.zeros((1, hidden_size3)),
-            'b4': np.zeros((1, output_size))
-        }
+        # init hidden layers one by one with random params
 
-    # allow changing of activation function, must be called after class initialization
-    def define_activation(self, activation, activation_derivative):
-        self.activation = activation
-        self.activation_derivative = activation_derivative
+        weights['hidden1'] = r.randn(self.hidden_sizes[0], self.input_size)
+        weights['hidden2'] = r.randn(self.hidden_sizes[1], self.hidden_sizes[0])
+        weights['hidden3'] = r.randn(self.hidden_sizes[2], self.hidden_sizes[1])
+        weights['out'] = r.randn(self.output_size, self.hidden_sizes[2])
 
-    # propagate input signals to output
-    def predict(self, X):
-        # create a 'cache' (dictionary lol) to track the layer inputs and outputs
-        self.cache = {}
+        bias['hidden1'] = r.randn(self.hidden_sizes[0])
+        bias['hidden2'] = r.randn(self.hidden_sizes[1])
+        bias['hidden3'] = r.randn(self.hidden_sizes[2])
+        bias['out'] = r.randn(self.output_size)
 
-        # input -> layer 1
-        self.cache['hidden1_input'] = np.dot(X, self.weights['W1']) + self.biases['b1']
-        self.cache['hidden1_output'] = self.activation(self.cache['hidden1_input'])
+        # assign to instance variable
+        self.params_ = {'weights':weights, 'bias':bias}
+    
+    def params(self):
+        '''prints network params, starting with weights and then biases'''
+        weights = self.params_['weights']
+        bias = self.params_['bias']
 
-        # layer 1 -> layer 2
-        self.cache['hidden2_input'] = np.dot(self.cache['hidden1_output'], self.weights['W2']) + self.biases['b2']
-        self.cache['hidden2_output'] = self.activation(self.cache['hidden2_input'])
-
-        # layer 2 -> layer 3
-        self.cache['hidden3_input'] = np.dot(self.cache['hidden2_output'], self.weights['W3']) + self.biases['b3']
-        self.cache['hidden3_output'] = self.activation(self.cache['hidden3_input'])
-
-        # layer 3 -> output
-        self.cache['output_input'] = np.dot(self.cache['hidden3_output'], self.weights['W4']) + self.biases['b4']
-        self.cache['output'] = self.activation(self.cache['output_input'])
-
-        # final output
-        return self.cache['output']
-
-    def calculate_loss(self, y_true, y_pred):
-        return np.mean((y_true - y_pred) ** 2)
-
-    def backpropagation(self, X, y, learning_rate):
-        m = X.shape[0]
-
-        ## output layer
-
-        # calculate error signal
-        output_error = self.cache['output'] - y
-        output_delta = output_error * self.activation_derivative(self.cache['output'])
-
-        # output layer adjustments
-        self.weights['W4'] -= learning_rate * np.dot(self.cache['hidden3_output'].T, output_delta)
-        self.biases['b4'] -= learning_rate * np.sum(output_delta, axis=0, keepdims=True)
-
-        ## didden layer 3
-        hidden3_error = np.dot(output_delta, self.weights['W4'].T)
-        hidden3_delta = hidden3_error * self.activation_derivative(self.cache['hidden3_output'])
-        self.weights['W3'] -= learning_rate * np.dot(self.cache['hidden2_output'].T, hidden3_delta)
-        self.biases['b3'] -= learning_rate * np.sum(hidden3_delta, axis=0, keepdims=True)
-
-        # Hidden layer 2
-        hidden2_error = np.dot(hidden3_delta, self.weights['W3'].T)
-        hidden2_delta = hidden2_error * self.activation_derivative(self.cache['hidden2_output'])
-        self.weights['W2'] -= learning_rate * np.dot(self.cache['hidden1_output'].T, hidden2_delta)
-        self.biases['b2'] -= learning_rate * np.sum(hidden2_delta, axis=0, keepdims=True)
-
-        # Hidden layer 1
-        hidden1_error = np.dot(hidden2_delta, self.weights['W2'].T)
-        hidden1_delta = hidden1_error * self.activation_derivative(self.cache['hidden1_output'])
-        self.weights['W1'] -= learning_rate * np.dot(X.T, hidden1_delta)
-        self.biases['b1'] -= learning_rate * np.sum(hidden1_delta, axis=0, keepdims=True)
-
-    def train(self, X, y, epochs, learning_rate):
-        for epoch in range(epochs):
-            # Forward propagation (predictions)
-            predictions = self.predict(X)
-
-            # Calculate loss
-            loss = self.calculate_loss(y, predictions)
-
-            # Backward propagation
-            self.backpropagation(X, y, learning_rate)
-
-            if epoch % 10000 == 0:
-                print(f'Epoch {epoch}, Loss: {loss}')
+        for key in weights.keys():
+            print(f'{key}:\nw:{weights[key]},{weights[key].shape}\nb:{bias[key]},{bias[key].shape}\n\n')
+    
+    def predict(self, X, output='base'):
+        '''performs a prediction given some input X, use output='verbose' to get entire cache '''
+        cache = {}  # create cache to hold intermediary results
+        weights = self.params_['weights'] # reduce my typing work
+        bias = self.params_['bias'] # reduce my typing work x2
 
 
+        cache['a0'] = X
+
+        cache['a1'] = weights['hidden1'] @ cache['a0'] + bias['hidden1']
+        cache['z1'] = self.activation(cache['a1'])
+
+        cache['a2'] = weights['hidden2'] @ cache['z1'] + bias['hidden2']
+        cache['z2'] = self.activation(cache['a2'])
+
+        cache['a3'] = weights['hidden3'] @  cache['z2'] + bias['hidden3']
+        cache['z3'] = self.activation(cache['a3'])
+
+        cache['aout'] = weights['out'] @ cache['z3'] + bias['out']
+        cache['zout'] = self.concluding_activation(cache['aout'])
+
+        if (output=='base'):
+            return cache['zout']
+        elif (output == 'verbose'):
+            return cache
+        else:
+            raise Exception('not a valid output type, use either \'base\' or \'verbose\' ')
+    
+    def backwards(self, X, Y_true, learning_rate=0.01):
+        cache = self.predict(X, output='verbose')
+        weights = self.params_['weights']
+        bias = self.params_['bias']
+
+        # Compute the loss
+        loss = 0.5 * np.sum((cache['zout'] - Y_true)**2)
+
+        # Compute gradients for the output layer
+        dL_daout = cache['zout'] - Y_true
+        daout_dzout = self.ddx_concluding_activation(cache['aout'])
+        dzout_da3 = weights['out'].T
+        dL_da3 = dL_daout * daout_dzout
+        dL_dz3 = dL_da3 @ dzout_da3
+
+        # Compute gradients for hidden layer 3
+        da3_dz3 = self.ddx_activation(cache['a3'])
+        dz3_da2 = weights['hidden3'].T
+        dL_da2 = dL_dz3 * da3_dz3
+        dL_dz2 = dL_da2 @ dz3_da2
+
+        # Compute gradients for hidden layer 2
+        da2_dz2 = self.ddx_activation(cache['a2'])
+        dz2_da1 = weights['hidden2'].T
+        dL_da1 = dL_dz2 * da2_dz2
+        dL_dz1 = dL_da1 @ dz2_da1
+
+        # Compute gradients for hidden layer 1
+        da1_dz1 = self.ddx_activation(cache['a1'])
+        dz1_da0 = weights['hidden1'].T
+        dL_da0 = dL_dz1 * da1_dz1
+
+        # Update parameters using gradients and learning rate
+        weights['out'] -= learning_rate * (dL_da3 @ cache['z3'].T)
+        weights['hidden3'] -= learning_rate * (dL_da2 @ cache['z2'].T)
+        weights['hidden2'] -= learning_rate * (dL_da1 @ cache['z1'].T)
+        weights['hidden1'] -= learning_rate * (dL_da0 @ cache['a0'].T)
+
+        bias['out'] -= learning_rate * np.sum(dL_da3, axis=1)
+        bias['hidden3'] -= learning_rate * np.sum(dL_da2, axis=1)
+        bias['hidden2'] -= learning_rate * np.sum(dL_da1, axis=1)
+        bias['hidden1'] -= learning_rate * np.sum(dL_da0, axis=1)
+
+        # Return the computed loss
+        return loss
+
+
+
+    def __init__(self, architecture:dict) -> None:
+        '''PLEASE NEVER CALL THE DUNDER FUNCTIONS EXPLICITY !!!'''
+        self.__setup__(architecture) # should have all the important params stored now >:D
+        self.__initparams__() # now we have initialized all weights/biases randomly :O
+        

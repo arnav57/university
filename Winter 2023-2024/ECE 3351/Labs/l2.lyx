@@ -1,0 +1,619 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass report
+\begin_preamble
+\usepackage{palatino}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{brown}{HTML}{6623E2}
+\end_preamble
+\use_default_options true
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+Signal Reconstruction II
+\end_layout
+
+\begin_layout Author
+Arnav Goyal - 251244778
+\end_layout
+
+\begin_layout Date
+
+\emph on
+February 1, 2024
+\end_layout
+
+\begin_layout Chapter*
+Code
+\end_layout
+
+\begin_layout Standard
+This was the code used to achieve the goals outlined in the lab procedure.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lstlisting}[language=Matlab, frame=single]
+\end_layout
+
+\begin_layout Plain Layout
+
+na = [0:0.01:1];
+\end_layout
+
+\begin_layout Plain Layout
+
+nb = [0:0.1:1];
+\end_layout
+
+\begin_layout Plain Layout
+
+ya = cos(20*pi*na);
+\end_layout
+
+\begin_layout Plain Layout
+
+yb = cos(20*pi*nb);
+\end_layout
+
+\begin_layout Plain Layout
+
+figure; hold on;
+\end_layout
+
+\begin_layout Plain Layout
+
+% plot sampled signals 
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+stem(na, ya, 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('n'); ylabel('x[n]');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('Case 1 Sampled Signal');
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,2);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+stem(nb, yb, 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('n');
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('x[n]');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('Case 2 Sampled Signal');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% sinc reconstruction t = [0:0.001:1];
+\end_layout
+
+\begin_layout Plain Layout
+
+xr1 = mysinc(ya, 0.01, t);
+\end_layout
+
+\begin_layout Plain Layout
+
+xr2 = mysinc(yb, 0.1, t);
+\end_layout
+
+\begin_layout Plain Layout
+
+% plot sinc recon figure;
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(t, xr1, 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('sinc reconstruction case 1');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,2); 
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(t, xr2, 'r'); 
+\end_layout
+
+\begin_layout Plain Layout
+
+title('sinc reconstruction case 2');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% zero order hold % plot zoh reconsutrction figure;
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,1); 
+\end_layout
+
+\begin_layout Plain Layout
+
+stairs(na, ya, 'b'); 
+\end_layout
+
+\begin_layout Plain Layout
+
+title('zoh reconstruction case 1');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,2); stairs(nb, yb, 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('zoh reconstruction case 2');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% first order hold figure
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(na, ya, 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('foh reconstruction case 1');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,2); plot(nb, yb, 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+title('foh reconstruction case 2');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('t'); ylabel('reconstructed x(t)');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% cubic spline interpolation 
+\end_layout
+
+\begin_layout Plain Layout
+
+figure; xx = 0:0.01:1; 
+\end_layout
+
+\begin_layout Plain Layout
+
+yy1 = spline(na, ya, xx); yy2 = spline(nb, yb, xx);
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,1); plot(xx1, yy1, 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+subplot(2,1,2); plot(xx, yy2, 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+% function defs
+\end_layout
+
+\begin_layout Plain Layout
+
+function xr = mysinc(x, Ts, t)
+\end_layout
+
+\begin_layout Plain Layout
+
+Fs = 1/Ts;     
+\end_layout
+
+\begin_layout Plain Layout
+
+xr = zeros(size(t));     
+\end_layout
+
+\begin_layout Plain Layout
+
+for n = 1:length(x)         
+\end_layout
+
+\begin_layout Plain Layout
+
+xr = xr + x(n) * sinc(Fs * (t - n*Ts));     
+\end_layout
+
+\begin_layout Plain Layout
+
+end 
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\backslash
+end{lstlisting}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Figures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../../../../pasted3.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../../../../pasted5.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../../../../pasted6.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../../../../pasted7.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../../../../pasted8.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
