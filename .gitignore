@@ -16,6 +16,7 @@
 .DS_Store
 __pycache__/
 node_modules/
+data/
 
 # Ignore IDE and editor-specific files
 .idea/

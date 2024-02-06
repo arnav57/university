@@ -68,3 +68,14 @@ If the above holds true, the DT-signals will look the same after being sampled a
 
 Consider two CT sinusoids\sidenote{ $x_1 (t) = \cos{(2\pi \cdot \sfrac{1}{8})}$ and $x_2 (t) = \cos{(-2\pi\cdot\sfrac{7}{8})}$} being sampled at $f_s =$ 1 Hz. It can be shown that the frequencies of both signals satisfy the equation above, and are identical after sampling (conversion into a sequence). 
 
+Consider a real-life signal expressed as a summation:
+\[ x_a (t) = \sum_{i=1}^{N} A\cos{(2\pi f_i t + \phi_i)} \]
+Lets also say that we have filtered this signal and that there is some max frequency useful to us, denoted $f_\text{max}$.
+
+In order to avoid aliasing we need to ensure that the below holds true for all values of $i$.
+\[	-\frac{1}{2} \leq \frac{f_i}{f_s} \leq \frac{1}{2}	\]
+\[	-\frac{f_s}{2} \leq f_i \leq \frac{f_s}{2}	\]
+In other words, we need to ensure that each frequency $f_i$ is at least two times lower in magnitude than the chosen sampling frequency $f_s$.
+
+This can easily be done by choosing to sample at a rate \keyword{twice as high as $f_\text{max}$.} This special frequency is called the \keyword{Nyquist Rate}
+\[ \text{Nyquist Rate } = 2\cdot f_\text{max} 	\]
