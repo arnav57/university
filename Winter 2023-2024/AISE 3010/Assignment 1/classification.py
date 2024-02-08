@@ -55,6 +55,7 @@ plt.xlabel('Iteration')
 plt.show()
 
 print('Testing')
+
 accs = []
 for img_batch, label_batch in test_loader:
     succ = 0
@@ -81,6 +82,7 @@ for img_batch, label_batch in test_loader:
         break
 
 print(f'Total Average Test Accuracy: {np.mean(accs)}')
+
 
 # nn = neuralnet()
 # label = np.array([0,0,0,0,0,0,0,1,0,0]).reshape(10,1)
