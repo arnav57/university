@@ -1,0 +1,138 @@
+\documentclass[]{report}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+
+\title{\textbf{Systems Described by Linear Constant-Coefficient Difference Equations}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\newcommand{\ztrans}[1]{Z\left\{ #1 \right\}}
+
+\begin{document}
+\maketitle
+\section*{The Difference Equation}
+
+This laboratory report constantly refers to the difference equation in (1)
+\begin{equation}
+	y(n) = y(n-1) - 0.8y(n-2) + x(n)
+\end{equation}
+
+We can represent (1) as a $z$-plane transfer function through the following steps:
+	\[ \ztrans{y(n)} = \ztrans{ y(n-1) - 0.8y(n-2) + x(n) } \]
+	\[ Y = z^{-1}Y -0.8z^{-2}Y + X	\]
+	\[ Y - z^{-1}Y + 0.8z^{-2}Y = X	\]
+	\[ Y\left( 1 - z^{-1} + 0.8z^{-2}\right) = X\]
+	\[\frac{Y}{X} = \frac{1}{ 1 - z^{-1} + 0.8z^{-2}}\]
+
+Essentially we can represent this difference equation as a transfer function with numerator coefficients $b = \left[	1\right]$, and denominator coefficients $a = \left[1, -1, 0.8\right]$. This is what is implemented at the top of every \texttt{MATLAB} script.
+
+\section*{Impulse Response}
+
+In order to calculate and plot the Impulse Response, the following \texttt{MATLAB} script was created.
+\vspace{1em}
+
+\begin{lstlisting}[frame=single, language=Matlab]
+%% QUESTION 1
+clear;
+
+% define the difference equation
+b = 1; % numerator (output) x coeffs
+a = [1, -1, 0.8]; % denominator (input) y coeffs
+
+% finding impulse resp
+t = -20:200;
+[h, n] = impz(b, a, length(t));
+
+% plotting impulse resp
+stem(n, h);
+grid on;
+title('Impulse Response');
+xlabel('n');
+ylabel('h(n)');
+\end{lstlisting}
+
+This script produced the following output plot for the impulse response
+\vspace{1em}
+
+\begin{center}
+	\includegraphics[scale=0.35]{Impulse Resp}
+\end{center}
+
+\section*{Step Response}
+
+In order to calculate and plot the Step Response the following \texttt{MATLAB} script was created.
+\vspace{1em}
+
+\begin{lstlisting}[frame=single, language=Matlab]
+%% QUESTION 2
+clear;
+
+% define the difference equation
+b = 1; % numerator (output) x coeffs
+a = [1, -1, 0.8]; % denominator (input) y coeffs
+
+% find step resp
+t = -20:200; % time scale (x-axis)
+u = ones(size(t));
+[s, final] = filter(b, a, u); 
+% filters data in 't' according to num 'b' and den 'a', outputs this in 'y'
+
+% plot step resp
+stem(t,s);
+grid on;
+title('Step Response');
+ylabel('s(n)');
+xlabel('n');
+
+\end{lstlisting}
+
+This script produced the following output plot for the step response
+\vspace{1em}
+
+\begin{center}
+	\includegraphics[scale=0.35]{Step Resp}
+\end{center}
+
+\section*{System Stability}
+
+In order to test system stability, we must check if sum of the absolute values of the impulse response converges.
+In other words we must establish that (2) holds true:
+\begin{equation}
+	\sum_{n=0}^{\infty} \left| h(n) \right| < \infty
+\end{equation}
+To test that, the following \texttt{MATLAB} script was created.
+\vspace{1em}
+
+\begin{lstlisting}[frame=single, language=Matlab]
+%% QUESTION 3
+
+% define the difference equation
+b = 1; % numerator (output) x coeffs
+a = [1, -1, 0.8]; % denominator (input) y coeffs
+
+% finding impulse resp
+t = -20:200;
+[h, n] = impz(b, a, length(t));
+
+% check stability criterion, does the summation converge?
+val = sum(abs(h));
+stable = val < inf; % this is a boolean 1=True, 0=False
+disp(['System Stable? : ' num2str(stable)]);
+disp(['Converges to : ' num2str(val) ' on -20:200']);
+\end{lstlisting}
+
+This script produced the following output for the system stability. 
+
+\textit{Note:} Within this script a '1' means Stable, and a '0' means unstable.
+
+\begin{center}
+	\includegraphics[scale=0.75]{Stability Resp}
+\end{center}
+
+\end{document}

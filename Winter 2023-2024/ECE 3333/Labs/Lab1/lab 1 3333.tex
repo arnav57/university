@@ -1,0 +1,156 @@
+\documentclass[]{report}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+
+\renewcommand{\arraystretch}{2}
+
+\title{\textbf{Synchronous Generators}}
+\date{\textit{February 26, 2024}}
+\author{Arnav Goyal - 251244778}
+
+\begin{document}
+\maketitle
+\section*{Introduction}
+The objective of today's laboratory is to learn about specific tests we can perform on synchronous generators to find their circuit characteristics. Namely, the following tests:
+\begin{itemize}
+	\item Short Circuit Test (SCC)
+	\item Open Circuit Test (OCC)
+\end{itemize}
+Additionally we will also be investigating the proper procedure in connecting/synchronizing our generator with the power grid.
+This is important to improve our understanding of power systems by better understanding a vital component within them.
+
+\section*{Results}
+
+The recorded values are presented below in tabular format.
+
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}l|llllll@{}}
+		$I_f$ [A] & 0.35 & 0.4  & 0.45  & 0.5   & 0.55  & 0.6   \\ \hline
+		$V_1$ [V] & 80.3 & 90.9 & 101.1 & 110.8 & 120.2 & 129.1 \\ \hline
+		$V_2$ [V] & 80.1 & 90.6 & 100.5 & 110.2 & 119.9 & 128.6 \\ \hline
+		$V_3$ [V] & 80.4 & 90.7 & 100.6 & 110.3 & 120   & 131.8 \\ \hline
+		$V$ [V]  & 80.3 & 90.7 & 100.7 & 110.4 & 120   & 129.8
+	\end{tabular}
+	\caption{Open Circuit Test Measurements (1800 RPM)}
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}l|llllll@{}}
+		$I_f$ [A] & 0.35 & 0.40 & 0.45 & 0.50 & 0.55 & 0.60 \\ \hline
+		$I_1$ [A] & 0.8  & 0.91 & 1.01 & 1.13 & 1.25 & 1.36 \\ \hline
+		$I_2$ [A] & 0.8  & 0.92 & 1.02 & 1.15 & 1.26 & 1.38 \\ \hline
+		$I$ [A]  & 0.8  & 0.92 & 1.02 & 1.14 & 1.26 & 1.37
+	\end{tabular}
+	\caption{Short Circuit Test Measurements (1800 RPM)}
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{l|lllllllllll}
+		$I_f$ [A] & 0.35  & 0.4   & 0.45  & 0.5   & 0.55  & 0.6   & 0.65  & 0.7   & 0.75  & 0.8   & 0.85  \\ \hline
+		$V_1$ [V] & 214   & 214.4 & 214.5 & 214.4 & 214.5 & 214.4 & 214.5 & 214.4 & 214.5 & 214.4 & 214.5 \\ \hline
+		$V_2$ [V] & 214.3 & 214.2 & 214.3 & 214.4 & 214.4 & 214.5 & 214.4 & 214.5 & 214.4 & 214.5 & 214.4 \\ \hline
+		$I_1$ [A] & 1.37  & 1.26  & 1.15  & 1.04  & 0.92  & 0.81  & 0.7   & 0.58  & 0.47  & 0.34  & 0.22  \\ \hline
+		$I_2$ [A] & 1.34  & 1.23  & 1.11  & 0.99  & 0.88  & 0.77  & 0.66  & 0.54  & 0.43  & 0.31  & 0.2   \\ \hline
+		$P_1$ [W] & 231.0 & 212.9 & 194.4 & 175.7 & 155.5 & 136.8 & 118.3 & 98.0  & 79.4  & 57.4  & 37.2  \\ \hline
+		$P_2$ [W] & 226.3 & 207.6 & 187.4 & 167.3 & 148.7 & 130.2 & 111.5 & 91.3  & 72.6  & 52.4  & 33.8 
+	\end{tabular}
+	\caption{Synchronization with Power Grid Measurements, with phase angle of 38 deg}
+\end{table}
+\newpage
+The values in Table 1 were recorded through performing the open circuit test on the generator. This involves connecting the generator as shown in Circuit 1. The values in table 2 were recorded through performing the short circuit test on the generator. This involves connecting the generator as shown in Circuit 2. Lastly, the values in table 3 were found by connecting Circuit 3.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{circuit1} \\
+	\textbf{Circuit 1}: Open Circuit Test Configuration
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{circuit2} \\
+	\textbf{Circuit 2}: Short Circuit Test Configuration
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{circuit3} \\
+	\textbf{Circuit 3}: Synchronization with the Power Grid
+\end{figure}
+
+\section*{Discussion}
+The results gathered in the previous section make sense, and align with theory. We know that synchronous generators operate through inducing a current in the stator, by means of a rotor with some magnetic field determined by the magnitude of a field current $I_f$. The data in Table 1 supports this theory, as we can see that the average voltage $V$ increases with an increasing $I_f$, in other words we can write $V \propto I_f$.
+
+This is also as expected with the short circuit test, we know that the induced voltage is stagnant (produces no current) during the open circuit test, but during the short circuit test there is an induced current but no voltage (due to the short circuit), thus we should see similar behavior: $I \propto I_f$, which is what we do observe in Table 2.
+
+In terms of Table 3, we simply tabulated the measured values while following the procedure outlined in the lab manual.
+
+\section*{Questions}
+
+The questions outlined in the lab manual are answered here in order.
+
+1. The nameplate data from the synchronous generator and motor are shown here:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{motor}
+	\includegraphics[scale=0.75]{generator} \\
+	\textbf{Image 1:} Motor and Generator Nameplates
+\end{figure}
+
+2. The plot of $V$ vs $I_f$ for the OCC (Table 1) is shown here:
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.75]{V vs If.png} \\
+	\textbf{Plot 1}: V vs If
+\end{center}
+
+3. The plot of $I$ vs $I_f$ for the SCC (Table 2) is shown here:
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.75]{I vs If.png} \\
+	\textbf{Plot 2}: I vs If
+\end{center}
+
+4. The plot of $I$ vs $I_f$ for the Synchronization (Table 3) is shown here:
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.75]{I vs If sync.png} \\
+	\textbf{Plot 3}: I vs If for the Power Grid Synchronization
+\end{center}
+
+5. The plot of $pf$ vs $I_f$ for the Synchronization (Table 3) is shown here:
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.75]{pf vs If sync.png} \\
+	\textbf{Plot 4}: power factor (pf) vs. If for the Power Grid Synchronization
+\end{center}
+
+6. Calculation of synchronous reactance $X_s$ and resistance $R_a$ for the synchronous machine is done below:
+
+We can find $X_s$ by dividing the open circuit voltage $V_o$ by the short circuit current $I_s$. Doing this with the rightmost-value in Table 1 and Table 2 gives:
+	\[ X_s = \frac{V_o}{\sqrt{3}I_s} = \frac{129.8}{\sqrt{3}1.37} = 54.73 \Omega	\]
+
+7. *\textit{See the} \textbf{Discussion} \textit{Section}*
+
+8. Precautions taken for this lab experiment were to always start the three potentiometers at their required setting. This involved starting the 5k and 50 ohm at their max, and the 300 ohm at its minimum. We also made sure to unplug the live wires before modifying anything in the circuit, and made sure to get T.A sign off on circuits we connected before powering them on.
+
+\section*{Conclusions}
+
+Performing the Open Circuit Test (OCC) and Short Circuit Test (SCC) experiments on the synchronous machine provided us with key insights in the operation of a synchronous machine. The OCC showed that Voltage is proportional to Field Current (which was as expected). The SSC showed the same behaviour, that current was proportional to field current, which was also as expected.
+
+Successfully synchronizing the machine with the power grid, taught us safety precautions and the use of strobe meters to test for phase angle. Overall this lab helped to deepen our understanding of the actual use of synchronous machines, beyond their basic operating principles.
+
+\end{document}

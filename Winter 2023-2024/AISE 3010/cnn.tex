@@ -1,0 +1,36 @@
+\chapter{Convolutional Neural Networks}
+
+The task of image classification is quite challenging given the structure of a MLP with \keyword{fully connected layers}. So far, these are the only layer types we have learned about. This chapter will start by introducing different layer types, their function, and how they are assembled to create a more efficient \keyword{image classifier}.
+
+\section{The CNN}
+
+A \keyword{Convolutional Neural Network} (\keyword{CNN}), is a more efficient way to perform an image-classification task. Take a moment to consider the differences between an image as an input and a list of numbers. An image has a sense of \textit{locality}, the pixels that make up a cat are usually together in a sense, and when we convert them into a list we lose that \textit{local} information. 
+
+The CNN fixes this by training convolutional image filters (called kernels) to detect certain parts of the image, and eventually classify it.
+
+\section{The Conv Layer}
+
+The most basic building block of a \keyword{Convolutional Neural Network} (\keyword{CNN}) is the convolutional (conv) layer. A convolutional layer is defined by:
+\begin{bullets}
+	\item Number of filters at this layer, $f$
+	\item A \keyword{kernel} size\sidenote{We are considering a 2d kernel here}, $k \times k$
+	\item A \keyword{stride}, $s$
+\end{bullets}
+The kernel is the size of the convolutional filter, it's weights are what we train in this layer. The stride is how many steps to skip in each filter movement, in most conv layers it is set to 1. The number of filters determines the output dimensionality.
+
+Consider a $32\times32$ RGB image, it would be represented with tensor\sidenote{the last number is referred to as the number of \keyword{channels}} of dimensionality: $32\times32\times3$. Suppose we have a conv layer defined generally above, We would get an output tensor of:
+\begin{bullets}
+	\item $\frac{32}{s} \times \frac{32}{s} \times f$
+\end{bullets}
+
+Essentially we have converted a 3-channel tensor into a $f$ channel tensor, this is how \texttt{pytorch} deals with this as well, by defining \texttt{in\_channels=?} and \texttt{out\_channels=?}
+
+\section{The Max-Pooling Layer}
+
+The Max-pooling layer essentially reduces the \keyword{resolution}\sidenote{Non-channel dimensions} of the image. It does this through means of a kernel, and a stride. It essentially outputs the largest value from within the kernel's overlap of the input tensor. \textit{Note:} This is a channel-wise operation.
+Once again to define this layer we have:
+\begin{bullets}
+	\item kernel size - $k\times k$
+	\item stride - $s$
+\end{bullets}
+Given some input dimensionality of 

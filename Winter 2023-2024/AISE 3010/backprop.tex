@@ -62,8 +62,5 @@ We can break down this derivative even further using Figure \ref{outputneuron}, 
 
 Analytically solving Equation \ref{eq:1} gives the following result:
 	\[ \frac{\partial\ell}{\partial w_k} = -\varepsilon a_k \varphi'(v)	\]
-	
-\section{A Hidden Neuron}
 
-When a neuron $j$ is located within a hidden layer of the MLP, there is no desired response for that neuron, accordingly the error signal for that neuron would have to be determined recursively, and work backwards from all neurons to where the neuron $j$ is located\sidenote{This is where the term \emph{backpropagation} comes from}.
 

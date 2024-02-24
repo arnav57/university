@@ -1,8 +1,9 @@
 %% QUESTION 2
+clear;
 
 % define the difference equation
-b = [1, -0.8]; % numerator (output) y coeffs
-a = 1; % denominator (input) x coeffs
+b = 1; % numerator (output) x coeffs
+a = [1, -1, 0.8]; % denominator (input) y coeffs
 
 % find step resp
 t = -20:200; % time scale (x-axis)

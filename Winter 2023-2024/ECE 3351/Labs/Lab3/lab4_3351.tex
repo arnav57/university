@@ -1,0 +1,38 @@
+\documentclass[]{report}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+
+\title{\textbf{Systems Described by Linear Constant-Coefficient Difference Equations}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\newcommand{\ztrans}[1]{Z\left\{ #1 \right\}}
+
+\begin{document}
+	\maketitle
+	\section*{The Difference Equation}
+	
+	This laboratory report constantly refers to the difference equation in (1)
+	\begin{equation}
+		y(n) = y(n-1) - 0.8y(n-2) + x(n)
+	\end{equation}
+	
+	We can represent it as a $z$-plane transfer function through the following steps:
+		\[ \ztrans{y(n)} = \ztrans{ y(n-1) - 0.8y(n-2) + x(n) } \]
+		\[ Y = z^{-1}Y -0.8z^{-2}Y + X	\]
+		\[ Y - z^{-1}Y + 0.8z^{-2}Y = X	\]
+		\[ Y\left( 1 - z^{-1} + 0.8z^{-2}\right) = X\]
+		\[\frac{Y}{X} = \frac{1}{ 1 - z^{-1} + 0.8z^{-2}}\]
+	
+	Essentially we can represent this difference equation as a transfer function with numerator coefficients $b = \left[	1\right]$, and denominator coefficients $a = \left[1, -1, 0.8\right]$.
+	
+	\section*{Impulse Response}
+		
+	
+\end{document}
