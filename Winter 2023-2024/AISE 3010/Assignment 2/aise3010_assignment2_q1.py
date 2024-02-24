@@ -45,11 +45,8 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
 # model, loss func and optimizer
 net = Net2()
 net = net.to(device)
-classifier = MidwayClassifier()
-classifier = classifier.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=LR, momentum=MTM)
-moptimizier = optim.SGD(classifier.parameters(), lr=LR, momentum=MTM)
 
 # training loop
 def train():
