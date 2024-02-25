@@ -17,7 +17,7 @@ device = ('cuda' if torch.cuda.is_available() else 'cpu')
 # define hyperparams
 
 BATCH_SIZE = 32
-EPOCHS = 10
+EPOCHS = 20
 LR = 1e-3
 MTM = 9e-1
 
@@ -112,17 +112,12 @@ def test():
     print(f'{testmsg:=^100}')
 
     net.eval()
-    midways = []
-    mlabels = []
     # dont need grad for testing
     with torch.no_grad():
         for data in tqdm(testloader, desc=f'Testing Progress', unit=' batches'):
             images, labels = data
             images, labels = images.to(device), labels.to(device)
             outputs, midway = net(images)
-            midway.to(device)
-            midways.append(midway)
-            mlabels.append(labels)
             _ , predicted = torch.max(outputs.data, 1) # find max class index along dim 1
             total += labels.size(0)
             correct += (predicted == labels).sum().item()

@@ -48,4 +48,5 @@ __pycache__/
 *.OUT
 *.GZ
 *.TOC
+*.pth
 
