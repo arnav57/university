@@ -1,0 +1,168 @@
+\documentclass[]{report}
+\usepackage{ulem}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+
+\title{\textbf{The Inverse $Z$ Transform}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\newcommand{\ztrans}[1]{Z\left\{ #1 \right\}}
+\newcommand{\matlab}{\texttt{MATLAB} }
+
+\begin{document}
+\maketitle
+\section*{Systems and Vectors}
+A system of the form in (1) can be represented as a pair of coefficient vectors, holding the numerator and denominator coefficients. This vector representation is shown in (2).
+\begin{equation}
+	X(z) = \frac{a_0 + a_1z^{-1} + a_2z^{-2} + \ldots a_nz^{-n}}{b_0 + b_1z^{-1} + b_2z^{-2} + \ldots b_mz^{-m}}
+\end{equation}
+
+\begin{equation}
+	X(z) = \left[ a_0 , a_1 , a_2 , \ldots , a_n \right] \text{ and } \left[ b_0 , b_1 , b_2 , \ldots , b_m \right]
+\end{equation}
+
+This vector representation approach was taken to describe each of the four systems given in the lab manual, when used in the \matlab script for this lab, which is shown below.
+
+\begin{lstlisting}[frame=single, language=Matlab, basicstyle=\ttfamily, numbers=left]
+clear;
+% define the systems
+num1 = [3.5, -0.75, -0.25];
+den1 = [1, -0.5, -0.25, 0.125];
+
+num2 = [7 -12.2 -6.9 -1.5];
+den2 = [1 -2.8 3.1 -1.7 0.4];
+
+num3 = [5 -1.5 0.8125];
+den3 = [1 -1 0.8125];
+
+num4 = [5 -20 31.75 -18.5];
+den4 = [1 -6 13.25 -13 5];
+
+% create output file
+file = fopen('output.txt', 'w');
+
+% get outputs (see functions)
+printSystem(num1, den1, 1, file);
+printSystem(num2, den2, 2, file);
+printSystem(num3, den3, 3, file);
+printSystem(num4, den4, 4, file);
+
+
+% funcs
+function printArr(array, label, file)
+fprintf(file, '%s:\n', label);
+for i = 1:length(array)
+fprintf(file, '%.3f + %.3fj\n', real(array(i)), imag(array(i)));
+end
+fprintf(file, '\n');
+end
+
+function printSystem(num, den, label, file)
+fprintf(file, 'SYSTEM %d\n', label);
+[r, p, k] = residuez(num, den);
+printArr(r, 'Residues', file);
+printArr(p, 'Poles', file);
+printArr(k, 'Direct Terms', file);
+fprintf(file, '---------------\n');
+
+end	
+\end{lstlisting}
+
+This script provides its output to a text file, this output is shown below.
+
+\begin{lstlisting}[frame=single]
+SYSTEM 1
+Residues:
+2.000 + 0.000j
+0.500 + 0.000j
+1.000 + 0.000j
+
+Poles:
+0.500 + 0.000j
+0.500 + 0.000j
+-0.500 + 0.000j
+
+Direct Terms:
+
+---------------
+SYSTEM 2
+Residues:
+-136.000 + 0.000j
+165.353 + 0.000j
+-11.176 + -22.294j
+-11.176 + 22.294j
+
+Poles:
+1.000 + 0.000j
+0.800 + 0.000j
+0.500 + 0.500j
+0.500 + -0.500j
+
+Direct Terms:
+
+---------------
+SYSTEM 3
+Residues:
+2.000 + -1.000j
+2.000 + 1.000j
+
+Poles:
+0.500 + 0.750j
+0.500 + -0.750j
+
+Direct Terms:
+1.000 + 0.000j
+
+---------------
+SYSTEM 4
+Residues:
+1.000 + 0.000j
+2.000 + -0.000j
+1.000 + 2.000j
+1.000 + -2.000j
+
+Poles:
+2.000 + 0.000j
+2.000 + -0.000j
+1.000 + 0.500j
+1.000 + -0.500j
+
+Direct Terms:
+
+---------------
+\end{lstlisting}
+
+We can use these residue and pole values to represent the system as a partial fraction decomposition as follows. Assume that we have vectors '\texttt{r'} and '\texttt{p}' to hold a systems residues and poles respectively. A system's partial fraction decomposition can be written as shown in (3).
+
+\begin{equation}
+	X(z) = \sum_{i=1}^{n} \frac{r_i}{1 - z_{i}^{-1}}
+\end{equation}
+
+Thus we can use the values in the output file to represent each provided system's partial fraction decomposition to inverse $z$-transform it. The partial fraction decomposition of each system is shown in order on the next page
+
+\newpage
+
+\begin{align*}
+	\text{System 1 } &= \frac{2}{1-0.5z^{-1}} + \frac{0.5z}{\left(1 - 0.5z^{-1}\right)^2} + \frac{1}{1 + 0.5z^{-1}} \\
+	\text{System 2 } &= \frac{-136}{1 - z^{-1}} + \frac{165.353}{1 - 0.8z^{-1}} + \frac{-11.176 - 22.294j}{1 -  (0.5 + 0.5j)z^{-1}} + \frac{-11.176 + 22.294j}{1 - (0.5 - 0.5j)z^{-1}} \\
+	\text{System 3 } &= \frac{2 - j}{1 - (0.5 + 0.75j)z^{-1}} + \frac{2 + j}{1 - (0.5 - 0.75j)z^{-1}} \\
+	\text{System 4 } &= \frac{0.936}{1 - 2z^{-1}} +  \frac{2.020z}{(1 - 2z^{-1})^2}  + \frac{1.022 + 1.996j}{1 - (1 + 0.5j)z^{-1}}  + \frac{1.022 - 1.996j}{1 - (1 - 0.5j)z^{-1}}
+\end{align*}
+
+Now we can use tables and \sout{scary} '\textit{useful}' equations to convert them back to the discrete time-domain. In case we see any complex numbers here, we convert them into phasors so we can use the tables. After everything is in the form shown in the tables, its trivial to convert them into the time domain (\textit{Note:} these steps are omitted to avoid typesetting even more math in \LaTeX).
+
+\begin{align*}
+	\text{System 1} &= \left[ 2(0.5)^n + n(0.5)^n +(-0.5)^n \right] u(n) \\
+	\text{System 2} &= \left[ -136 + 165.35(0.8)^n - 49.87(\sqrt{2})^n\cos{(-2.036 + 0.78n)} \right] u(n) \\
+	\text{System 3} &= \left[2\sqrt{5}(0.9)^n\cos{(-0.46 + 0.983n)} \right]u(n) - \delta(n) \\ 
+	\text{System 4} &= \left[ 2^n + n2^n + 4.47(1.118)^n\cos{(1.107 + 0.436n)} \right] u(n)
+\end{align*}
+
+\end{document}

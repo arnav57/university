@@ -1,0 +1,124 @@
+\documentclass[]{report}
+\usepackage{ulem}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+
+\title{\textbf{Frequency Response}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\newcommand{\ztrans}[1]{Z\left\{ #1 \right\}}
+\newcommand{\matlab}{\texttt{MATLAB} }
+
+\begin{document}
+\maketitle
+
+\section*{The System}
+This is the system given by the laboratory manual, it is shown in (1). Its equivalent $Z$-plane transfer function is shown in (2). The complex plane transfer function used to find frequency response is shown in (3). It is useful to note that equation (3) maps the real numbers to the complex plane, in other words $\ldots$ $H(\omega): \mathbb{R}\mapsto\mathbb{C}$
+\begin{equation}
+	y(n) - 1.7y(n-1) + 1.2y(n-2) -0.35y(n-3) = x(n) + x(n-1) + 0.5x(n-2)
+\end{equation}
+\begin{equation}
+	H(z) = \frac{Y(z)}{X(z)} = \frac{1 + z^{-1} + 0.5z^{-2}}{1 - 1.7z^{-1} + 1.2z^{-2} -0.35z^{-3}}
+\end{equation}
+\begin{equation}
+	H(\omega) = \frac{1 + e^{-j\omega} + 0.5e^{-2j\omega}}{1 - 1.7e^{-j\omega} +1.2e^{-2j\omega} -0.35e^{-3j\omega}}
+\end{equation}
+
+\section*{Frequency Response}
+In order to find frequency response (magnitude and angle) we must basically implement (3) in \matlab sub in some frequency from a list $w=[0,pi]$, then store the complex value's magnitude and phase in two separate lists. These two lists will then be plotted against the list w to create the frequency response plots. The output is shown below.
+
+\begin{center}
+	\includegraphics[scale=0.35]{freq.png} \\ \vspace{1em}
+	\textbf{Plot 1:} The frequency response of the LTI System
+\end{center}
+
+\section*{Input Response}
+In order to find the input response, we can use the expression that governs the frequency response of a sinusoid. Essentially the sinusoid experiences a frequency dependent gain and a frequency dependent phase shift. This means that different frequencies may experience different gains and different phase shifts
+	\[ H(\omega) = \left|H(\omega)\right|\angle H(\omega)	\]
+	\[ A\cos{(\omega t)} \rightarrow A\left|H(\omega)\right|\cos{(\omega t + \angle H(\omega))} \]
+This was implemented within the script and the Outputs of given input signals $x_1(n)$ and $x_2(n)$ are shown below. 
+
+These outputs have different magnitudes because they contain sinusoidal components with different frequencies, $x_1$ contains sinusoids of frequency $\pi/3$ and $\pi/6$, while $x_2$ contains sinusoids with frequencies of $5\pi/6$ and $2\pi/3$. These differing frequencies will lie on different points on the frequency response plots, producing different magnitudes and different phase shifts, basically resulting in a different output signal.
+
+\begin{center}
+	\includegraphics[scale=0.35]{resp.png} \\ \vspace{1em}
+	\textbf{Plot 2:} The response from inputs  $x_1(n)$ and $x_2(n)$
+\end{center}
+
+\section*{The MATLAB Code}
+The script created to do all this is provided below
+\begin{lstlisting}[frame=single, language=Matlab]
+%% Frequency Response 
+clear;
+% define the LTI system
+num = [1, 1, 0.5];
+den = [1, -1.7, 1.2, -0.35];
+
+% define the transfer function H(w): R -> C
+H = @(w) (1 + exp(-w*1i) + 0.5*exp(-2*w*1i)) / (1 - 1.7*exp(-w*1i) 
+		+ 1.2*exp(-2*w*1i) -0.35*exp(-3*w*1i));
+
+% obtain magnitudes and phases w.r.t frequency
+w = linspace(0, pi, 100);
+w_labels = w/pi;
+mags = zeros(size(w));
+angs = zeros(size(w));
+for i = 1:length(w)
+h_val = H(w(i));
+mags(i) = abs(h_val);
+angs(i) = rad2deg(angle(h_val));
+end
+
+% plot mags and angs, cant use freqz as it returns dB gain not u/u gain
+figure;
+
+subplot(2,1,1);
+plot(w/pi, mags, 'magenta');
+grid on;
+title('Magnitude Response');
+xlabel('Normalized Frequency [\pi rad/sec]');
+ylabel('Magnitude [unit/unit]');
+subplot(2,1,2);
+plot(w/pi, angs, 'magenta');
+grid on;
+title('Phase Response');
+xlabel('Normalized Frequency [\pi rad/sec]');
+ylabel('Phase Shift [deg]');
+
+%% Find Responses to x1 and x2
+n = 0:99; % timestep
+
+% get phasors for frquencies of sinusoids
+H1 = H(pi/6);
+H2 = H(pi/3);
+H3 = H(5*pi/6);
+H4 = H(2*pi/3);
+
+x1 = abs(H1) * cos(n*pi/6 + angle(H1)) + abs(H2) * cos(n*pi/3 + angle(H2));
+x2 = abs(H3) * cos(5*n*pi/6 + angle(H3)) + abs(H4) * cos(2*n*pi/3 + angle(H4));
+
+% plot the responses
+figure;
+subplot(2,1,1);
+stem(x1, 'magenta');
+grid on;
+title('Response to x_1(n)');
+xlabel('Timestep, n');
+ylabel('y(n)');
+subplot(2,1,2);
+stem(x2, 'magenta');
+grid on;
+title('Response to x_2(n)');
+xlabel('Timestep, n ');
+ylabel('y(n)');
+\end{lstlisting}
+
+\end{document}

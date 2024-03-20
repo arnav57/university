@@ -1,0 +1,120 @@
+\documentclass[]{report}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, decorations.markings, decorations.pathreplacing}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+
+\renewcommand{\arraystretch}{2}
+\lstset{
+	basicstyle=\ttfamily,
+	frame=single,
+	keywordstyle=\color{NavyBlue},
+	stringstyle=\color{OliveGreen},
+}
+
+
+\title{\textbf{AISE3010: Assignment 3}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\begin{document}
+	
+\maketitle
+
+\section*{Objective 1 - Data Warehouse in GCP}
+
+The first objective was completed by following the instructions given on the powerpoint slides in \textit{Course Material} on OWL. Here are some screenshots of the results. Specifically the exported .csv files, and the view for the regional managers question.
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.25]{view} \\ 
+	\textbf{Image 1.1:} Querying the created view
+\end{center}
+
+\begin{center}
+	\centering
+	\includegraphics[scale=0.25]{exports} \\ 
+	\textbf{Image 1.2:} The parent folders of the exported csv files
+\end{center}
+
+I'm unsure of what else to take screenshots of, please email \textit{agoyal57@uwo.ca} if I need to provide any other screenshots of my work for this part.
+\newpage
+
+\section*{Objective 2 - Using ML in GCP}
+
+\subsection*{Setting up Data Warehousing}
+
+We can access the \textit{ulb\_fraud\_dataset} directly within BigQuery by accessing the following table, our SQL statement would have to look like this, Given the statement below.
+\begin{lstlisting}[language=SQL]
+SELECT * 
+FROM `bigquery-public-data.ml_datasets.ulb_fraud_detection`
+LIMIT 1000;
+\end{lstlisting}
+We can then select the option to take these results into \textit{Looker Studio} to perform EDA on this data, using the most un-intuitive UI I have ever had the pleasure of using! I couldnt figure out how to plot a simple histogram, thus I decided to use the other option of \textit{Google Sheets} to plot it. We can select a column, head over to column stats, scroll down and select 'Distribution' to view the approximate distribution of values within the column. It is easy to do all of this for each column thus I'm only attaching a screenshot of the distribution from the V1 variable. The column stats for the 'Class' variable also tells us it is a categorical variable with unique values of 0 or 1.
+
+\begin{center}
+\includegraphics[scale=0.25]{EDA1} \\
+\textbf{Image 2.1:} Plotting V1 - V8 vs Time.
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.45]{EDA2} \\
+	\textbf{Image 2.2:} Approximate Distribution of V1
+\end{center}
+
+\subsection*{Data Preprocessing \& Feature Engineering}
+
+It is time to perform feature 'engineering', by picking random features (columns) from the raw dataset and saving it as a .csv file in our data bucket.
+This is the Python script I have run to randomly choose features from the columns available in our dataset.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# generate a list w/ all the columns
+cols = ['Time', 'Amount', 'Class']
+for i in range(1,29): # 1 to 28
+	colname = "V"+str(i)
+	cols.append(colname)
+
+# pick 5 random cols
+chosencols = np.random.choice(cols, 5, replace=False)
+\end{lstlisting}
+The chosen columns end up being:
+\begin{itemize}
+	\item V23
+	\item V7	
+	\item V28
+	\item V25
+	\item V1
+\end{itemize}
+Thus we can use the following SQL Command to select these random features (columns) above, and save them to a csv and upload them manually to our data-bucket! We can also go through the process of creating a CloudSQL instance, and querying it and then deleting it. But that takes MUCH longer and costs credits.
+
+Essentially, Run the query, then save it to Drive, then upload it to the data-bucket. I also saved this as a BigQuery Table called 'dataset\_random\_features' for easy access later
+
+\begin{lstlisting}[language=SQL]
+SELECT V23, V7, V28, V25, V1
+FROM `bigquery-public-data.ml_datasets.ulb_fraud_detection`
+ORDER BY Time;
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics[scale=0.25]{rawdata1} \\
+	\textbf{Image 2.3:} The resultant table in BigQuery
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.25]{rawdata2} \\
+	\textbf{Image 2.4:} The csv file in GCS
+\end{center}	
+
+
+
+\end{document}

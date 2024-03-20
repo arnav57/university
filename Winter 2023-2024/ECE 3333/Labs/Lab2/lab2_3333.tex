@@ -1,0 +1,89 @@
+\documentclass[]{report}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+
+\renewcommand{\arraystretch}{1.5}
+
+\title{\textbf{Polyphase Transformers}}
+\date{\textit{March 18, 2024}}
+\author{Arnav Goyal - 251244778}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+
+In this lab we are going to learn the theory behind three-phase transformers, their different configurations (delta or Y connections), and investigate the behaviour of the transformer under ground fault conditions. This is important because three phase transformers are a vital component in a power system, thus understanding its behaviour is crucial to understanding the architecture of power systems.
+
+\section*{Results}
+
+The results obtained in the Lab are shown below. The phase voltages, line-to-line voltage and currents for each configuration are recorded in \textbf{Table 1} below. These results were obtained by following the given procedure in the Lab 2 Manual.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{@{}c|ccccccc@{}}
+		Configuration          			& $V_1$ [V]	& $V_2$ [V]	& $V_3$ [V]	&	$V_\text{LL}$ [V]	&	$A_1$ [A] 	& $A_2$ [A]		& $A_3$ [A]		\\ \midrule
+		$Y-Y $                   		&  11.7  	&   11.5 	&   11.6 	&	23.8				&   1.54 		&   1.54		&   1.71 	 	\\
+		$\Delta-Y$                  	&  13.7 	&   13.6 	&   13.5 	&   23.5				&	0.183		&   0.182		&   0.202 	 	\\
+		$\Delta-\Delta$             	&  13.7 	&   13.5	&   13.6 	&  	23.9				& 	0.181 		&   0.183 		&   0.204	 	\\
+		$Y-\Delta$                  	&  11.6  	&   11.5 	&   11.6 	&   23.5				&	0.104 		& 	0.106		&   0.0692 	 	\\
+		$Y-\Delta$ (ground fault) 		&  13.7  	&   13.5 	&   0.0457 	&   23.6				&	0.181 		&   0.183 		&   0.204
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 1:} Recorded values for the lab experiment
+\end{table}
+
+\section*{Discussion}
+
+The recorded data makes sense and aligns with the theory of three-phase systems and three-phase transformers. We know that converting line-to-line values to phase values involves a division by $\sqrt{3}$. Considering that we can do this on the recorded line-to-line voltage $V_\text{LL}$ and obtain results reasonably close to the recorded phase voltages $V_1$ to $V_3$, the measurements can be said to align with the theory. We also observe one of the phase voltages going (close) to 0 during the ground fault part of the lab procedure, which also aligns with theory. The only concerning part is the $\Delta-\Delta$ circuit, as we expect the phase voltage to be similar to the line-to-line voltage as that is the characteristic of the Delta-Delta connection. This doesn't happen however, this is probably due to us setting up the circuit wrong and not realizing until we have left the lab. A proper circuit setup would have given results closer to the measured line-to-line voltage of 23.9 V.
+
+\section*{Questions}
+
+\textbf{Prelab}
+
+1. Y-Connected Windings have the plus of offering a neutral/ground point in the middle of each phase, allowing current to flow through the neutrals of a Y-Y connected system can help to rebalance an unbalanced three phase system. This neutral current can also be seen as a disadvantage though. The major downside of Y-Connected windings is the lower phase voltage when compared to delta windings. this lower voltage means a higher current and proportionally higher $I^2 R$ losses.
+Delta connected Windings have the opposite, providing a higher phase voltage (leading to lower line losses) Its major drawback is that in the case anything goes wrong and our system becomes unbalanced, there is no neutral line to re balance the system.
+
+2. An application I would use for each configuration would be:
+\begin{itemize}
+	\item $Y-Y$  - Maybe as a lower voltage power system buffer, to isolate one part of the circuit from another electrically, while only magnetically coupling them
+	\item $Y-\Delta$ - You can use this as a step-up transformer in preparation for a high voltage transmission line
+	\item $\Delta-Y$ - This could be a step-down transformer after a high voltage transmission line ends
+	\item $\Delta-\Delta$ - We could use this as a high voltage power system buffer, as Delta connections provide higher phase voltages than Y connections, using this connection as a buffer would reduce line losses
+\end{itemize}
+
+3. When the neutral of a transformer is grounded, it is called a \textit{ground fault}. According to google it is required for the Safety and Stability of some power systems, it also provides a fault-current-path which is a path for the current to flow to when a conductor is shorted to ground. 
+
+4. The values in \textbf{Table 2} contain my predicted/calculated values for this lab. \textit{Note:} The Voltages provided in this table are the Secondary L-L and L-N voltages
+
+\begin{table}[h]
+	\centering
+		\begin{tabular}{@{}c|cc@{}}
+		Configuration          			& $V_\text{LL}$ [V]	& $V_\text{LN}$ [V]		\\ \midrule
+		$Y-Y $                   		&  20  		&   11.54 		\\
+		$\Delta-Y$                  	&  34.64 	&   20 		\\
+		$\Delta-\Delta$             	&  20 		&   20		\\
+		$Y-\Delta$                  	&  11.54  	&   11.54 		\\
+		$Y-\Delta$ (ground fault) 		&  11.54  	&   11.54 		\\
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 2:} Calculated/Predicted values for the lab experiment
+\end{table}
+
+\textbf{Lab Manual}
+
+1. *\textit{See \textbf{Discussion}}* This question was answered over there as instructed by the lab manual.
+
+\section*{Conclusion}
+
+In this lab we learned about polyphase (three phase) transformers through setting up the various possible configurations for the transformer, and measuring the current and voltage of the secondary. This process helped us to understand the way these polyphase transformers convert voltage and current from their primary and secondary terminals. This understanding is super important and helped deepen our understanding of a basic concept of power systems engineering, preparing us for further study in this area of specialization (that I do not want to do).
+
+
+\end{document}
