@@ -1,0 +1,343 @@
+\documentclass[]{report}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage[american]{circuitikz}
+\usetikzlibrary{positioning, arrows.meta, decorations.markings, decorations.pathreplacing}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[hidelinks]{hyperref}
+
+
+\newcommand{\ic}[1]{
+\node [dipchip, num pins=4, hide numbers, scale=1.5] (IC) at (0,0) {};
+% Pin labels
+\node [right, font=\tiny] at (IC.bpin 1) {VCC};
+\node [right, font=\tiny] at (IC.bpin 2) {GND};
+\node [left, font=\tiny] at (IC.bpin 3) {SDA};
+\node [left, font=\tiny] at (IC.bpin 4) {SCL};
+% IC label
+\node [font=\small] at (IC.center) {\texttt{#1}};
+}
+
+\newcommand{\relay}{
+\node [dipchip, num pins=4, hide numbers, scale=1.5] (IC) at (0,0) {};
+% Pin labels
+\node [right, font=\tiny] at (IC.bpin 1) {En};
+\node [right, font=\tiny] at (IC.bpin 2) {GND};
+\node [left, font=\tiny] at (IC.bpin 3) {NC};
+\node [left, font=\tiny] at (IC.bpin 4) {Supply};
+% IC label
+\node [font=\small] at (IC.center) {\texttt{RELAY}};
+}
+
+\newcommand{\buzzer}{
+\node [dipchip, num pins=2, hide numbers, scale=1.6] (IC) at (0,0) {};
+% Pin labels
+\node [right, font=\tiny] at (IC.bpin 1) {En};
+\node [left, font=\tiny] at (IC.bpin 2) {GND};
+% IC label
+\node [font=\small] at ([yshift=-0.1 cm]IC.center) {\texttt{CYT1036}};
+}
+
+
+\renewcommand{\arraystretch}{1}
+\lstset{
+	basicstyle=\ttfamily,
+	frame=single,
+	keywordstyle=\color{NavyBlue},
+	commentstyle=\color{gray},
+	tabsize=2
+}
+
+
+\title{\textbf{ECE 3375: Project Progress Report}}
+\date{\textit{March 24, 2024}}
+\author{
+	Arnav Goyal - 251244778 \\
+	Chinmaya Ranebennur - 251170914 \\
+	Graeme Watt - 251201502 \\
+	Edward Golshenas-Rad - 251149374
+}
+
+\begin{document}
+	
+\maketitle
+
+\section*{Problem Definition}
+
+In a smart-home setting, the current tech landscape has led to a situation where many smart-devices operate independently of one another, lacking a cohesive system (a central hub) for management. This project proposes the development of a \textit{Smart Home System} designed to seamlessly integrate a suite of sensors and actuators that allow for automatic adjustments to the home environment based on real time data.
+
+The primary challenge we have identified is the lack of centralization for separate smart-home products. A truly intelligent (smart) home setup would have a centralized hub that can manage and coordinate the functionalities of various other smart devices, thereby minimizing the need for human input. More specifically our system would have the below features:
+\begin{enumerate}
+	\item Automatic Lighting Control
+	\item Ambient Temperature Control
+	\item Humidity Control
+	\item Home Security
+\end{enumerate}
+Each of these features will be touched upon briefly within the \textbf{Functional Description} section. We think that creating a centralized hub for smart home management will benefit both the user and the manufacturer. The existence of a smart home hub allows for easier setup and tweaking of settings for the homeowner. Once ubiquitous, the existence of a centralized hub would also require some industry standard protocols to be developed making products easier to create.
+
+\section*{Functional Description}
+Our system will basically feature some sort of control mechanism to optimize the home environment. We will be implementing a fairly simple control algorithm which involves some sort of input sensor reading, and some sort of actuator that changes the sensor reading by altering the home environment in some way.
+
+Essentially we will be reading inputs and writing outputs to/from the GPIO or I2C. The user will first define the threshold values, such as desired resting temperature, humidity, lighting timeout, etc. And our software will check to see if we have met those conditions. For example, if our temperature sensor shows that we are below the desired temperature, we would turn on the heater. The reading of the sensor and output to the heater are both done through the GPIO. Each section is described in more detail below.
+
+\subsection*{Automatic Lighting Control}
+
+Utilizing daylight sensors, the system will gauge the level of natural light outside the house. During daylight time, the house will have sufficient natural lighting and the system will keep the lights turned off to conserve energy. At night (or when natural lighting conditions are deemed insufficient) the system will turn the lights on, but only in the presence of individuals. If there is nobody for a certain amount of time, the lights will be shut back off to conserve power.
+
+\subsection*{Ambient Temperature Control}
+
+The system uses a temperature sensor to continuously monitor the ambient temperature. If the temperature deviates from a user-defined range, the system automatically activates a heater to adjust the temperature back within the desired range, This approach ensures the living space remains comfortable. 
+
+\subsection*{Humidity Control}
+
+In conjunction with temperature control, the system includes a humidity sensor to assess the moisture levels in the air. If the humidity falls outside a user-defined range, the system activates a humidifier to restore the humidity to a more comfortable level. This feature is particularly beneficial for maintaining indoor air quality, and occupant comfort.
+
+\subsection*{Home Security}
+
+Through the use of hall sensors, the system can gauge the state of a door (open or closed). If the home security is in a 'locked' state and the door opens, we can activate an alarm. However if the home security is in a 'relaxed' state, changes to the door will not set off the alarm. This is a simple solution to home security, but it can be quite effective.
+
+\section*{Input \& Output Requirements}
+The components we will need to make this project are listed below. Furthermore schematics will also be provided on how to interface them with the micro-controller. In the table below I2C is the inter-integrated circuit protcol, and digital input/output means we will be using the GPIO
+
+\begin{table}[h] \centering
+\begin{tabular}{@{}c|ccc}
+	\toprule
+	Subsection                     	& Component & Part Name \& Clickable Link     & Protocol \\ \midrule
+	% --------------------------------------------------------------------------------------------------------
+	\multirow{3}{*}{Lighting}      	& Sensor    & \href{https://store.arduino.cc/products/grove-sunlight-sensor}{Daylight Sensor}       &   I2C    \\
+								   	& Sensor    & \href{https://www.canadarobotix.com/products/2327}{Proximity Sensor}      &   Digital Input    \\
+								   	& Actuator  & Lights (an LED)         &   Digital Output    \\ \midrule
+	\multirow{2}{*}{Temperature}   	& Sensor    & \href{https://www.digikey.ca/en/products/detail/adafruit-industries-llc/5183/15204087}{Temperature Sensor}    &   I2C   \\
+								   	& Actuator  & \href{https://www.sparkfun.com/products/14236}{Heater (DC Relay)}     &  	Digital Output     \\ \midrule
+	\multirow{2}{*}{Humidity}      	& Sensor    & \href{https://www.digikey.ca/en/products/detail/adafruit-industries-llc/5183/15204087}{Humidity Sensor}       &   I2C   \\
+									& Actuator  & \href{https://www.sparkfun.com/products/14236}{Humidifier (DC Relay)}  &   Digital Output    \\ \midrule
+	\multirow{3}{*}{Home Security} 	& Sensor    & \href{https://www.amazon.ca/Effect-Sensor-Magnetic-Counting-Detector/dp/B0B8DWVNSL/ref=sr_1_2_sspa?crid=34AGJ0PESQDMX&dib=eyJ2IjoiMSJ9.5XD9NVJLSmhHV61qtjGKshtx2dQjg4P-rUFBAVBYZWdZdq5i-qxMN5KLnhhUQ1wfxeShh5IoG5bh0tAkvX4y-8VLIpP_-xn-0ScEyN6cNB97wZTLhkj83DZyW7JktA-7fNZ5ncNAOIyDh4fSO9WAgjwIuxkDBheMQJSojuR2QudSWJbyTYAdZ2Z10FbPb-gQELXBkFJZWdrId_CfwC8YHs_gLwc3mCXcFYIj_mlWTAm0xUEMtDrApY2eWCK6hCJvQCkwDTMf9aNSZu0TfMKBbtRbMwP2I4Asej58gbU3za0.punXjpSo9XAEP_fPqVImCPipaldyFiwiy32xuXmdiO8&dib_tag=se&keywords=hall+effect+sensor+arduino&qid=1711306779&s=electronics&sprefix=hall+effect+sensor+ardu%2Celectronics%2C76&sr=1-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1}{Hall Effect Sensor}    &   Digital Input   \\
+									& Sensor	& Toggle Switch			& 	Digital Input 	\\
+									& Actuator  & \href{https://www.amazon.ca/dp/B01N7NHSY6?keywords=active+buzzer&ref_=as_li_ss_tl&language=en_US&sr=8-5&linkCode=gs2&linkId=d8b0bd0871ed30529d2019950b686ba3&tag=circbasi05-20}{Alarm (Active Buzzer)} &   Digital Output
+\end{tabular}
+\end{table}
+
+In total we have 2 I2C devices (one device reads both temperature and humidity), and we need at least 7 GPIO (3 Digital Input + 4 Digital Output) pins. We will also need a toggle switch to set the status of the security system as armed or disarmed, but that is a trivial switch reading (most microcontrollers will have an onboard switch, thus this is not listed in the components section at the moment). \textbf{Circuit 1} to \textbf{Circuit 8} show how we can interface each of these components with a  GPIO or I2C interface for a microcontroller.
+
+\begin{center} \begin{circuitikz}[]
+\ic{DHT-20}
+\draw (IC.pin 1) -| ++(-0.5,0.5) node[vcc]{$V_{cc}$};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 3) ++(0.5,0.25) rectangle ++(1.05,-0.5) {};
+\draw [thick, fill=gray!15] (IC.pin 4) ++(0.5,0.25) rectangle ++(1.05,-0.5) {};
+\draw (IC.pin 3) to ++(0.5, 0) node[diamondpole, label=right:SDA] {};
+\draw (IC.pin 4) to ++(0.5, 0) node[diamondpole, label=right:SCL] {};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 1:} Temperature \& Humidity Sensor Interfacing
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\ic{SI-1145}
+\draw (IC.pin 1) -| ++(-0.5,0.5) node[vcc]{$V_{cc}$};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 3) ++(0.5,0.25) rectangle ++(1.05,-0.5) {};
+\draw [thick, fill=gray!15] (IC.pin 4) ++(0.5,0.25) rectangle ++(1.05,-0.5) {};
+\draw (IC.pin 3) to ++(0.5, 0) node[diamondpole, label=right:SDA] {};
+\draw (IC.pin 4) to ++(0.5, 0) node[diamondpole, label=right:SCL] {};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 2:} Daylight Sensor Interfacing
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\node [dipchip, num pins=4, hide numbers, scale=1.5] (IC) at (0,0) {};
+% Pin labels
+\node [right, font=\tiny] at (IC.bpin 1) {VCC};
+\node [right, font=\tiny] at (IC.bpin 2) {GND};
+\node [left, font=\tiny] at (IC.bpin 3) {A0};
+\node [left, font=\tiny] at (IC.bpin 4) {D0};
+% IC label
+\node [font=\small] at (IC.center) {\texttt{HALL-3144}};
+\draw (IC.pin 1) -| ++(-0.5,0.5) node[vcc]{$V_{cc}$};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 4) ++(0.5,0.25) rectangle ++(1.25,-0.5) {};
+\draw (IC.pin 4) to ++(0.5, 0) node[diamondpole, label=right:GPIO] {};
+\end{circuitikz}\hspace{2em}
+\begin{circuitikz}
+	\draw (0,-1.5) node[ground] {} to[american voltage source, invert, l_=$V_{cc}$] (0,0);
+	\draw (0,0) to[switch] ++(3,0) to[short] ++(1,0) node[] (GPIO) {};
+	\draw [thick, fill=gray!15] (GPIO) ++(0,0.25) rectangle ++(1.25,-0.5) {};
+	\draw (GPIO) node[diamondpole, label=right:GPIO] {};
+\end{circuitikz}
+ \\ \vspace{1em}
+\centering
+\textbf{Circuit 3:} Hall Sensor \& Toggle Switch Interfacing
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\node [dipchip, num pins=4, hide numbers, scale=1.5] (IC) at (0,0) {};
+% Pin labels
+\node [right, font=\tiny] at (IC.bpin 1) {VCC};
+\node [right, font=\tiny] at (IC.bpin 2) {GND};
+\node [left, font=\tiny] at (IC.bpin 4) {D0};
+% IC label
+\node [font=\small] at (IC.center) {\texttt{HC-SR501}};
+\draw (IC.pin 1) -| ++(-0.5,0.5) node[vcc]{$V_{cc}$};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 4) ++(0.5,0.25) rectangle ++(1.25,-0.5) {};
+\draw (IC.pin 4) to ++(0.5, 0) node[diamondpole, label=right:GPIO] {};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 4:} Proximity (PIR) Sensor Interfacing
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\relay
+\draw [thick, fill=gray!15] (IC.pin 1) ++(-0.5,0.25) rectangle ++(-1.25,-0.5) {};
+\draw (IC.pin 1) to ++(-0.5, 0) node[diamondpole, label=left:GPIO] {};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 3) ++(0.5,0.25) rectangle ++(1.3,-0.5) {};
+\draw (IC.pin 3) to ++(0.5, 0) node[diamondpole, label=right:Heater] {};
+\draw (IC.pin 4) -| ++(0.5, 0.5) node[vcc] {120 V$_\text{ac}$};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 5:} Relay Interface for Heater
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\relay
+\draw [thick, fill=gray!15] (IC.pin 1) ++(-0.5,0.25) rectangle ++(-1.25,-0.5) {};
+\draw (IC.pin 1) to ++(-0.5, 0) node[diamondpole, label=left:GPIO] {};
+\draw (IC.pin 2) -| ++(-0.5,-0.5) node[ground]{};
+\draw [thick, fill=gray!15] (IC.pin 3) ++(0.5,0.25) rectangle ++(2,-0.5) {};
+\draw (IC.pin 3) to ++(0.5, 0) node[diamondpole, label=right:Humidifier] {};
+\draw (IC.pin 4) -| ++(0.5, 0.5) node[vcc] {120 V$_\text{ac}$};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 6:} Relay Interface for Humidifier
+\end{center}
+
+\vspace{2em}
+\begin{center} \begin{circuitikz}[]
+\buzzer
+\draw [thick, fill=gray!15] (IC.pin 1) ++(-0.5,0.25) rectangle ++(-1.25,-0.5) {};
+\draw (IC.pin 1) to ++(-0.5, 0) node[diamondpole, label=left:GPIO] {};
+\draw (IC.pin 2) -| ++(0.5,-0.5) node[ground]{};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 7:} Interfacing for Alarm (Active Buzzer)
+\end{center}
+
+\begin{center} \begin{circuitikz}[]
+\draw [thick, fill=gray!15] (0,0) ++(-0.5,0.25) rectangle ++(-1.25,-0.5) {};
+\draw (0,0) to ++(-0.5, 0) node[diamondpole, label=left:GPIO] (GPIO) {};
+\draw (GPIO) to[resistor, label=1 k$\Omega$] ++(3,0) to[led, fill=gray!15] ++(0, -2) to ++(0,0) node[ground] {};
+\end{circuitikz} \\ \vspace{1em}
+\centering
+\textbf{Circuit 8:} Interfacing for Lights (LED)
+\end{center}
+
+\newpage
+
+\section*{Initial Software Design}
+
+Our software will have a couple tasks to perform during its use. \\
+Initially (On startup) we will have to:
+\begin{enumerate}
+	\item Set up I2C 
+	\item Set up GPIO
+\end{enumerate} 
+After initialization has finished we need do the following continuously:
+\begin{enumerate}
+	\item Read Sensor Values through I2C
+	\item Read Sensor Values through GPIO Inputs
+	\item Process the readings, determine if we are within defined ranges
+	\item Change the status of each actuator if needed (to active or idle)
+	\item Wait for some time before reading values again.
+\end{enumerate}
+
+Our inputs (sensor values) are sampled either through I2C protocol or Digital Inputs from the GPIO, thus we will have to set these two things up in the initialization part of our C program. We use these inputs to compute the outputs (state of the actuators) and then actually change the state of the actuators based on conditional processing of the input data. This conditional processing is shown via the (very bare-bones, and python-like)  pseudo-code in \textbf{Code Snippet 1}.
+
+Our software spends most of its time in the infinite-loop, reading sensors, determining actuator states, and waiting. It does run forever, and it is intended to run forever (or while turned on), its meant to be run until the user stops it.
+
+Furthermore, our software features a pretty simple interaction between inputs, outputs and states which can be modeled as a \textit{Finite-State-Machine (FSM)} \hspace{0.5em}but this will not be drawn in \LaTeX\hspace{0.15em} right now. Our software essentially uses inputs (sensor values) to determine a current state for all the actuators in the system, and each state features a unique output for each actuator. This is basically the interaction of an FSM, thus it can be modeled as one.
+
+\newpage
+\begin{center}
+\begin{lstlisting}[language=python]
+	# initial values for global sensor readings
+	temp = 0
+	humiditity = 0
+	armed = False
+	hall = True # assume True means door is closed
+	proximity = False # assume False means nobody is detected
+	daylight = 0
+	
+	def main():
+		# initialization
+		initGPIO()
+		initIIC()
+	
+		# inf loop
+		while (1):
+			readSensors()
+			
+			if (temp <= MIN_TEMP):
+				activateHeater()
+			else:
+				deactivateHeater()
+			
+			if (daylight <= MIN_LIGHT && proximity == True):
+				activateLight()
+			else:
+				deactivateLight()
+			
+			if (humidity <= MIN_HUMIDITY):
+				activateHumidifer()
+			else:
+				deactivateHumidifer()
+			
+			if (armed == True && Hall == False):
+				activateBuzzer()
+			else:
+				deactivateBuzzer()
+			
+			# wait for a while before 
+			# redoing the readings & state-determination
+			delay(DELAY_LENGTH)
+\end{lstlisting}
+\vspace{1em}
+\textbf{Code Snippet 1:} Initial Implementation Pseudo-Code 
+
+\end{center}
+
+\section*{Prototyping Plan}
+
+Obviously we are not going to buy each component and actually test this project, We can fake the appearance of hardware well enough to functionally verify our design though. In general this will be done in two (pretty large) steps, where we will have to verify:
+\begin{enumerate}
+	\item The Acquisition of Data
+	\begin{enumerate}
+		\item Test the GPIO Connectivity
+		\item Test the I2C Connectivity
+	\end{enumerate}
+	\item The Logical/Conditional Processing of Data
+	\begin{enumerate}
+		\item Test the thresholding (input) logic
+		\item Test the actuator toggle (state transition) logic
+		\item Test the output logic
+	\end{enumerate}
+\end{enumerate} 
+
+To verify the first part, We can use a general I2C sensor that someone already has (from an earlier class where we were forced to buy them) to test whether our I2C has been set up correctly. Obviously once a single device has been set up correctly it is safe to assume that every other device would also be set up correctly as we would basically just have to change the address we read from. For GPIO We can build a simple switch circuit (as shown in \textbf{Circuit 3}) and test whether we can read the state of the toggle switch.
+
+To verify the second part, we can use the ability to model the program as an FSM. Due to this, our design is inherently testable with the built-in peripherals on most dev-boards. We are probably going to implement this prototype with another microcontroller (such as the STM32F411RE), but in the worst-case it should be testable on the DE-10 Standard. To test, we can use LED lights to represent the state of each actuator, and use switches to represent if the input from each sensor violates (or doesn't violate) the threshold set by the user. We can then use these peripherals to test the logical and conditional processing of our program. 
+
+Altogether, once we have verified both steps above, we can be fairly certain that our design has worked! There might be things to consider in the future that we haven't considered/encountered yet, but those factors will be noted and added to the Final project report. 
+
+\end{document}
