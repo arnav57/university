@@ -1,0 +1,129 @@
+\documentclass[]{report}
+\usepackage{ulem}
+\usepackage{parskip}
+\usepackage[]{fbb}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+
+\title{\textbf{Notch Filter Design}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\newcommand{\ztrans}[1]{Z\left\{ #1 \right\}}
+\newcommand{\matlab}{\texttt{MATLAB} }
+
+\begin{document}
+
+\maketitle
+
+\section*{Pole \& Zero Placement}
+
+\begin{equation}
+\omega_f = \frac{2\pi f}{F_s}
+\end{equation}
+
+Given a sampling frequency of $F_s=$ 400 Hz, we can find the equivalent frequencies of the ones listed above through the use of (1).
+This gives equivalent frequencies shown below. The format below is $f \rightarrow \omega$
+
+\begin{itemize}
+\item 20  	$\rightarrow$ $\frac{\pi}{10}$ 
+\item 120 	$\rightarrow$ $\frac{3\pi}{5}$ 
+\item 200  	$\rightarrow$ $\pi$ 
+\end{itemize}
+
+To choose the conjugate zero locations, we can use the location of the frequency we would like to nullify. We do this because we placing zeroes near frequencies (here they are ON the unit circle, so directly on the frequencies) essentially \textit{de-emphasizes} them, thus we need conjugate zeroes at $\pm3\pi/5$. In other words ... we will need zeroes $z_{1,2}$ such that:
+\[ z_{1,2} = e^{\pm\frac{3\pi}{5}}	\]
+This results in a wide stop-band, thus we must places poles nearby to this zero to essentially produce a narrower stopband. The closer these poles are the narrower the stopband becomes. In other words we need poles at radial distance $r$:
+\[ p_{1,2} = re^{\pm\frac{3\pi}{5}}	\]
+This gives a generalized transfer function shown in (2), containing overall gain $k$ and radial distance $r$ to be altered to conform to specifications
+\begin{equation}
+k\cdot\frac{1 -2\cos{\left(\frac{3\pi}{5}\right)}z^{-1} + z^{-2}}{1 -2r\cos{\left(\frac{3\pi}{5}\right)}z^{-1} + r^2 z^{-2}}
+\end{equation}
+
+The exact difference equation/transfer function are shown later in the document
+
+The values $k = r = 0.9$ produced the following magnitude/phase/pole-zero plots.
+
+\begin{center}
+\includegraphics[scale=0.75]{final_plot} \\
+\centering
+\textbf{Figure 1:} Plot of  magnitude response
+
+\includegraphics[scale=0.75]{zero_pole} \\
+\centering
+\textbf{Figure 2:} zero-pole plot
+
+\includegraphics[scale=0.75]{mag_phase} \\
+\centering
+\textbf{Figure 3:} magnitude (blue) and phase (orange) plot
+
+\end{center}
+
+With our parameters of $k = r = 0.9$, this means that we have the following transfer function:
+	\[	H(z) = \frac{Y(z)}{X(z)} =  \frac{0.9 - 1.8\cos{\left(\frac{3\pi}{5}\right)}z^{-1} + 0.9z^{-2}}{1 -1.8\cos{\left(\frac{3\pi}{5}\right)}z^{-1} + 0.81 z^{-2}}	\]
+And that gives the following difference equation:
+	\[ 	Y - 1.8\cos{\left(\frac{3\pi}{5}\right)}Yz^{-1} + 0.81Yz^{-2} = 0.9X - 1.8\cos{\left(\frac{3\pi}{5}\right)}Xz^{-1} + 0.9Xz^{-2}	\]
+	\[	y[n] -1.8\cos{\left(\frac{3\pi}{5}\right)}y[n-1] + 0.81y[n-2] = 0.9x[n] - 1.8\cos{\left(\frac{3\pi}{5}\right)}x[n-1] + 0.9x[n-2]	\]
+
+
+To prove it works I created a signal with three sinusoidal components, one at 20 Hz, 120 Hz and one at 180 Hz, and sampled it at 400 Hz. The input and output are shown in Figure 4.
+
+\begin{center}
+\includegraphics[scale=0.75]{in_vs_out} \\
+\centering
+\textbf{Figure 4:} Filter Input vs Filter Output
+\end{center}
+
+\newpage
+\section*{MATLAB Code}
+\textit{Note:} Please uncomment the fvtool line to see the fvtool output.
+
+\begin{lstlisting}[language=Matlab]
+clear;
+%% Convert to radial frequencies
+fs = 400;
+w = 2*pi*120/fs; % this is the rad freq we have to null
+
+%% Design notch filter
+r = 0.9; % mag of pole
+k = 0.9; % gain of num
+num = k*[1, -2*cos(w), 1];
+den = [1, -2*r*cos(w), r^2];
+
+w_20 = 2*pi*20/fs;
+w_180 = 2*pi*180/fs;
+
+% fvtool(num, den)
+
+%% Demonstrate Conformity to Specifications
+h = freqz(num, den, [w_20, w_180]);
+str = sprintf("Gain of 20 Hz: %f\nGain of 180 Hz %f", abs(h(1)), abs(h(2)));
+fprintf("\nConformity to Specifications:\n");
+disp(str);
+
+%% Sample Input Signal
+t = 0 : 0.1 : 35;
+w0 = 2*pi*20/fs;
+w1 = 2*pi*120/fs;
+w2 = 2*pi*180/fs;
+
+h = freqz(num, den, [w0, w1, w2]);
+
+x = sin(w0*t) + sin(w1*t) + sin(w2*t);
+y = abs(h(1))*sin(w0*t + angle(h(1))) + abs(h(2))*sin(w1*t + angle(h(2))) + 
+	abs(h(3))*sin(w2*t + angle(h(3)));
+
+figure;
+hold on;
+plot(t, x, 'blue');
+plot(t, y, 'red');
+legend('input', 'output');
+title('Input vs Output Signal')
+\end{lstlisting}
+
+\end{document}

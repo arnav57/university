@@ -84,8 +84,11 @@ void setup(void)
 void loop(void)
 {
   O2 = oxygen.getOxygenData(COLLECT_NUMBER);
+
   updateOLED(O2, 100.0);
+
   updateBME();
+  
   updateDPS();
 }
 
