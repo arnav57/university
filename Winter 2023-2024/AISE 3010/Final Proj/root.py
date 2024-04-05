@@ -14,7 +14,7 @@ from tqdm import tqdm # progress bar
 from models import * # import cnn architectures from other module
 import sys, os, json # used to guarantee filepath and hyperparams stuff work
 
-from dataset import EEGTestingData, EEGTrainingData
+from dataset import EEGTestingData, EEGTrainingData, eegpca
 from torch.utils.data import DataLoader
 
 # define device as cuda if we got it
@@ -31,6 +31,7 @@ transform = transforms.Compose(
 
 trainset = EEGTrainingData(transform=transform)
 testset = EEGTestingData(transform=transform)
+eegpca(trainset=trainset, testset=testset)
 
 trainloader = DataLoader(trainset, batch_size=hparams['batch_size'], shuffle=True)
 testloader = DataLoader(testset, batch_size=hparams['batch_size'], shuffle=False)

@@ -4,6 +4,9 @@ from torchvision import datasets
 from torchvision.transforms import ToTensor
 import load_data
 
+from sklearn.decomposition import PCA
+import pandas as pd
+
 data = load_data.read_data_sets()
 
 class EEGTrainingData(Dataset):
@@ -48,3 +51,11 @@ class EEGTestingData(Dataset):
 
         return feature, label
 
+
+def eegpca(trainset:EEGTrainingData, testset:EEGTestingData):
+    pca = PCA(n_components=0.99)
+    pca.fit(trainset.eeg_train_data)
+    test_data = pca.transform(testset.eeg_test_data)
+    testset.eeg_test_data = torch.from_numpy(test_data).float()
+    train_data = pca.transform(trainset.eeg_train_data)
+    trainset.eeg_train_data = torch.from_numpy(train_data).float()

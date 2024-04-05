@@ -1,0 +1,159 @@
+\documentclass[]{report}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage[top=45mm, bottom=45mm, left=25mm, right=25mm]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+
+\renewcommand{\arraystretch}{1.5}
+
+\title{\textbf{Single Machine Infinite Buses}}
+\date{\textit{\today}}
+\author{Arnav Goyal - 251244778}
+
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella}
+
+\begin{document}
+	
+\maketitle
+
+\section*{Introduction}
+
+In this lab we are going to try to become familiar with transmission line modeling and the single machine infinite bus (SMIB) power system model. We are also going to observe the relationship between the mid-line voltage and power flow on the line, and how differing loads effect bus voltages.
+
+\section*{Results}
+
+The data collected is below according to steps given in the lab procedure
+
+Data for \textbf{Part A} - Load connected after the generator bus $\ldots$
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Power [W] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		2.7   	&   183 	&  201    		&  215    		\\
+	  		3.5  	&  207  	&      213		&      215		\\
+			6 	&   267 	&  	243    		& 214      		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 1:} Varied Generator Output Power - Part A
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Load Power [W] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		150   	&   198 	&  207    		&  213    		\\
+		300  	&  193  	&      203		&      210		\\
+		450  	&  188  	&      199		&      209		\\
+		600 	&   183 	&  	194    		& 207     		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 2:} Different Resistive Loads - Part A
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Load Power [VAR] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		Capactive - 75   	&   207 	&  212    		&  214    		\\
+		Capactive - 150  	&  214  	&      215		&      212		\\
+		Inductive - 75  	&  193  	&      204		&      212		\\
+		Inductive - 150 	&   187 	&  	201    		& 212     		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 3:} 150 W Resistive + Varied Capacitive or Inductive loads - Part A
+\end{table}
+\newpage
+Data for \textbf{Part B} - Load connected at the bus-to-line midpoint $\ldots$
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Power [W] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		3   	&   189 	&  205    		&  216    		\\
+		3.5  	&  208  	&      214		&      215		\\
+		4.5 	&   233 	&  	226    		& 214      		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 4:} Varied Generator Output Power - Part B
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Load Power [W] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		150   	&   202 	&  208    		&  211    		\\
+		300  	&  197  	&      202		&      207		\\
+		450  	&  194  	&      199		&      205		\\
+		600 	&   193 	&  	198    		& 206     		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 5:} Different Resistive Loads - Part B
+\end{table}
+
+\begin{table}[h] \centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		Load Power [VAR] 	& $V_1$ [V] & $V_\text{mid}$  [V]& $V_\text{bus}$ [V] \\ \midrule
+		Capactive - 75   	&   209 	&  217    		&  215    		\\
+		Capactive - 150  	&  214  	&      223		&      215		\\
+		Inductive - 75  	&  203  	&      210		&      216		\\
+		Inductive - 150 	&   200 	&  	205    		& 216     		\\ \bottomrule
+	\end{tabular} \\ \vspace{1em}
+	\textbf{Table 6:} 150 W Resistive + Varied Capacitive or Inductive loads - Part B
+\end{table}
+
+\newpage 
+ 
+\section*{Discussion}
+
+The discussion is below as requested $\ldots$
+
+\textbf{1.} Power-flow and midline voltage seem to be proportional to each other. As power flow increases, the midline voltage also increases.
+
+
+\textbf{2.} The effect of increasing unity power factor loads (in both locations) on the line-end voltage is shown below.
+
+\begin{center}
+	\includegraphics[scale=0.5]{1pfload} \\ 
+	\textbf{Plot 1:} Midline voltage (blue) and end-line voltage (red) vs Unity pf Load Rating
+\end{center}
+
+One can conclude that increasing a purely resistive load will always lower the mid-line voltage of an SMIB due to the loads real power usage, but the line-end (bus voltage) will stay relatively constant (in comparison to the midline) as this is one of the characteristics of a SMIB.
+
+\textbf{3.1}  The effect of increasing leading power factor (capacitive) loads (in both locations) on the line-end voltage is shown below.
+
+\begin{center}
+	\includegraphics[scale=0.5]{leadpfload} \\ 
+	\textbf{Plot 2:} Midline voltage (blue) and end-line voltage (red) vs Leading pf Load Rating
+\end{center}
+
+One can conclude that increasing the capacitance of a load will increase the mid-line voltage of an SMIB due to the reactive power injection performed by the capacitor. We know that injecting (adding) reactive power to a bus will increase the voltage and this is reflected in the upwards trend of the blue line in both graphs. Once again the end-line voltage stays relatively constant here.
+
+\textbf{3.2} The effect of increasing ladding power factor (inductive) loads (in both locations) on the line-end voltage is shown below.
+
+
+\begin{center}
+	\includegraphics[scale=0.5]{lagpfload} \\ 
+	\textbf{Plot 3:} Midline voltage (blue) and end-line voltage (red) vs Lagging pf Load Rating
+\end{center}
+
+ne can conclude that increasing the inductance of a load will decrease the mid-line voltage of an SMIB due to the reactive power absorption performed by the inductor. We know that absorbing (removing) reactive power to a bus will decrease the voltage and this is reflected in the downwards trend of the blue line in both graphs. Once again the end-line voltage stays relatively constant here.
+
+\section*{Questions (Prelab)}
+
+\textbf{1.} There are two main characteristics of an infinite bus. The first is that the voltage and frequency of a bus remain (relatively) constant with fluctuations in the load. The second is that the impedance of the bus is quite small due to parallel operations on the bus.
+
+\textbf{2.} Connecting a purely resistive load to a bus will decrease the voltage due to the real-power absorption of the load.
+
+\textbf{3.} The voltage of the bus will decrease because an inductor is said to \textbf{absorb reactive power} and lower reactive power means a lower bus/line voltage
+
+\textbf{4.} The voltage of the bus will increase because a capacitor is said to \textbf{inject reactive power} and higher reactive power means a higher bus/line voltage
+
+\section*{Conclusion}
+
+Overall, we learned about the characteristics of an infinite bus in this lab, more specifically a single-machine-infinite-bus (SMIB). We investigated the relation of bus midline voltage to power flow, and investigated the bus terminal voltage's fluctuations after increasing a purely resistive load, lagging pf load, and leading pf load. Overall the results aligned with theory and expectations and this experiment served to deepen our understanding of the real-life characteristics of an infinite bus.
+
+
+\end{document}
