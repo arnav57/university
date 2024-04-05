@@ -29,6 +29,8 @@ transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
+print(f"Loading EEG Dataset (ignore the errors) ...\n\n\n")
+
 trainset = EEGTrainingData(transform=transform)
 testset = EEGTestingData(transform=transform)
 eegpca(trainset=trainset, testset=testset)
@@ -156,6 +158,7 @@ def execute():
     if (choice == '1'):
         # train only
         train()
+        test()
         save_weights()
     else:
         test()
