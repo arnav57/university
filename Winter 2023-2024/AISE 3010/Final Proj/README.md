@@ -10,8 +10,7 @@ Description of the files in this repo...
 - `load_data.py` : needed to obtain data from EEG dataset
 - `dataset.py` : needed to cast the EEG data into a pytorch DataSet class
 - `models.py` : holds the classes (architectures) of models to use
-- `root.py` : holds the backbone of the main execution loop, adjust loss func and dataloaders here
-- `main.py` : entry point of the program, is quite literally a one-line file
+- `root.py` : holds the backbone of the main execution loop, adjust loss func and dataloaders here also the entry point of program
 
 Some things to keep in mind...
 - you need a folder named 'checkpoints'

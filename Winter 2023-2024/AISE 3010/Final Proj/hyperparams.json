@@ -1,6 +1,6 @@
 {
-    "batch_size": 32,
+    "batch_size": 20,
     "num_epochs": 32,
     "learning_rate": 0.001,
-    "momentum": 0.9
+    "momentum": 0.85
 }

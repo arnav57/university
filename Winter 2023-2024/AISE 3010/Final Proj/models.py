@@ -13,7 +13,7 @@ class NeuralNet(nn.Module):
         self.norm2 = nn.LazyBatchNorm1d()
         self.fc3 = nn.LazyLinear(512)
         self.norm3 = nn.LazyBatchNorm1d()
-        self.fc4 = nn.LazyLinear(512)
+        self.fc4 = nn.LazyLinear(1024)
         self.norm4 = nn.LazyBatchNorm1d()
         self.fc5 = nn.LazyLinear(128)
         self.norm5 = nn.LazyBatchNorm1d()
@@ -26,7 +26,6 @@ class NeuralNet(nn.Module):
         x = F.relu(self.norm3(self.fc3(x)))
         x = F.relu(self.norm4(self.fc4(x)))
         x = F.relu(self.norm5(self.fc5(x)))
-        x = F.relu(self.fc6(x))
+        x = F.softmax(self.fc6(x), dim=1) # take softmax along data dim. dim0 is batch dim
 
         return x
-    

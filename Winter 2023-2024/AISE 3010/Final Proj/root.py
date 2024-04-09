@@ -151,7 +151,7 @@ def test():
     print(f'\nTesting Accuracy: {100 * (correct / total):.2f} %')
 
 
-def execute():
+def main():
     print(f"\n\nUsing architecture '{net.__class__.__name__}'... ")
     load_weights()
     choice = input("\n\nWould you like to train or test?\n1 - Train Only\n2 - Test Only\nPlease Enter An Option: ")
@@ -162,3 +162,6 @@ def execute():
         save_weights()
     else:
         test()
+
+if __name__ == "__main__":
+    main()
